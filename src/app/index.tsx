@@ -1,17 +1,7 @@
 import 'canvas-toBlob';
 import 'preact';
 import { render } from 'preact';
-
-function parseInput(input: string) {
-	try {
-		return JSON.parse(atob(input));
-	} catch {
-		return undefined;
-	}
-}
-function generateOutput(output: unknown) {
-	return btoa(JSON.stringify(output));
-}
+import { generateOutput, parseInput } from './utils';
 
 function App() {
 	const input = window.location.search.replace('?', '');
