@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "repository": "github:SweetheartSquad/ggj2021",
   "scripts": {
     "start": "parcel index.html",
     "build": "rm -rf .cache && rm -rf docs && parcel build index.html -d docs --no-source-maps --public-url ./",
