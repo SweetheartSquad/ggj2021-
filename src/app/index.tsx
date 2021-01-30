@@ -54,7 +54,7 @@ function App() {
 			return {
 				mode: 'creating',
 				seed: nanoid(),
-				constellations: new Array(numConstellations),
+				constellations: new Array(numConstellations).fill(0).map(() => []),
 				guesses: [],
 				currentConstellation: 0,
 			} as State;
