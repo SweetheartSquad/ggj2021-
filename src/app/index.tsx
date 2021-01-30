@@ -27,6 +27,7 @@ interface State {
 	guesses: number[];
 	currentConstellation: number;
 }
+type TransferredState = Pick<State, 'constellations' | 'seed'>;
 type A<Type extends string, Payload> = { type: Type; payload: Payload };
 type Action = A<'add-edge', [[number, number], [number, number]]> | A<'guess', number> | A<'set-current', number> | A<'set-seed', string>;
 
@@ -50,7 +51,7 @@ const reducer: Reducer<State, Action> = (state, action) => {
 function App() {
 	const initialState = useMemo<State>(() => {
 		const input = window.location.search.replace('?', '');
-		const inputObj = parseInput(input);
+		const inputObj: TransferredState = parseInput(input);
 		if (!inputObj) {
 			return {
 				mode: 'creating',
@@ -81,7 +82,13 @@ function App() {
 			names: [...names],
 		};
 	}, [state.seed]);
-	const output = useMemo(() => generateOutput(state), [state]);
+	const output = useMemo(() => {
+		const toTransfer:TransferredState = {
+			seed: state.seed,
+			constellations: state.constellations,
+		}
+		return generateOutput(toTransfer);
+	}, [state]);
 	return (
 		<main>
 			<h1>TODO: title</h1>
