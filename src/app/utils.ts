@@ -21,3 +21,14 @@ export function parseInput(input: string) {
 export function generateOutput(output: unknown) {
 	return LZString.compressToBase64(JSON.stringify(output));
 }
+
+export function rnd(min: number, max: number) {
+	return Math.floor(Math.random() * (max-min) + min);
+}
+export function rndInt(min: number, max: number) {
+	return Math.floor(rnd(min, max));
+}
+export function rndItm<T>(array: T[]) {
+	return array[rndInt(0, array.length)];
+}
+
