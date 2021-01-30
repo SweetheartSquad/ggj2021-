@@ -1,4 +1,3 @@
-import bresenham from 'bresenham';
 import 'canvas-toBlob';
 import produce, { Draft } from 'immer';
 import { nanoid } from 'nanoid';
@@ -7,8 +6,10 @@ import { render } from 'preact';
 import { useMemo, useReducer } from 'preact/hooks';
 import seedrandom from 'seedrandom';
 import tracery from 'tracery-grammar';
-import { mapHeight, mapMaxStars, mapMinStars, mapStars, mapWidth, numConstellations, traceryConstellations } from './config';
-import { angleBetween, generateOutput, parseInput, rndInt, rndItm } from './utils';
+import { mapHeight, mapMaxStars, mapMinStars, mapWidth, numConstellations, traceryConstellations } from './config';
+import { Constellation } from './Constellation';
+import { Star } from './Star';
+import { generateOutput, parseInput, rndInt } from './utils';
 
 type Reducer<S = any, A = any> = (draftState: Draft<S>, action: A) => void | S;
 export function useImmerReducer<S, A>(reducer: Reducer<S, A>, initialState: S, initialAction?: (initial: any) => S): [S, (action: A) => void] {
@@ -88,56 +89,6 @@ function App() {
 		};
 		return generateOutput(toTransfer);
 	}, [state]);
-	const starmapStr = useMemo(() => {
-		const base = new Array(mapHeight).fill(0).map(() => new Array(mapWidth).fill(' '));
-		state.constellations.forEach(constellation => {
-			constellation.forEach(edge => {
-				const [start, end] = edge;
-				const [sx, sy] = starmap[start];
-				const [ex, ey] = starmap[end];
-				const angleRaw = angleBetween(sx, sy, ex, ey);
-				// let a = Math.atan2(Math.abs(ey - sy), Math.abs(ex - ey)) / (Math.PI * 2);
-				let a = angleRaw / 360;
-				a *= 8;
-				a = Math.round(a);
-				a /= 8;
-				a *= 360;
-				let s: string;
-				switch (a) {
-					case 90:
-					case -90:
-						s = '|';
-						break;
-					case 0:
-						s = '-';
-						break;
-					case -45:
-						s = '/';
-						break;
-					case 45:
-						s = '\\';
-						break;
-					default:
-						s = '?';
-						break;
-				}
-				let px = 0,
-					py = 0;
-				bresenham(sx, sy, ex, ey, (x, y) => {
-					// prevent patterns like //, ||
-					if (py === y && (a === 45 || a === -45 || a === 90 || a === -90)) return;
-					if (px === x && (a === 45 || a === -45 || a === 0)) return;
-					base[y][x] = s;
-					px = x;
-					py = y;
-				});
-			});
-		});
-		starmap.forEach(([x, y]) => {
-			base[y][x] = rndItm(mapStars);
-		});
-		return base.map(i => i.join('')).join('\n');
-	}, [starmap, state.constellations]);
 	return (
 		<main>
 			<h1>TODO: title</h1>
@@ -154,13 +105,12 @@ function App() {
 				</ul>
 				<button onClick={() => dispatch({ type: 'add-edge', payload: [rndInt(0, starmap.length), rndInt(0, starmap.length)] })}>add edge</button>
 				<section className="map" style={{ gridTemplateColumns: `repeat(${mapWidth}, 1rem)`, gridTemplateRows: `repeat(${mapHeight}, 1rem)` }}>
-					{starmapStr
-						.split('\n')
-						.join('')
-						.split('')
-						.map((i, idx) => (
-							<span key={idx}>{i}</span>
-						))}
+					{state.constellations.map((i, idx) => (
+						<Constellation key={idx} starmap={starmap} constellation={i} />
+					))}
+					{starmap.map((i, idx) => (
+						<Star key={idx} star={i} />
+					))}
 				</section>
 				<button onClick={() => dispatch({ type: 'set-seed', payload: nanoid() })}>re-roll</button>
 				<br />
