@@ -122,9 +122,9 @@ function App() {
 					<ul>
 						{names.map((i, idx) => (
 							<li key={i}>
-								<button value={idx} onClick={select}>
+								<label data-constellation={idx} htmlFor={getLabel('select-constellation', idx, 0)}>
 									{i}
-								</button>
+								</label>
 							</li>
 						))}
 					</ul>
