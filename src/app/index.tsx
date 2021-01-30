@@ -6,6 +6,7 @@ import { render } from 'preact';
 import { useMemo, useReducer } from 'preact/hooks';
 import seedrandom from 'seedrandom';
 import tracery from 'tracery-grammar';
+import { numConstellations, traceryConstellations } from './config';
 import { generateOutput, parseInput } from './utils';
 
 type Reducer<S = any, A = any> = (draftState: Draft<S>, action: A) => void | S;
@@ -14,14 +15,7 @@ export function useImmerReducer<S, A>(reducer: Reducer<S, A>, initialState: S, i
 	return useReducer(cachedReducer, initialState, initialAction);
 }
 
-const numConstellations = 10;
-
-const grammar = tracery.createGrammar({
-	group: ['belt', 'arm', 'leg', 'heart', 'collection', 'prince', 'princess', 'bastard', 'ensorcellment', 'enchantment', 'convalescence'],
-	grouping: ['stars', 'patience', 'death', 'possession', 'temperament', 'perspective', 'ambition', 'leadership'],
-	constellation: ['The #group.capitalize# of #grouping.capitalize#', '#group.capitalize# of #grouping.capitalize#'],
-});
-
+const grammar = tracery.createGrammar(traceryConstellations);
 grammar.addModifiers(tracery.baseEngModifiers);
 
 interface State {
