@@ -37,8 +37,8 @@ export function Constellation({ starmap, constellation }: { starmap: [number,num
 						s = '?';
 						break;
 				}
-				let px = 0,
-					py = 0;
+				let px = -1,
+					py = -1;
 				bresenham(sx, sy, ex, ey, (x, y) => {
 					// prevent patterns like //, ||
 					if (py === y && (a === 45 || a === -45 || a === 90 || a === -90)) return;
