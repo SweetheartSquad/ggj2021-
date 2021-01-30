@@ -4,7 +4,11 @@ import { useMemo } from 'preact/hooks';
 import { mapStars } from './config';
 import { rndItm } from './utils';
 
-export function Star({ star: [x, y] }: { star: [number, number] }) {
+export function Star({ star: [x, y], starIdx }: { star: [number, number]; starIdx: number }) {
 	const s = useMemo(() => rndItm(mapStars), []);
-	return <span style={{ gridColumn: x, gridRow: y }}>{s}</span>;
+	return (
+		<label data-star={starIdx} htmlFor={`select-star-${starIdx}`} style={{ gridColumn: x, gridRow: y }}>
+			{s}
+		</label>
+	);
 }

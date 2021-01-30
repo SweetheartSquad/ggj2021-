@@ -1,5 +1,6 @@
 import 'canvas-toBlob';
 import produce, { Draft } from 'immer';
+import { checkIntersection } from 'line-intersect';
 import { nanoid } from 'nanoid';
 import 'preact';
 import { render } from 'preact';
@@ -27,10 +28,17 @@ interface State {
 	constellations: [number, number][][];
 	guesses: number[];
 	currentConstellation: number;
+	currentStar?: number;
 }
 type TransferredState = Pick<State, 'constellations' | 'seed'>;
 type A<Type extends string, Payload> = { type: Type; payload: Payload };
-type Action = A<'add-edge', [number, number]> | A<'remove-edge', { constellation: number; edge: number }> | A<'guess', number> | A<'set-current', number> | A<'set-seed', string>;
+type Action =
+	| A<'add-edge', [number, number]>
+	| A<'remove-edge', { constellation: number; edge: number }>
+	| A<'guess', number>
+	| A<'set-current-constellation', number>
+	| A<'set-current-star', number | undefined>
+	| A<'set-seed', string>;
 
 function getLabel(action: 'remove-edge' | 'select-constellation', constellation: number, edge: number) {
 	switch (action) {
@@ -52,11 +60,20 @@ const reducer: Reducer<State, Action> = (state, action) => {
 		case 'guess':
 			state.guesses[state.currentConstellation] = action.payload;
 			break;
-		case 'set-current':
+		case 'set-current-constellation':
 			state.currentConstellation = action.payload;
+			state.currentStar = undefined;
+			break;
+		case 'set-current-star':
+			state.currentStar = action.payload;
 			break;
 		case 'set-seed':
+			state.mode = 'creating';
 			state.seed = action.payload;
+			state.constellations = new Array(numConstellations).fill(0).map(() => []);
+			state.guesses = [];
+			state.currentConstellation = 0;
+			state.currentStar = undefined;
 			break;
 	}
 };
@@ -72,6 +89,7 @@ function App() {
 				constellations: new Array(numConstellations).fill(0).map(() => []),
 				guesses: [],
 				currentConstellation: 0,
+				currentStar: undefined,
 			} as State;
 		}
 		return {
@@ -80,6 +98,7 @@ function App() {
 			constellations: inputObj.constellations,
 			guesses: new Array(inputObj.constellations.length),
 			currentConstellation: 0,
+			currentStar: undefined,
 		} as State;
 	}, []);
 	const [state, dispatch] = useImmerReducer(reducer, initialState);
@@ -104,12 +123,56 @@ function App() {
 	}, [state]);
 
 	const removeEdge = useCallback((constellation: number, edge: number) => dispatch({ type: 'remove-edge', payload: { constellation, edge } }), []);
-	const selectConstellation = useCallback((event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => dispatch({ type: 'set-current', payload: parseInt(event.currentTarget.value, 10) }), []);
+	const selectConstellation = useCallback(
+		(event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => dispatch({ type: 'set-current-constellation', payload: parseInt(event.currentTarget.value, 10) }),
+		[]
+	);
+	const selectStar = useCallback(
+		(event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => {
+			const currentStar = state.currentStar;
+			const star = parseInt(event.currentTarget.value, 10);
+			// select start point
+			if (currentStar === undefined) {
+				dispatch({ type: 'set-current-star', payload: star });
+				return;
+			}
+			// deselect start point
+			if (currentStar === star) {
+				dispatch({ type: 'set-current-star', payload: undefined });
+				return;
+			}
+			const otherConstellations = state.constellations.filter((_, idx) => idx !== state.currentConstellation);
+			// ignore end point part of another constellation
+			if (otherConstellations.some(constellation => constellation.some(i => i.includes(star)))) {
+				return;
+			}
+			// ignore end point resulting in edge intersecting another constellation's edge
+			if (
+				otherConstellations.some(constellation =>
+					constellation.some(
+						([start, end]) => checkIntersection(...([start, end, currentStar, star].flatMap(i => starmap[i]) as [number, number, number, number, number, number, number, number])).type === 'intersecting'
+					)
+				)
+			) {
+				return;
+			}
+			// avoid duplicate edge, and instead select new start point
+			if (state.constellations[state.currentConstellation].some(i => i.join(',') === [currentStar, star].sort().join(','))) {
+				dispatch({ type: 'set-current-star', payload: star });
+				return;
+			}
+			// select end point
+			dispatch({ type: 'add-edge', payload: [currentStar, star].sort() as [number, number] });
+			dispatch({ type: 'set-current-star', payload: star });
+		},
+		[state.currentStar, state.constellations, state.currentConstellation]
+	);
 	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => getLabel(state.mode === 'creating' ? 'remove-edge' : 'select-constellation', constellation, edge), [state.mode]);
 	return (
 		<>
 			<style>
-				{`[data-constellation="${state.currentConstellation}"] {
+				{`[data-constellation="${state.currentConstellation}"],
+				[data-star="${state.currentStar}"] {
 					color: red;
 				}`}
 			</style>
@@ -134,7 +197,7 @@ function App() {
 							<Constellation key={idx} starmap={starmap} constellation={i} constellationIdx={idx} getEdgeLabel={getEdgeLabel} />
 						))}
 						{starmap.map((i, idx) => (
-							<Star key={idx} star={i} />
+							<Star key={idx} star={i} starIdx={idx} />
 						))}
 					</section>
 					<button onClick={() => dispatch({ type: 'set-seed', payload: nanoid() })}>re-roll</button>
@@ -169,6 +232,15 @@ function App() {
 						<li key={constellationIdx}>
 							<button id={`select-constellation-${constellationIdx}`} value={constellationIdx} onClick={selectConstellation}>
 								select {names[constellationIdx]}
+							</button>
+						</li>
+					))}
+				</ol>
+				<ol>
+					{starmap.map((_, starIdx) => (
+						<li key={starIdx}>
+							<button id={`select-star-${starIdx}`} value={starIdx} onClick={selectStar}>
+								select star {starIdx}
 							</button>
 						</li>
 					))}
