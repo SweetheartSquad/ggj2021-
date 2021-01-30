@@ -5,15 +5,7 @@ import 'preact';
 import { useMemo } from 'preact/hooks';
 import { angleBetween } from './utils';
 
-export function Constellation({
-	starmap,
-	constellation,
-	constellationIdx,
-}: {
-	starmap: [number, number][];
-	constellation: [number, number][];
-	constellationIdx: number;
-}) {
+export function Constellation({ starmap, constellation, constellationIdx }: { starmap: [number, number][]; constellation: [number, number][]; constellationIdx: number }) {
 	const pieces = useMemo(
 		() =>
 			constellation.reduce((result, edge, idx) => {
@@ -66,9 +58,9 @@ export function Constellation({
 	return (
 		<>
 			{pieces.map(i => (
-				<span key={i.id} style={{ gridColumn: i.x, gridRow: i.y }}>
-					<label htmlFor={`remove-edge-${constellationIdx}-${i.edge}`}>{i.s}</label>
-				</span>
+				<label key={i.id} htmlFor={`remove-edge-${constellationIdx}-${i.edge}`} style={{ gridColumn: i.x, gridRow: i.y }}>
+					{i.s}
+				</label>
 			))}
 		</>
 	);
