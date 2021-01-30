@@ -121,7 +121,6 @@ function App() {
 						s = '?';
 						break;
 				}
-				console.log(a, angleRaw);
 				let px = 0,
 					py = 0;
 				bresenham(sx, sy, ex, ey, (x, y) => {
