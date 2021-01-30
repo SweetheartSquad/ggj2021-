@@ -49,7 +49,7 @@ const reducer: Reducer<State, Action> = (state, action) => {
 };
 
 function App() {
-	const initialState = useMemo<State>(() => {
+	const initialState = useMemo(() => {
 		const input = window.location.search.replace('?', '');
 		const inputObj: TransferredState = parseInput(input);
 		if (!inputObj) {
@@ -59,15 +59,15 @@ function App() {
 				constellations: new Array(numConstellations),
 				guesses: [],
 				currentConstellation: 0,
-			};
+			} as State;
 		}
 		return {
 			mode: 'guessing',
 			seed: inputObj.seed,
 			constellations: inputObj.constellations,
-			guesses: new Array(inputObj.constellations),
+			guesses: new Array(inputObj.constellations.length),
 			currentConstellation: 0,
-		};
+		} as State;
 	}, []);
 	const [state, dispatch] = useImmerReducer(reducer, initialState);
 	const { starmap, names } = useMemo(() => {
