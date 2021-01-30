@@ -3,7 +3,8 @@ import produce, { Draft } from 'immer';
 import { nanoid } from 'nanoid';
 import 'preact';
 import { render } from 'preact';
-import { useMemo, useReducer } from 'preact/hooks';
+import { useCallback, useMemo, useReducer } from 'preact/hooks';
+import { JSXInternal } from 'preact/src/jsx';
 import seedrandom from 'seedrandom';
 import tracery from 'tracery-grammar';
 import { mapHeight, mapMaxStars, mapMinStars, mapWidth, numConstellations, traceryConstellations } from './config';
@@ -94,6 +95,7 @@ function App() {
 	}, [state]);
 
 	const remove = useMemo(() => (state.mode === 'creating' ? (constellation: number, edge: number) => dispatch({ type: 'remove-edge', payload: { constellation, edge } }) : undefined), [state.mode]);
+	const select = useCallback((event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => dispatch({ type: 'set-current', payload: parseInt(event.currentTarget.value, 10) }), []);
 	return (
 		<>
 			<main>
@@ -105,7 +107,9 @@ function App() {
 					<ul>
 						{names.map((i, idx) => (
 							<li key={i}>
-								<button onClick={() => dispatch({ type: 'set-current', payload: idx })}>{i}</button>
+								<button value={idx} onClick={select}>
+									{i}
+								</button>
 							</li>
 						))}
 					</ul>
@@ -142,6 +146,11 @@ function App() {
 							</button>
 						))
 					)}
+				{state.constellations.map((_, constellationIdx) => (
+					<button id={`select-constellation-${constellationIdx}`} key={constellationIdx} value={constellationIdx} onClick={select}>
+						select constellation {constellationIdx}
+					</button>
+				))}
 			</nav>
 		</>
 	);
