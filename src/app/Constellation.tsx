@@ -8,7 +8,7 @@ import { angleBetween } from './utils';
 export function Constellation({ starmap, constellation }: { starmap: [number,number][], constellation: [number, number][] }) {
 	const pieces = useMemo(
 		() =>
-			constellation.reduce((result, edge) => {
+			constellation.reduce((result, edge, idx) => {
 				const [start, end] = edge;
 				const [sx, sy] = starmap[start];
 				const [ex, ey] = starmap[end];
@@ -39,16 +39,20 @@ export function Constellation({ starmap, constellation }: { starmap: [number,num
 				}
 				let px = -1,
 					py = -1;
+				const line: typeof result = [];
 				bresenham(sx, sy, ex, ey, (x, y) => {
 					// prevent patterns like //, ||
 					if (py === y && (a === 45 || a === -45 || a === 90 || a === -90)) return;
 					if (px === x && (a === 45 || a === -45 || a === 0)) return;
-					result.push({ x, y, s, id: nanoid() });
+					line.push({ x, y, s, id: nanoid(), edge: idx });
 					px = x;
 					py = y;
 				});
-				return result;
-			}, [] as { x: number; y: number; s: string; id: string }[]),
+				// remove start/end since they overlap stars
+				line.pop();
+				line.shift();
+				return result.concat(line);
+			}, [] as { x: number; y: number; s: string; id: string, edge:  }[]),
 		[constellation]
 	);
 	return <>{pieces.map(i => (
