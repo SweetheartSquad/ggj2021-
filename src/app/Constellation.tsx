@@ -52,7 +52,7 @@ export function Constellation({ starmap, constellation }: { starmap: [number,num
 				line.pop();
 				line.shift();
 				return result.concat(line);
-			}, [] as { x: number; y: number; s: string; id: string, edge:  }[]),
+			}, [] as { x: number; y: number; s: string; id: string; edge: number }[]),
 		[constellation]
 	);
 	return <>{pieces.map(i => (
