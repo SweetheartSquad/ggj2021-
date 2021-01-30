@@ -23,12 +23,14 @@ pre {
 	justify-content: center;
 	justify-items: center;
 	align-items: center;
+	background: #000;
+	color: #FFF;
 }
 
 .map > * {
 	width: 100%;
 	height: 100%;
-	background: #FFF;
+	background: inherit;
 	text-align: center;
 }
 
