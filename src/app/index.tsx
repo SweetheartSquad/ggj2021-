@@ -138,19 +138,28 @@ function App() {
 				</section>
 			</main>
 			<nav>
-				{remove &&
-					state.constellations.map((edges, constellationIdx) =>
-						edges.map((_, edgeIdx) => (
-							<button id={`remove-edge-${constellationIdx}-${edgeIdx}`} key={`${constellationIdx}-${edgeIdx}`} onClick={() => remove(constellationIdx, edgeIdx)}>
-								remove constellation {constellationIdx} edge {edgeIdx}
+				{remove && (
+					<ol>
+						{state.constellations.map((edges, constellationIdx) =>
+							edges.map((_, edgeIdx) => (
+								<li key={`${constellationIdx}-${edgeIdx}`}>
+									<button id={`remove-edge-${constellationIdx}-${edgeIdx}`} onClick={() => remove(constellationIdx, edgeIdx)}>
+										remove {names[constellationIdx]} edge {edgeIdx}
+									</button>
+								</li>
+							))
+						)}
+					</ol>
+				)}
+				<ol>
+					{state.constellations.map((_, constellationIdx) => (
+						<li key={constellationIdx}>
+							<button id={`select-constellation-${constellationIdx}`} value={constellationIdx} onClick={select}>
+								select {names[constellationIdx]}
 							</button>
-						))
-					)}
-				{state.constellations.map((_, constellationIdx) => (
-					<button id={`select-constellation-${constellationIdx}`} key={constellationIdx} value={constellationIdx} onClick={select}>
-						select constellation {constellationIdx}
-					</button>
-				))}
+						</li>
+					))}
+				</ol>
 			</nav>
 		</>
 	);
