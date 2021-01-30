@@ -103,8 +103,8 @@ function App() {
 		return generateOutput(toTransfer);
 	}, [state]);
 
-	const remove = useCallback((constellation: number, edge: number) => dispatch({ type: 'remove-edge', payload: { constellation, edge } }), []);
-	const select = useCallback((event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => dispatch({ type: 'set-current', payload: parseInt(event.currentTarget.value, 10) }), []);
+	const removeEdge = useCallback((constellation: number, edge: number) => dispatch({ type: 'remove-edge', payload: { constellation, edge } }), []);
+	const selectConstellation = useCallback((event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => dispatch({ type: 'set-current', payload: parseInt(event.currentTarget.value, 10) }), []);
 	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => getLabel(state.mode === 'creating' ? 'remove-edge' : 'select-constellation', constellation, edge), [state.mode]);
 	return (
 		<>
@@ -157,7 +157,7 @@ function App() {
 					{state.constellations.map((edges, constellationIdx) =>
 						edges.map((_, edgeIdx) => (
 							<li key={`${constellationIdx}-${edgeIdx}`}>
-								<button id={`remove-edge-${constellationIdx}-${edgeIdx}`} onClick={() => remove(constellationIdx, edgeIdx)}>
+								<button id={`remove-edge-${constellationIdx}-${edgeIdx}`} onClick={() => removeEdge(constellationIdx, edgeIdx)}>
 									remove {names[constellationIdx]} edge {edgeIdx}
 								</button>
 							</li>
@@ -167,7 +167,7 @@ function App() {
 				<ol>
 					{state.constellations.map((_, constellationIdx) => (
 						<li key={constellationIdx}>
-							<button id={`select-constellation-${constellationIdx}`} value={constellationIdx} onClick={select}>
+							<button id={`select-constellation-${constellationIdx}`} value={constellationIdx} onClick={selectConstellation}>
 								select {names[constellationIdx]}
 							</button>
 						</li>
