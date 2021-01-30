@@ -72,10 +72,13 @@ function App() {
 	const { starmap, names } = useMemo(() => {
 		4;
 		seedrandom(state.seed, { global: true });
-		const names = new Array(numConstellations).fill(0).map(() => grammar.flatten('#constellation#'));
+		const names = new Set<string>();
+		while(names.size < numConstellations) {
+			names.add(grammar.flatten('#constellation#'));
+		}
 		return {
 			starmap: undefined,
-			names,
+			names: [...names],
 		};
 	}, [state.seed]);
 	const output = useMemo(() => generateOutput(state), [state]);
