@@ -23,7 +23,7 @@ export function generateOutput(output: unknown) {
 }
 
 export function rnd(min: number, max: number) {
-	return Math.floor(Math.random() * (max-min) + min);
+	return Math.floor(Math.random() * (max - min) + min);
 }
 export function rndInt(min: number, max: number) {
 	return Math.floor(rnd(min, max));
@@ -32,3 +32,12 @@ export function rndItm<T>(array: T[]) {
 	return array[rndInt(0, array.length)];
 }
 
+export function calcAngleDegrees(x: number, y: number) {
+	return (Math.atan2(y, x) * 180) / Math.PI;
+}
+export function angleBetween(sx: number, sy: number, ex: number, ey: number) {
+	if (ex > sx) {
+		return calcAngleDegrees(ex - sx, ey - sy);
+	}
+	return calcAngleDegrees(sx - ex, sy - ey);
+}

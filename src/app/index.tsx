@@ -1,3 +1,4 @@
+import bresenham from 'bresenham';
 import 'canvas-toBlob';
 import produce, { Draft } from 'immer';
 import { nanoid } from 'nanoid';
@@ -7,7 +8,7 @@ import { useMemo, useReducer } from 'preact/hooks';
 import seedrandom from 'seedrandom';
 import tracery from 'tracery-grammar';
 import { mapHeight, mapMaxStars, mapMinStars, mapStars, mapWidth, numConstellations, traceryConstellations } from './config';
-import { generateOutput, parseInput, rndInt, rndItm } from './utils';
+import { angleBetween, generateOutput, parseInput, rndInt, rndItm } from './utils';
 
 type Reducer<S = any, A = any> = (draftState: Draft<S>, action: A) => void | S;
 export function useImmerReducer<S, A>(reducer: Reducer<S, A>, initialState: S, initialAction?: (initial: any) => S): [S, (action: A) => void] {
@@ -89,11 +90,48 @@ function App() {
 	}, [state]);
 	const starmapStr = useMemo(() => {
 		const base = new Array(mapHeight).fill(0).map(() => new Array(mapWidth).fill(' '));
+		state.constellations.forEach(constellation => {
+			constellation.forEach(edge => {
+				const [start, end] = edge;
+				const [sx, sy] = starmap[start];
+				const [ex, ey] = starmap[end];
+				const angleRaw = angleBetween(sx, sy, ex, ey);
+				// let a = Math.atan2(Math.abs(ey - sy), Math.abs(ex - ey)) / (Math.PI * 2);
+				let a = angleRaw / 360;
+				a *= 8;
+				a = Math.round(a);
+				a /= 8;
+				a *= 360;
+				let s: string;
+				switch (a) {
+					case 90:
+					case -90:
+						s = '|';
+						break;
+					case 0:
+						s = '-';
+						break;
+					case -45:
+						s = '/';
+						break;
+					case 45:
+						s = '\\';
+						break;
+					default:
+						s = '?';
+						break;
+				}
+				console.log(a, angleRaw);
+				bresenham(sx, sy, ex, ey, (x, y) => {
+					base[y][x] = s;
+				});
+			});
+		});
 		starmap.forEach(([x, y]) => {
 			base[y][x] = rndItm(mapStars);
 		});
 		return base.map(i => i.join('')).join('\n');
-	}, [starmap]);
+	}, [starmap, state.constellations]);
 	return (
 		<main>
 			<h1>TODO: title</h1>
@@ -108,14 +146,27 @@ function App() {
 						</li>
 					))}
 				</ul>
-				<pre>{starmapStr}</pre>
+				<button onClick={() => dispatch({ type: 'add-edge', payload: [rndInt(0, starmap.length), rndInt(0, starmap.length)] })}>add edge</button>
+				<section className="map" style={{ gridTemplateColumns: `repeat(${mapWidth}, 1rem)`, gridTemplateRows: `repeat(${mapHeight}, 1rem)` }}>
+					{starmapStr
+						.split('\n')
+						.join('')
+						.split('')
+						.map((i, idx) => (
+							<span key={idx}>{i}</span>
+						))}
+				</section>
 				<button onClick={() => dispatch({ type: 'set-seed', payload: nanoid() })}>re-roll</button>
 				<br />
 				state:
 				<pre>{JSON.stringify(state, undefined, '\t')}</pre>
 				<br />
 				output:
-				<pre>
+				<pre
+					style={{
+						wordBreak: 'break-all',
+					}}
+				>
 					<a href={`${window.origin}?${output}`}>{output}</a>
 				</pre>
 			</section>

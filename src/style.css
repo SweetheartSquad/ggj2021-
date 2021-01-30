@@ -17,3 +17,11 @@ body {
 pre {
 	white-space: pre-wrap;
 }
+
+.map {
+	display: grid;
+	justify-content: center;
+	justify-items: center;
+	align-items: center;
+}
+
