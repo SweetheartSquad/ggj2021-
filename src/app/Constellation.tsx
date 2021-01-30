@@ -68,7 +68,7 @@ export function Constellation({
 	return (
 		<>
 			{pieces.map(i => (
-				<label key={i.id} htmlFor={getEdgeLabel(constellationIdx, i.edge)} style={{ gridColumn: i.x, gridRow: i.y }}>
+				<label data-constellation={constellationIdx} key={i.id} htmlFor={getEdgeLabel(constellationIdx, i.edge)} style={{ gridColumn: i.x, gridRow: i.y }}>
 					{i.s}
 				</label>
 			))}

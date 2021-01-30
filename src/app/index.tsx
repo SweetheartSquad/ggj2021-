@@ -101,6 +101,11 @@ function App() {
 	]);
 	return (
 		<>
+			<style>
+				{`[data-constellation="${state.currentConstellation}"] {
+					color: red;
+				}`}
+			</style>
 			<main>
 				<h1>TODO: title</h1>
 				<section>
