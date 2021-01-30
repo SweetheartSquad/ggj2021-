@@ -6,8 +6,8 @@ import { render } from 'preact';
 import { useMemo, useReducer } from 'preact/hooks';
 import seedrandom from 'seedrandom';
 import tracery from 'tracery-grammar';
-import { numConstellations, traceryConstellations } from './config';
-import { generateOutput, parseInput } from './utils';
+import { mapHeight, mapMaxStars, mapMinStars, mapStars, mapWidth, numConstellations, traceryConstellations } from './config';
+import { generateOutput, parseInput, rndInt, rndItm } from './utils';
 
 type Reducer<S = any, A = any> = (draftState: Draft<S>, action: A) => void | S;
 export function useImmerReducer<S, A>(reducer: Reducer<S, A>, initialState: S, initialAction?: (initial: any) => S): [S, (action: A) => void] {
@@ -74,21 +74,28 @@ function App() {
 		4;
 		seedrandom(state.seed, { global: true });
 		const names = new Set<string>();
-		while(names.size < numConstellations) {
+		while (names.size < numConstellations) {
 			names.add(grammar.flatten('#constellation#'));
 		}
 		return {
-			starmap: undefined,
+			starmap: new Array(rndInt(mapMinStars, mapMaxStars)).fill(0).map(() => [rndInt(0, mapWidth), rndInt(0, mapHeight)]) as [number, number][],
 			names: [...names],
 		};
 	}, [state.seed]);
 	const output = useMemo(() => {
-		const toTransfer:TransferredState = {
+		const toTransfer: TransferredState = {
 			seed: state.seed,
 			constellations: state.constellations,
-		}
+		};
 		return generateOutput(toTransfer);
 	}, [state]);
+	const starmapStr = useMemo(() => {
+		const base = new Array(mapHeight).fill(0).map(() => new Array(mapWidth).fill(' '));
+		starmap.forEach(([x, y]) => {
+			base[y][x] = rndItm(mapStars);
+		});
+		return base.map(i => i.join('')).join('\n');
+	}, [starmap]);
 	return (
 		<main>
 			<h1>TODO: title</h1>
@@ -103,6 +110,7 @@ function App() {
 						</li>
 					))}
 				</ul>
+				<pre>{starmapStr}</pre>
 				<button onClick={() => dispatch({ type: 'set-seed', payload: nanoid() })}>re-roll</button>
 				<br />
 				state:
