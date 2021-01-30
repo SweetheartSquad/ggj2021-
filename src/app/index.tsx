@@ -32,6 +32,15 @@ type TransferredState = Pick<State, 'constellations' | 'seed'>;
 type A<Type extends string, Payload> = { type: Type; payload: Payload };
 type Action = A<'add-edge', [number, number]> | A<'remove-edge', { constellation: number; edge: number }> | A<'guess', number> | A<'set-current', number> | A<'set-seed', string>;
 
+function getLabel(action: 'remove-edge' | 'select-constellation', constellation: number, edge: number) {
+	switch (action) {
+		case 'remove-edge':
+			return `${action}-${constellation}-${edge}`;
+		case 'select-constellation':
+			return `${action}-${constellation}`;
+	}
+}
+
 const reducer: Reducer<State, Action> = (state, action) => {
 	switch (action.type) {
 		case 'add-edge':
@@ -96,9 +105,7 @@ function App() {
 
 	const remove = useCallback((constellation: number, edge: number) => dispatch({ type: 'remove-edge', payload: { constellation, edge } }), []);
 	const select = useCallback((event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => dispatch({ type: 'set-current', payload: parseInt(event.currentTarget.value, 10) }), []);
-	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => (state.mode === 'creating' ? `remove-edge-${constellation}-${edge}` : `select-constellation-${constellation}`), [
-		state.mode,
-	]);
+	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => getLabel(state.mode === 'creating' ? 'remove-edge' : 'select-constellation', constellation, edge), [state.mode]);
 	return (
 		<>
 			<style>
