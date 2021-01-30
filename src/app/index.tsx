@@ -29,12 +29,15 @@ interface State {
 }
 type TransferredState = Pick<State, 'constellations' | 'seed'>;
 type A<Type extends string, Payload> = { type: Type; payload: Payload };
-type Action = A<'add-edge', [number, number]> | A<'guess', number> | A<'set-current', number> | A<'set-seed', string>;
+type Action = A<'add-edge', [number, number]> | A<'remove-edge', { constellation: number; edge: number }> | A<'guess', number> | A<'set-current', number> | A<'set-seed', string>;
 
 const reducer: Reducer<State, Action> = (state, action) => {
 	switch (action.type) {
 		case 'add-edge':
 			state.constellations[state.currentConstellation].push(action.payload);
+			break;
+		case 'remove-edge':
+			state.constellations[action.payload.constellation].splice(action.payload.edge, 1);
 			break;
 		case 'guess':
 			state.guesses[state.currentConstellation] = action.payload;
@@ -89,44 +92,58 @@ function App() {
 		};
 		return generateOutput(toTransfer);
 	}, [state]);
+
+	const remove = useMemo(() => (state.mode === 'creating' ? (constellation: number, edge: number) => dispatch({ type: 'remove-edge', payload: { constellation, edge } }) : undefined), [state.mode]);
 	return (
-		<main>
-			<h1>TODO: title</h1>
-			<section>
-				TODO: the whole game
-				<br />
-				names:
-				<ul>
-					{names.map((i, idx) => (
-						<li key={i}>
-							<button onClick={() => dispatch({ type: 'set-current', payload: idx })}>{i}</button>
-						</li>
-					))}
-				</ul>
-				<button onClick={() => dispatch({ type: 'add-edge', payload: [rndInt(0, starmap.length), rndInt(0, starmap.length)] })}>add edge</button>
-				<section className="map" style={{ gridTemplateColumns: `repeat(${mapWidth}, 1rem)`, gridTemplateRows: `repeat(${mapHeight}, 1rem)` }}>
-					{state.constellations.map((i, idx) => (
-						<Constellation key={idx} starmap={starmap} constellation={i} />
-					))}
-					{starmap.map((i, idx) => (
-						<Star key={idx} star={i} />
-					))}
+		<>
+			<main>
+				<h1>TODO: title</h1>
+				<section>
+					TODO: the whole game
+					<br />
+					names:
+					<ul>
+						{names.map((i, idx) => (
+							<li key={i}>
+								<button onClick={() => dispatch({ type: 'set-current', payload: idx })}>{i}</button>
+							</li>
+						))}
+					</ul>
+					<button onClick={() => dispatch({ type: 'add-edge', payload: [rndInt(0, starmap.length), rndInt(0, starmap.length)] })}>add edge</button>
+					<section className="map" style={{ gridTemplateColumns: `repeat(${mapWidth}, 1rem)`, gridTemplateRows: `repeat(${mapHeight}, 1rem)` }}>
+						{state.constellations.map((i, idx) => (
+							<Constellation key={idx} starmap={starmap} constellation={i} constellationIdx={idx} remove={remove} />
+						))}
+						{starmap.map((i, idx) => (
+							<Star key={idx} star={i} />
+						))}
+					</section>
+					<button onClick={() => dispatch({ type: 'set-seed', payload: nanoid() })}>re-roll</button>
+					<br />
+					state:
+					<pre>{JSON.stringify(state, undefined, '\t')}</pre>
+					<br />
+					output:
+					<pre
+						style={{
+							wordBreak: 'break-all',
+						}}
+					>
+						<a href={`${window.origin}?${output}`}>{output}</a>
+					</pre>
 				</section>
-				<button onClick={() => dispatch({ type: 'set-seed', payload: nanoid() })}>re-roll</button>
-				<br />
-				state:
-				<pre>{JSON.stringify(state, undefined, '\t')}</pre>
-				<br />
-				output:
-				<pre
-					style={{
-						wordBreak: 'break-all',
-					}}
-				>
-					<a href={`${window.origin}?${output}`}>{output}</a>
-				</pre>
-			</section>
-		</main>
+			</main>
+			<nav>
+				{remove &&
+					state.constellations.map((edges, constellationIdx) =>
+						edges.map((_, edgeIdx) => (
+							<button id={`remove-edge-${constellationIdx}-${edgeIdx}`} key={`${constellationIdx}-${edgeIdx}`} onClick={() => remove(constellationIdx, edgeIdx)}>
+								remove constellation {constellationIdx} edge {edgeIdx}
+							</button>
+						))
+					)}
+			</nav>
+		</>
 	);
 }
 
