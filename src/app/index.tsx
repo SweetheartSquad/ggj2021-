@@ -21,20 +21,18 @@ grammar.addModifiers(tracery.baseEngModifiers);
 interface State {
 	mode: 'creating' | 'guessing';
 	seed: string;
-	constellations: {
-		edges: [[number, number], [number, number]][];
-	}[];
+	constellations: [number, number][][];
 	guesses: number[];
 	currentConstellation: number;
 }
 type TransferredState = Pick<State, 'constellations' | 'seed'>;
 type A<Type extends string, Payload> = { type: Type; payload: Payload };
-type Action = A<'add-edge', [[number, number], [number, number]]> | A<'guess', number> | A<'set-current', number> | A<'set-seed', string>;
+type Action = A<'add-edge', [number, number]> | A<'guess', number> | A<'set-current', number> | A<'set-seed', string>;
 
 const reducer: Reducer<State, Action> = (state, action) => {
 	switch (action.type) {
 		case 'add-edge':
-			state.constellations[state.currentConstellation].edges.push(action.payload);
+			state.constellations[state.currentConstellation].push(action.payload);
 			break;
 		case 'guess':
 			state.guesses[state.currentConstellation] = action.payload;
