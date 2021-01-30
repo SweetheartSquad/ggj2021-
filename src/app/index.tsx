@@ -94,8 +94,11 @@ function App() {
 		return generateOutput(toTransfer);
 	}, [state]);
 
-	const remove = useMemo(() => (state.mode === 'creating' ? (constellation: number, edge: number) => dispatch({ type: 'remove-edge', payload: { constellation, edge } }) : undefined), [state.mode]);
+	const remove = useCallback((constellation: number, edge: number) => dispatch({ type: 'remove-edge', payload: { constellation, edge } }), []);
 	const select = useCallback((event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => dispatch({ type: 'set-current', payload: parseInt(event.currentTarget.value, 10) }), []);
+	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => (state.mode === 'creating' ? `remove-edge-${constellation}-${edge}` : `select-constellation-${constellation}`), [
+		state.mode,
+	]);
 	return (
 		<>
 			<main>
@@ -116,7 +119,7 @@ function App() {
 					<button onClick={() => dispatch({ type: 'add-edge', payload: [rndInt(0, starmap.length), rndInt(0, starmap.length)] })}>add edge</button>
 					<section className="map" style={{ gridTemplateColumns: `repeat(${mapWidth}, 1rem)`, gridTemplateRows: `repeat(${mapHeight}, 1rem)` }}>
 						{state.constellations.map((i, idx) => (
-							<Constellation key={idx} starmap={starmap} constellation={i} constellationIdx={idx} remove={remove} />
+							<Constellation key={idx} starmap={starmap} constellation={i} constellationIdx={idx} getEdgeLabel={getEdgeLabel} />
 						))}
 						{starmap.map((i, idx) => (
 							<Star key={idx} star={i} />
@@ -138,19 +141,17 @@ function App() {
 				</section>
 			</main>
 			<nav>
-				{remove && (
-					<ol>
-						{state.constellations.map((edges, constellationIdx) =>
-							edges.map((_, edgeIdx) => (
-								<li key={`${constellationIdx}-${edgeIdx}`}>
-									<button id={`remove-edge-${constellationIdx}-${edgeIdx}`} onClick={() => remove(constellationIdx, edgeIdx)}>
-										remove {names[constellationIdx]} edge {edgeIdx}
-									</button>
-								</li>
-							))
-						)}
-					</ol>
-				)}
+				<ol>
+					{state.constellations.map((edges, constellationIdx) =>
+						edges.map((_, edgeIdx) => (
+							<li key={`${constellationIdx}-${edgeIdx}`}>
+								<button id={`remove-edge-${constellationIdx}-${edgeIdx}`} onClick={() => remove(constellationIdx, edgeIdx)}>
+									remove {names[constellationIdx]} edge {edgeIdx}
+								</button>
+							</li>
+						))
+					)}
+				</ol>
 				<ol>
 					{state.constellations.map((_, constellationIdx) => (
 						<li key={constellationIdx}>
