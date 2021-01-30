@@ -122,8 +122,15 @@ function App() {
 						break;
 				}
 				console.log(a, angleRaw);
+				let px = 0,
+					py = 0;
 				bresenham(sx, sy, ex, ey, (x, y) => {
+					// prevent patterns like //, ||
+					if (py === y && (a === 45 || a === -45 || a === 90 || a === -90)) return;
+					if (px === x && (a === 45 || a === -45 || a === 0)) return;
 					base[y][x] = s;
+					px = x;
+					py = y;
 				});
 			});
 		});
