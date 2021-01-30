@@ -150,7 +150,7 @@ function App() {
 			if (
 				otherConstellations.some(constellation =>
 					constellation.some(
-						([start, end]) => checkIntersection(...([start, end, currentStar, star].flatMap(i => starmap[i]) as [number, number, number, number, number, number, number, number])).type === 'intersecting'
+						([start, end]) => checkIntersection(...([start, end, currentStar, star].flatMap(i => starmap[i]) as Parameters<typeof checkIntersection>)).type === 'intersecting'
 					)
 				)
 			) {
