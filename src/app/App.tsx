@@ -479,16 +479,14 @@ export function App() {
      constellation for each name.
 
  When you've drawn all of the constellations,
- you can send a link to your constellations to
- one or more GUESSERS.
- They'll try to match your constellations to the names.
+ you can send a link to one or more GUESSERS,
+ and they'll try to match each to the names.
 
  To share a link to your GUESSER(s), click one of the
  "Share" buttons below the list of names. You can open
  the link to your constellations, tweet the link, or
  copy the link to your clipboard. Send this link to
- one or more people and ask them to match the names
- to the constellations.
+ one or more people and ask them to match the names!
 
  The more constellations your GUESSER(s) gets right,
  the better you all did!`}
