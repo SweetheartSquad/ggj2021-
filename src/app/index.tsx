@@ -116,6 +116,7 @@ function App() {
 			names: [...names],
 		};
 	}, [state.seed]);
+	const starToConstellation = useMemo(() => starmap.map((_, idx) => state.constellations.findIndex(constellation => constellation.some(edge => edge.includes(idx)))), [starmap, state.constellations]);
 	const output = useMemo(() => {
 		const toTransfer: TransferredState = {
 			seed: state.seed,
@@ -173,9 +174,11 @@ function App() {
 	return (
 		<>
 			<style>
-				{`[data-constellation="${state.currentConstellation}"],
-				[data-star="${state.currentStar}"] {
+				{`[data-constellation="${state.currentConstellation}"] {
 					color: red;
+				}
+				[data-star="${state.currentStar}"] {
+					color: green;
 				}`}
 			</style>
 			<main>
@@ -199,7 +202,7 @@ function App() {
 							<Constellation key={idx} starmap={starmap} constellation={i} constellationIdx={idx} getEdgeLabel={getEdgeLabel} />
 						))}
 						{starmap.map((i, idx) => (
-							<Star key={idx} star={i} starIdx={idx} />
+							<Star key={idx} star={i} starIdx={idx} constellationIdx={starToConstellation[idx]}/>
 						))}
 					</section>
 					<button onClick={() => dispatch({ type: 'set-seed', payload: nanoid() })}>re-roll</button>
