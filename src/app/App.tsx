@@ -108,12 +108,14 @@ const reducer: Reducer<State, Action> = (state, action) => {
 			break;
 		case 'next-track':
 			state.audioTrack = (state.audioTrack + 1) % bgmTracks.length;
+			state.audioPlaying = true;
 			break;
 		case 'previous-track':
 			state.audioTrack = state.audioTrack - 1;
 			if (state.audioTrack < 0) {
 				state.audioTrack = bgmTracks.length - 1;
 			}
+			state.audioPlaying = true;
 			break;
 		case 'submit-guesses':
 			state.guessed = true;
