@@ -214,8 +214,14 @@ export function App() {
 	}, [output, dispatch]);
 	const guess = useCallback((event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => dispatch({ type: 'guess', payload: parseInt(event.currentTarget.value, 10) }), []);
 	const submitGuesses = useCallback(() => dispatch({ type: 'submit-guesses', payload: undefined }), [dispatch]);
-	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => state.guessed ? '' : getLabel(state.mode === 'creating' ? 'remove-edge' : 'guess', constellation, edge), [state.mode, state.guessed]);
-	const getStarLabel = useMemo(() => (constellation: number, star: number) => state.guessed ? '' : getLabel(state.mode === 'creating' ? 'select-star' : 'guess', constellation, star), [state.mode, state.guessed]);
+	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => (state.guessed ? '' : getLabel(state.mode === 'creating' ? 'remove-edge' : 'guess', constellation, edge)), [
+		state.mode,
+		state.guessed,
+	]);
+	const getStarLabel = useMemo(() => (constellation: number, star: number) => (state.guessed ? '' : getLabel(state.mode === 'creating' ? 'select-star' : 'guess', constellation, star)), [
+		state.mode,
+		state.guessed,
+	]);
 	const isGuessCorrect = useCallback((guess: number, guessIdx: number) => state.mode === 'guessing' && state.guessed && guess === fakeOrder[guessIdx].fake, [state.mode, state.guessed, fakeOrder]);
 	return (
 		<>
@@ -233,7 +239,7 @@ export function App() {
 			</style>
 			<main data-guessed={state.guessed} className="map" style={useGridStyle(mapWidth, mapHeight)}>
 				{state.constellations.map((i, idx) => {
-					const correct = isGuessCorrect(state.guesses[idx], idx)
+					const correct = isGuessCorrect(state.guesses[idx], idx);
 					return (
 						<Constellation
 							key={idx}
