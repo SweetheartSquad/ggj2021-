@@ -436,7 +436,8 @@ export function App() {
 
 You are the GUESSER.
 
-The DRAWER drew 5 constellations based on 5 different names, and then sent you this link. Now you have to guess which name goes with which constellation.
+The DRAWER drew 5 constellations based on 5 different names, and then sent
+you this link. Now you have to guess which name goes with which constellation.
 
 1. Click one of the names in the list.
 2. Then, click on the constellation that you think matches the name.
@@ -449,7 +450,10 @@ Good luck!` : `Welcome to Finder's Keplers!
 
 You are the DRAWER.
 
-You get 5 random names, and you need to draw 5 constellations based on those names. Try to make the constellations match the names. If you don't like the names you've received, then click "Re-roll" in the bottom right of the screen to get 5 new names.
+You get 5 random names, and you need to draw 5 constellations based on those
+names. Try to make the constellations match the names. If you don't like the
+names you've received, then click "Re-roll" in the bottom right of the
+screen to get 5 new names.
 
 To draw the constellations:
 
@@ -457,14 +461,20 @@ To draw the constellations:
 2. Click a star on the map to start your constellation.
 3. Click another star to draw a line between two stars.
 4. Click more stars to add them to the constellation.
-5. When you're done adding stars to the constellation, click another name in the list.
+5. When you're done adding stars to the constellation, click another name
+   in the list.
 6. Repeat steps 1 to 5 until you've drawn a constellation for each name.
 
-When you've drawn all of the constellations, you can send a link to your constellations to one or more GUESSERS. They'll try to match your constellations to the names.
+When you've drawn all of the constellations, you can send a link to your
+constellations to one or more GUESSERS. They'll try to match your
+constellations to the names.
 
-To share a link to your GUESSER(s), click one of the "Share" buttons below the list of names. You can open the link to your constellations, tweet the link, or copy the link to your clipboard. Send this link to one or more people and ask them to match the names to the constellation.
+To share a link to your GUESSER(s), click one of the "Share" buttons below
+the list of names. You can open the link to your constellations, tweet the
+link, or copy the link to your clipboard. Send this link to one or more
+people and ask them to match the names to the constellation.
 
-The more constellations your GUESSER(s) gets right, the better you've both done!`}
+The more constellations your GUESSER(s) gets right, the better you both did!`}
 						</BorderedText>
 						<BorderedText htmlFor="help" title="Close help menu" align="right" x={mapWidth - 3} y={3} cornerTL="-" cornerBR="|">
 							X
