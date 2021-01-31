@@ -21,17 +21,20 @@ pre {
 .map {
 	display: grid;
 	justify-content: center;
-	justify-items: center;
-	align-items: center;
+	text-align: center;
 	background: #000;
 	color: #FFF;
 }
 
+.subgrid {
+	display: grid;
+}
+
+.subgrid > *,
 .map > * {
 	width: 100%;
 	height: 100%;
 	background: inherit;
-	text-align: center;
 }
 
 /* visually hidden */
