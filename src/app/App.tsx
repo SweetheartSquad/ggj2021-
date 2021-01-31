@@ -191,7 +191,7 @@ export function App() {
 	);
 	const reroll = useCallback(() => dispatch({ type: 'set-seed', payload: nanoid() }), []);
 	const copy = useCallback(() => {
-		copyToClipboard(`${window.origin}?${output}`);
+		copyToClipboard(`${window.location.href}?${output}`);
 		dispatch({ type: 'set-copied', payload: true });
 		setTimeout(() => {
 			dispatch({ type: 'set-copied', payload: false });
