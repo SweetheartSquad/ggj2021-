@@ -102,6 +102,7 @@ const reducer: Reducer<State, Action> = (state, action) => {
 			state.guesses = [];
 			state.currentConstellation = undefined;
 			state.currentStar = undefined;
+			state.guessed = false;
 			break;
 		case 'set-playing':
 			state.audioPlaying = action.payload;
@@ -403,9 +404,14 @@ export function App() {
 						</Text>
 					))}
 				{state.mode === 'guessing' && state.guessed && (
-					<Text x={2} y={4 + numConstellations}>
-						{`${state.guesses.filter(isGuessCorrect).length}/${numConstellations} correct`}
-					</Text>
+					<>
+						<Text x={2} y={4 + numConstellations}>
+							{`${state.guesses.filter(isGuessCorrect).length}/${numConstellations} correct`}
+						</Text>
+						<BorderedText title="Start over with a new map" x={14} y={3 + numConstellations} htmlFor="reroll">
+							Play again?
+						</BorderedText>
+					</>
 				)}
 				<BorderedText x={0} y={0}>
 					TODO: title
@@ -440,6 +446,9 @@ export function App() {
 				<button id="help" onClick={toggleHelp}>
 					toggle help
 				</button>
+				<button id="reroll" onClick={reroll}>
+					reroll
+				</button>
 				<ol>
 					{fakeOrder.map(({ fake, original }) => (
 						<li key={original}>
@@ -471,9 +480,6 @@ export function App() {
 								</li>
 							))}
 						</ol>
-						<button id="reroll" onClick={reroll}>
-							reroll
-						</button>
 						<button id="copy" onClick={copy}>
 							copy
 						</button>
