@@ -1,3 +1,15 @@
+# [1.14.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.13.2...v1.14.0) (2021-01-31)
+
+
+### Bug Fixes
+
+* lint ([ee69f3e](https://github.com/SweetheartSquad/ggj2021/commit/ee69f3ea8962280f037b1cef91b48f089cac0859))
+
+
+### Features
+
+* more names ([fbc538f](https://github.com/SweetheartSquad/ggj2021/commit/fbc538f25f1c2074a378782af4dc15bfde2d2b16))
+
 ## [1.13.2](https://github.com/SweetheartSquad/ggj2021/compare/v1.13.1...v1.13.2) (2021-01-31)
 
 
