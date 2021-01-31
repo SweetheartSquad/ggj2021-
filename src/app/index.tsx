@@ -184,7 +184,11 @@ function App() {
 	return (
 		<>
 			<style>
-				{`[data-constellation="${state.currentConstellation}"] {
+				{`
+				body {
+					min-width: ${mapWidth + 2}rem;
+				}
+				[data-constellation="${state.currentConstellation}"] {
 					color: red;
 				}
 				[data-star="${state.currentStar}"] {
