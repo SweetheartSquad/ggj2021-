@@ -11,7 +11,7 @@ export const bgmTracks = ['The_Belt_of_Death', 'The_Heart_of_Ambition', 'The_Pri
 	artist: 'Andrew Yolland',
 }));
 export const traceryConstellations = {
-	group: ['belt', 'arm', 'leg', 'heart', 'collection', 'prince', 'princess', 'bastard', 'ensorcellment', 'enchantment', 'convalescence'],
-	grouping: ['stars', 'patience', 'death', 'possession', 'temperament', 'perspective', 'ambition', 'leadership'],
+	group: ['belt', 'arm', 'leg', 'heart', 'collection', 'prince', 'princess', 'bastard', 'ensorcellment', 'enchantment', 'convalescence', 'beast', 'box', 'bow', 'vortex', 'tooth'],
+	grouping: ['stars', 'patience', 'death', 'possession', 'temperament', 'perspective', 'ambition', 'leadership', 'chaos', 'balance', 'faith'],
 	constellation: ['The #group.capitalize# of #grouping.capitalize#', '#group.capitalize# of #grouping.capitalize#'],
 };
