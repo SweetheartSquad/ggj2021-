@@ -3,6 +3,8 @@ html {
 	color: rgba(255, 255, 255, 0.6);
 	font-family: 'Courier New', Courier, monospace;
 	min-height: 100vh;
+	font-size: 16px;
+	font-size: max(10px, min(2.3vh, 1.7vw));
 }
 
 * {
