@@ -1,3 +1,10 @@
+## [1.12.1](https://github.com/SweetheartSquad/ggj2021/compare/v1.12.0...v1.12.1) (2021-01-31)
+
+
+### Bug Fixes
+
+* ayo's credit ([536dc82](https://github.com/SweetheartSquad/ggj2021/commit/536dc82d6ff8ec5764706184cd605e605318bde9))
+
 # [1.12.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.11.0...v1.12.0) (2021-01-31)
 
 
