@@ -343,7 +343,7 @@ export function App() {
 						<BorderedText fill x={3} y={3} minW={mapWidth - 8} minH={mapHeight - 8}>
 							{state.mode === 'guessing' ? 'help text for guessing!' : 'help text for drawing!'}
 						</BorderedText>
-						<BorderedText htmlFor="help" align="right" x={mapWidth - 3} y={3}>
+						<BorderedText htmlFor="help" align="right" x={mapWidth - 3} y={3} cornerTL="-" cornerBR="|">
 							X
 						</BorderedText>
 					</>
