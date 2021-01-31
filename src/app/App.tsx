@@ -159,6 +159,7 @@ export function App() {
 		};
 		return generateOutput(toTransfer);
 	}, [state]);
+	const canCopy = useMemo(() => state.constellations.every(i => i.length > 0), [state.constellations]);
 
 	const removeEdge = useCallback((constellation: number, edge: number) => dispatch({ type: 'remove-edge', payload: { constellation, edge } }), []);
 	const selectConstellation = useCallback(
@@ -302,8 +303,8 @@ export function App() {
 				<Border x={0} y={0} w={mapWidth} h={mapHeight} />
 				{state.mode === 'creating' && (
 					<>
-						<BorderedText align="right" x={mapWidth} y={mapHeight - 5} htmlFor="copy">
-							{state.copied ? 'copied!' : 'copy'}
+						<BorderedText align="right" x={mapWidth} y={mapHeight - 5} htmlFor={canCopy ? "copy" : ''}>
+							{canCopy ? (state.copied ? 'copied!' : 'copy') : 'draw all constellations'}
 						</BorderedText>
 						<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll">
 							reroll
