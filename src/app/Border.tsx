@@ -36,10 +36,10 @@ export function Border({
 				{`${cornerBL}${sideB.repeat(w - 2)}${cornerBR}`}
 			</Text>
 			<Text x={x} y={y + 1} {...props}>
-				{`${sideL}\n`.repeat(h - 2)}
+				{`${sideL}`.repeat(h - 2).split('').join('\n')}
 			</Text>
 			<Text x={x + w - 1} y={y + 1} {...props}>
-				{`${sideR}\n`.repeat(h - 2)}
+				{`${sideR}`.repeat(h - 2).split('').join('\n')}
 			</Text>
 		</>
 	);
