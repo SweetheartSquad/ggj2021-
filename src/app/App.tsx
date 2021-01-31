@@ -384,11 +384,11 @@ export function App() {
 				<BorderedText x={0} y={mapHeight - 5} htmlFor="previous-track">
 					{'<'}
 				</BorderedText>
-				<BorderedText x={2} y={mapHeight - 5} htmlFor="toggle-audio">
-					{state.audioPlaying ? '||' : '|>'}
-				</BorderedText>
 				<BorderedText x={5} y={mapHeight - 5} htmlFor="next-track">
 					{'>'}
+				</BorderedText>
+				<BorderedText x={2} y={mapHeight - 5} htmlFor="toggle-audio">
+					{state.audioPlaying ? '||' : '|>'}
 				</BorderedText>
 				{state.help && (
 					<>
