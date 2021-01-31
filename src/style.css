@@ -65,3 +65,11 @@ nav {
 	position: absolute;
 	width: 1px;
 }
+
+.map[data-guessed="true"] [data-correct="true"] {
+	color: rgba(0, 255, 0, 1);
+}
+
+.map[data-guessed="true"] [data-correct="false"] {
+	color: rgba(255, 0, 0, 1);
+}

@@ -231,17 +231,7 @@ export function App() {
 					color: rgba(255,0,0,1.0)
 				}`}
 			</style>
-			{state.mode === 'guessing' && state.guessed && <style>
-				{`
-				[data-correct="true"] {
-					color: rgba(0,255,0,1);
-				}
-				[data-correct="false"] {
-					color: rgba(255,0,0,1);
-				}
-				`}
-			</style>}
-			<main className="map" style={useGridStyle(mapWidth, mapHeight)}>
+			<main data-guessed={state.guessed} className="map" style={useGridStyle(mapWidth, mapHeight)}>
 				{state.constellations.map((i, idx) => (
 					<Constellation
 						key={idx}
@@ -263,10 +253,17 @@ export function App() {
 					/>
 				))}
 				{fakeOrder.map(({ fake, original }) => (
-					<Text data-correct={isGuessCorrect(state.guesses[original], original).toString()} data-constellation={original} key={names[original]} htmlFor={getLabel('select-constellation', original, 0)} x={1} y={fake + 3}>
-						{`${state.mode === 'guessing' ? `[${state.guesses[original] >= 0 ? (state.guessed && isGuessCorrect(state.guesses[original], original) ? 'O' : 'X') : ' '}] ` : ''}${state.currentConstellation === original ? '[' : ''}${names[original]}${
-							state.currentConstellation === original ? ']' : ''
-						}`}
+					<Text
+						data-correct={isGuessCorrect(state.guesses[original], original).toString()}
+						data-constellation={original}
+						key={names[original]}
+						htmlFor={getLabel('select-constellation', original, 0)}
+						x={1}
+						y={fake + 3}
+					>
+						{`${state.mode === 'guessing' ? `[${state.guesses[original] >= 0 ? (state.guessed && isGuessCorrect(state.guesses[original], original) ? 'O' : 'X') : ' '}] ` : ''}${
+							state.currentConstellation === original ? '[' : ''
+						}${names[original]}${state.currentConstellation === original ? ']' : ''}`}
 					</Text>
 				))}
 				<Border x={0} y={0} w={mapWidth} h={mapHeight} />
