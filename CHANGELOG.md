@@ -1,3 +1,11 @@
+## [1.14.2](https://github.com/SweetheartSquad/ggj2021/compare/v1.14.1...v1.14.2) (2021-01-31)
+
+
+### Bug Fixes
+
+* copy after having guessed ([d3d6a1d](https://github.com/SweetheartSquad/ggj2021/commit/d3d6a1dd9aafd9a819ee86d95219e5181926ec62))
+* twitter card description ([4c775d5](https://github.com/SweetheartSquad/ggj2021/commit/4c775d5db9dcff71f67dba10ab85419ba01dc797))
+
 ## [1.14.1](https://github.com/SweetheartSquad/ggj2021/compare/v1.14.0...v1.14.1) (2021-01-31)
 
 
