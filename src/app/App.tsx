@@ -113,6 +113,7 @@ const reducer: Reducer<State, Action> = (state, action) => {
 		state.currentConstellation = undefined;
 		state.currentStar = undefined;
 		state.guessed = false;
+		state.help = !localStorage.getItem('creating');
 		break;
 	case 'set-playing':
 		state.audioPlaying = action.payload;
