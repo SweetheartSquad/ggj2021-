@@ -1,3 +1,16 @@
+# [1.3.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.2.2...v1.3.0) (2021-01-31)
+
+
+### Bug Fixes
+
+* better distribution of star symbols ([e8db12f](https://github.com/SweetheartSquad/ggj2021/commit/e8db12f5ba0ee3f0690eda5916e653ea5a4c4b1d))
+* improve line rendering at edges ([fe50c1d](https://github.com/SweetheartSquad/ggj2021/commit/fe50c1d428e1fee5103e0622d81fe2bc80120f87))
+
+
+### Features
+
+* guessing ([d050d70](https://github.com/SweetheartSquad/ggj2021/commit/d050d70d201e468ae666cc8124f9fad7796eb32b))
+
 ## [1.2.2](https://github.com/SweetheartSquad/ggj2021/compare/v1.2.1...v1.2.2) (2021-01-31)
 
 
