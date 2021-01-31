@@ -1,3 +1,11 @@
+# [1.7.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.6.0...v1.7.0) (2021-01-31)
+
+
+### Features
+
+* help text popup ([3b7255b](https://github.com/SweetheartSquad/ggj2021/commit/3b7255b3c2e60e2b5f59e6bfa4aa3a4b1931988f))
+* separate help text for guessing/drawing ([212fbd2](https://github.com/SweetheartSquad/ggj2021/commit/212fbd2f7f72ce5c36f8dd31fcc658a50c74e8e0))
+
 # [1.6.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.5.0...v1.6.0) (2021-01-31)
 
 
