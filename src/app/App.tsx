@@ -414,7 +414,7 @@ export function App() {
 					</>
 				)}
 				<BorderedText x={0} y={0}>
-					TODO: title
+					Finders Keplers
 				</BorderedText>
 				<BorderedText x={mapWidth} align="right" y={0} htmlFor="help" title="Open help menu" cornerTL="-" cornerBR="|">
 					?
