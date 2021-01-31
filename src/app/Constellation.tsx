@@ -3,6 +3,7 @@ import 'canvas-toBlob';
 import { nanoid } from 'nanoid';
 import 'preact';
 import { useMemo } from 'preact/hooks';
+import { ConstellationEdgePiece } from './ConstellationEdgePiece';
 import { angleBetween } from './utils';
 
 export function Constellation({
@@ -68,9 +69,9 @@ export function Constellation({
 	return (
 		<>
 			{pieces.map(i => (
-				<label data-constellation={constellationIdx} key={i.id} htmlFor={getEdgeLabel(constellationIdx, i.edge)} style={{ gridColumn: i.x, gridRow: i.y }}>
+				<ConstellationEdgePiece data-constellation={constellationIdx} key={i.id} htmlFor={getEdgeLabel(constellationIdx, i.edge)} x={i.x} y={i.y}>
 					{i.s}
-				</label>
+				</ConstellationEdgePiece>
 			))}
 		</>
 	);

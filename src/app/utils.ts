@@ -1,4 +1,5 @@
 import LZString from 'lz-string';
+import { useMemo } from 'preact/hooks';
 
 /**
  * @param input base64 encoded json
@@ -40,4 +41,8 @@ export function angleBetween(sx: number, sy: number, ex: number, ey: number) {
 		return calcAngleDegrees(ex - sx, ey - sy);
 	}
 	return calcAngleDegrees(sx - ex, sy - ey);
+}
+
+export function useGridStyle(x: number, y: number) {
+	return useMemo(() => ({ gridArea: `${y + 1} / ${x + 1} / auto / auto` }), [x,y]);
 }
