@@ -3,13 +3,13 @@ import produce, { Draft } from 'immer';
 import { checkIntersection } from 'line-intersect';
 import { nanoid } from 'nanoid';
 import 'preact';
-import { useCallback, useEffect, useMemo, useReducer } from 'preact/hooks';
+import { useCallback, useEffect, useMemo, useReducer, useRef } from 'preact/hooks';
 import { JSXInternal } from 'preact/src/jsx';
 import seedrandom from 'seedrandom';
 import tracery from 'tracery-grammar';
 import { Border } from './Border';
 import { BorderedText } from './BorderedText';
-import { mapHeight, mapMaxStars, mapMinStars, mapSpacing, mapWidth, numConstellations, traceryConstellations } from './config';
+import { bgmTracks, mapHeight, mapMaxStars, mapMinStars, mapSpacing, mapWidth, numConstellations, traceryConstellations } from './config';
 import { Constellation } from './Constellation';
 import { Star } from './Star';
 import { Text } from './Text';
@@ -34,6 +34,8 @@ interface State {
 	copied: boolean;
 	guessed: boolean;
 	help: boolean;
+	audioPlaying: boolean;
+	audioTrack: number;
 }
 type TransferredState = Pick<State, 'constellations' | 'seed'>;
 type A<Type extends string, Payload = undefined> = { type: Type; payload: Payload };
@@ -46,6 +48,9 @@ type Action =
 	| A<'set-seed', string>
 	| A<'set-copied', boolean>
 	| A<'set-help', boolean>
+	| A<'set-playing', boolean>
+	| A<'next-track'>
+	| A<'previous-track'>
 	| A<'submit-guesses'>;
 
 function getLabel(action: 'remove-edge' | 'select-constellation' | 'select-star' | 'guess', constellation: number, edgeOrStar: number) {
@@ -98,6 +103,18 @@ const reducer: Reducer<State, Action> = (state, action) => {
 			state.currentConstellation = undefined;
 			state.currentStar = undefined;
 			break;
+		case 'set-playing':
+			state.audioPlaying = action.payload;
+			break;
+		case 'next-track':
+			state.audioTrack = (state.audioTrack + 1) % bgmTracks.length;
+			break;
+		case 'previous-track':
+			state.audioTrack = state.audioTrack - 1;
+			if (state.audioTrack < 0) {
+				state.audioTrack = bgmTracks.length - 1;
+			}
+			break;
 		case 'submit-guesses':
 			state.guessed = true;
 			state.currentConstellation = undefined;
@@ -120,6 +137,8 @@ export function App() {
 				copied: false,
 				guessed: false,
 				help: !localStorage.getItem('creating'),
+				audioPlaying: true,
+				audioTrack: rndInt(0, bgmTracks.length),
 			} as State;
 		}
 		return {
@@ -132,6 +151,8 @@ export function App() {
 			copied: false,
 			guessed: false,
 			help: !localStorage.getItem('guessing'),
+			audioPlaying: true,
+			audioTrack: rndInt(0, bgmTracks.length),
 		} as State;
 	}, []);
 	useEffect(() => {
@@ -223,6 +244,26 @@ export function App() {
 			dispatch({ type: 'set-copied', payload: false });
 		}, 500);
 	}, [output, dispatch]);
+	const toggleAudio = useCallback(() => dispatch({ type: 'set-playing', payload: !state.audioPlaying }), [dispatch, state.audioPlaying]);
+	const nextTrack = useCallback(() => dispatch({ type: 'next-track', payload: undefined }), [dispatch]);
+	const previousTrack = useCallback(() => dispatch({ type: 'previous-track', payload: undefined }), [dispatch]);
+	const onPlay = useCallback(() => dispatch({ type: 'set-playing', payload: true }), [dispatch]);
+	const onPause = useCallback(() => dispatch({ type: 'set-playing', payload: false }), [dispatch]);
+	const refAudio = useRef<HTMLAudioElement>(null);
+	useEffect(() => {
+		const elAudio = refAudio.current;
+		if (!elAudio) return;
+		if (elAudio.paused !== !state.audioPlaying) {
+			if (state.audioPlaying) {
+				elAudio.play().catch(err => {
+					console.warn("couldn't play audio", err);
+					dispatch({ type: 'set-playing', payload: false });
+				});
+			} else {
+				elAudio.pause();
+			}
+		}
+	}, [state.audioPlaying, state.audioTrack, refAudio, dispatch]);
 	const guess = useCallback((event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => dispatch({ type: 'guess', payload: parseInt(event.currentTarget.value, 10) }), []);
 	const submitGuesses = useCallback(() => dispatch({ type: 'submit-guesses', payload: undefined }), [dispatch]);
 	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => (state.guessed ? '' : getLabel(state.mode === 'creating' ? 'remove-edge' : 'guess', constellation, edge)), [
@@ -337,6 +378,18 @@ export function App() {
 				<BorderedText x={mapWidth} align="right" y={0} htmlFor="help" cornerTL="-" cornerBR="|">
 					?
 				</BorderedText>
+				<BorderedText x={0} y={mapHeight - 3}>
+					{`${bgmTracks[state.audioTrack].name} - ${bgmTracks[state.audioTrack].artist}`}
+				</BorderedText>
+				<BorderedText x={0} y={mapHeight - 5} htmlFor="previous-track">
+					{'<'}
+				</BorderedText>
+				<BorderedText x={2} y={mapHeight - 5} htmlFor="toggle-audio">
+					{state.audioPlaying ? '||' : '|>'}
+				</BorderedText>
+				<BorderedText x={5} y={mapHeight - 5} htmlFor="next-track">
+					{'>'}
+				</BorderedText>
 				{state.help && (
 					<>
 						<BorderedText fill x={3} y={3} minW={mapWidth - 8} minH={mapHeight - 8}>
@@ -407,6 +460,16 @@ export function App() {
 						</button>
 					</>
 				)}
+				<audio ref={refAudio} src={bgmTracks[state.audioTrack].src} onPlay={onPlay} onPause={onPause} loop />
+				<button id="toggle-audio" onClick={toggleAudio}>
+					toggle audio
+				</button>
+				<button id="next-track" onClick={nextTrack}>
+					next track
+				</button>
+				<button id="previous-track" onClick={previousTrack}>
+					previous track
+				</button>
 			</nav>
 		</>
 	);
