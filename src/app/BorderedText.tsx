@@ -7,12 +7,13 @@ export function BorderedText({ x, y, htmlFor, children, ...props }: Omit<Compone
 	const [w, h] = useTextDimensions(children);
 	const gridStyle = useGridPosStyle(x, y);
 	const subgridStyle = useGridStyle(w + 2, h + 2, gridStyle);
+	const Tag = htmlFor ? 'label' : 'span';
 	return (
-		<label className="subgrid" htmlFor={htmlFor} style={subgridStyle}>
+		<Tag className="subgrid" htmlFor={htmlFor} style={subgridStyle}>
 			<Text x={1} y={1}>
 				{children}
 			</Text>
 			<Border x={0} y={0} w={w + 2} h={h + 2} {...props} />
-		</label>
+		</Tag>
 	);
 }
