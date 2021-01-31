@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.3.0...v1.4.0) (2021-01-31)
+
+
+### Features
+
+* show correct/total after submit ([ef0e1f8](https://github.com/SweetheartSquad/ggj2021/commit/ef0e1f8ae0af842bd4b2678b00a197582f7a3488))
+
 # [1.3.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.2.2...v1.3.0) (2021-01-31)
 
 
