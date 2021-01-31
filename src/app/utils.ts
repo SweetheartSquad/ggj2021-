@@ -25,14 +25,14 @@ export function generateOutput(output: unknown) {
 	return LZString.compressToBase64(JSON.stringify(output));
 }
 
-export function rnd(min: number, max: number) {
-	return Math.floor(Math.random() * (max - min) + min);
+export function rnd(min: number, max: number, rng?: () => number) {
+	return Math.floor((rng ? rng() : Math.random()) * (max - min) + min);
 }
-export function rndInt(min: number, max: number) {
-	return Math.floor(rnd(min, max));
+export function rndInt(min: number, max: number, rng?: () => number) {
+	return Math.floor(rnd(min, max, rng));
 }
-export function rndItm<T>(array: T[]) {
-	return array[rndInt(0, array.length)];
+export function rndItm<T>(array: T[], rng?: () => number) {
+	return array[rndInt(0, array.length, rng)];
 }
 
 export function calcAngleDegrees(x: number, y: number) {
