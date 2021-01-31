@@ -127,7 +127,7 @@ function App() {
 			names.add(grammar.flatten('#constellation#'));
 		}
 		return {
-			starmap: new Array(rndInt(mapMinStars, mapMaxStars)).fill(0).map(() => [rndInt(0, mapWidth), rndInt(0, mapHeight)]) as [number, number][],
+			starmap: new Array(rndInt(mapMinStars, mapMaxStars)).fill(0).map(() => [rndInt(1, mapWidth-1), rndInt(3 + numConstellations, mapHeight-1)]) as [number, number][],
 			names: [...names],
 			fakeOrder: new Array(names.size)
 				.fill(0)
@@ -225,7 +225,7 @@ function App() {
 							<Star key={idx} star={i} starIdx={idx} constellationIdx={starToConstellation[idx]} getStarLabel={getStarLabel} />
 						))}
 						{fakeOrder.map(({ fake, original }) => (
-							<Text data-constellation={original} key={names[original]} htmlFor={getLabel('select-constellation', original, 0)} x={1} y={fake}>
+							<Text data-constellation={original} key={names[original]} htmlFor={getLabel('select-constellation', original, 0)} x={1} y={fake+3}>
 								{`${state.currentConstellation === original ? '[' : ''}${names[original]}${state.currentConstellation === original ? ']' : ''}`}
 							</Text>
 						))}

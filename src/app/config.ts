@@ -1,4 +1,4 @@
-export const numConstellations = 10;
+export const numConstellations = 5;
 export const mapWidth = 48;
 export const mapHeight = 32;
 export const mapMinStars = 10;
