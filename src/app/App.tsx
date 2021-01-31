@@ -338,13 +338,15 @@ export function App() {
 				<BorderedText x={mapWidth} align="right" y={0} htmlFor="help" cornerTL="-" cornerBR="|">
 					?
 				</BorderedText>
-				{state.help && (<>
-					<BorderedText fill x={3} y={3} minW={mapWidth - 8} minH={mapHeight - 8}>
-						{state.mode === 'guessing' ? 'help text for guessing!' : 'help text for drawing!'}
-					</BorderedText>
-					<BorderedText htmlFor="help" align="right" x={mapWidth - 3} y={3}>
-						X
-					</BorderedText></>
+				{state.help && (
+					<>
+						<BorderedText fill x={3} y={3} minW={mapWidth - 8} minH={mapHeight - 8}>
+							{state.mode === 'guessing' ? 'help text for guessing!' : 'help text for drawing!'}
+						</BorderedText>
+						<BorderedText htmlFor="help" align="right" x={mapWidth - 3} y={3}>
+							X
+						</BorderedText>
+					</>
 				)}
 			</main>
 			<nav>
