@@ -11,6 +11,7 @@ export function BorderedText({
 	minW,
 	minH,
 	fill,
+	title,
 	children,
 	...props
 }: Omit<ComponentProps<typeof Border>, 'w' | 'h'> &
@@ -26,7 +27,7 @@ export function BorderedText({
 	const subgridStyle = useGridStyle(w + 2, h + 2, gridStyle);
 	const Tag = htmlFor ? 'label' : 'span';
 	return (
-		<Tag className={`subgrid${fill ? ' fill' : ''}`} htmlFor={htmlFor} style={subgridStyle}>
+		<Tag className={`subgrid${fill ? ' fill' : ''}`} htmlFor={htmlFor} title={title} style={subgridStyle}>
 			<Border x={0} y={0} w={w + 2} h={h + 2} {...props} />
 			<Text x={1} y={1}>
 				{children}

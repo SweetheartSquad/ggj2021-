@@ -358,13 +358,13 @@ export function App() {
 						<BorderedText align="right" x={mapWidth} y={mapHeight - 5} htmlFor={canCopy ? 'copy' : ''}>
 							{canCopy ? (state.copied ? 'copied!' : 'copy') : 'draw all constellations'}
 						</BorderedText>
-						<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll">
+						<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll" title="reroll">
 							reroll
 						</BorderedText>
 					</>
 				)}
 				{state.mode === 'guessing' && !state.guessed && state.guesses.every(i => i >= 0) && (
-					<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="submit-guesses">
+					<BorderedText title="submit" align="right" x={mapWidth} y={mapHeight - 3} htmlFor="submit-guesses">
 						submit
 					</BorderedText>
 				)}
@@ -376,19 +376,19 @@ export function App() {
 				<BorderedText x={0} y={0}>
 					TODO: title
 				</BorderedText>
-				<BorderedText x={mapWidth} align="right" y={0} htmlFor="help" cornerTL="-" cornerBR="|">
+				<BorderedText x={mapWidth} align="right" y={0} htmlFor="help" title="help" cornerTL="-" cornerBR="|">
 					?
 				</BorderedText>
 				<BorderedText x={0} y={mapHeight - 3}>
 					{`${bgmTracks[state.audioTrack].name} - ${bgmTracks[state.audioTrack].artist}`}
 				</BorderedText>
-				<BorderedText x={0} y={mapHeight - 5} htmlFor="previous-track">
+				<BorderedText x={0} y={mapHeight - 5} htmlFor="previous-track" title="previous track">
 					{'<'}
 				</BorderedText>
-				<BorderedText x={5} y={mapHeight - 5} htmlFor="next-track">
+				<BorderedText x={5} y={mapHeight - 5} htmlFor="next-track" title="next track">
 					{'>'}
 				</BorderedText>
-				<BorderedText x={2} y={mapHeight - 5} htmlFor="toggle-audio">
+				<BorderedText x={2} y={mapHeight - 5} htmlFor="toggle-audio" title={state.audioPlaying ? 'pause' : 'play'}>
 					{state.audioPlaying ? '||' : '|>'}
 				</BorderedText>
 				{state.help && (
@@ -396,7 +396,7 @@ export function App() {
 						<BorderedText fill x={3} y={3} minW={mapWidth - 8} minH={mapHeight - 8}>
 							{state.mode === 'guessing' ? 'help text for guessing!' : 'help text for drawing!'}
 						</BorderedText>
-						<BorderedText htmlFor="help" align="right" x={mapWidth - 3} y={3} cornerTL="-" cornerBR="|">
+						<BorderedText htmlFor="help" title="close" align="right" x={mapWidth - 3} y={3} cornerTL="-" cornerBR="|">
 							X
 						</BorderedText>
 					</>
