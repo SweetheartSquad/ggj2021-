@@ -1,3 +1,16 @@
+# [1.13.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.12.2...v1.13.0) (2021-01-31)
+
+
+### Bug Fixes
+
+* better names ([aef3b7d](https://github.com/SweetheartSquad/ggj2021/commit/aef3b7dc095253226e218caba1de0e1e3e5218e1))
+* consistent title ([eabc18b](https://github.com/SweetheartSquad/ggj2021/commit/eabc18b7f77f71f2d77a08ce117f2d044d4c8c05))
+
+
+### Features
+
+* add a couple more name patterns ([ea6bbea](https://github.com/SweetheartSquad/ggj2021/commit/ea6bbeaa741c377efa6c19dd995672605cdd155e))
+
 ## [1.12.2](https://github.com/SweetheartSquad/ggj2021/compare/v1.12.1...v1.12.2) (2021-01-31)
 
 
