@@ -34,11 +34,14 @@ pre {
 
 .map label {
 	pointer-events: initial;
-	cursor: pointer;
 	transition: color 0.2s ease-out;
 }
 
-.map label:hover {
+.map label[htmlFor] {
+	cursor: pointer;
+}
+
+.map label[htmlFor]:hover {
 	color: rgba(255, 255, 255, 0.9);
 }
 
