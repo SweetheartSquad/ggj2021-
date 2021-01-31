@@ -267,20 +267,38 @@ export function App() {
 						/>
 					);
 				})}
-				{fakeOrder.map(({ fake, original }) => (
-					<Text
-						data-correct={isGuessCorrect(state.guesses[original], original).toString()}
-						data-constellation={original}
-						key={names[original]}
-						htmlFor={getLabel('select-constellation', original, 0)}
-						x={1}
-						y={fake + 3}
-					>
-						{`${state.mode === 'guessing' ? `[${state.guesses[original] >= 0 ? (state.guessed && isGuessCorrect(state.guesses[original], original) ? 'O' : 'X') : ' '}] ` : ''}${
-							state.currentConstellation === original ? '[' : ''
-						}${names[original]}${state.currentConstellation === original ? ']' : ''}`}
-					</Text>
-				))}
+				{fakeOrder.map(({ fake, original }) => {
+					function getCheck() {
+						if (state.mode === 'creating') {
+							if (state.constellations[original].length > 0) {
+								return 'X';
+							}
+							return ' ';
+						}
+						if (state.mode === 'guessing' && state.guesses[original] >= 0) {
+							if (state.guessed && isGuessCorrect(state.guesses[original], original)) {
+								return 'O';
+							}
+							return 'X';
+						}
+						return ' ';
+					}
+					const name = names[original];
+					const wrappedName = state.currentConstellation === original ? `[${name}]` : name;
+					const checkedName = `[${getCheck()}] ${wrappedName}`;
+					return (
+						<Text
+							data-correct={isGuessCorrect(state.guesses[original], original).toString()}
+							data-constellation={original}
+							key={names[original]}
+							htmlFor={getLabel('select-constellation', original, 0)}
+							x={1}
+							y={fake + 3}
+						>
+							{checkedName}
+						</Text>
+					);
+				})}
 				<Border x={0} y={0} w={mapWidth} h={mapHeight} />
 				{state.mode === 'creating' && (
 					<>
