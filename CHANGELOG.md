@@ -1,3 +1,15 @@
+# [1.12.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.11.0...v1.12.0) (2021-01-31)
+
+
+### Bug Fixes
+
+* include subdirs in build ([fb5b14a](https://github.com/SweetheartSquad/ggj2021/commit/fb5b14aafadf8a1fdc6453edbe57b9d00b012da2))
+
+
+### Features
+
+* title text ([b15db34](https://github.com/SweetheartSquad/ggj2021/commit/b15db340b0f4f682a605c14a331ddcafd5e14a4d))
+
 # [1.11.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.10.0...v1.11.0) (2021-01-31)
 
 
