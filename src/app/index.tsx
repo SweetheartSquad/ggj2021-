@@ -8,7 +8,7 @@ import { useCallback, useMemo, useReducer } from 'preact/hooks';
 import { JSXInternal } from 'preact/src/jsx';
 import seedrandom from 'seedrandom';
 import tracery from 'tracery-grammar';
-import { mapHeight, mapMaxStars, mapMinStars, mapWidth, numConstellations, traceryConstellations } from './config';
+import { mapHeight, mapMaxStars, mapMinStars, mapSpacing, mapWidth, numConstellations, traceryConstellations } from './config';
 import { Constellation } from './Constellation';
 import { Star } from './Star';
 import { generateOutput, parseInput, rndInt } from './utils';
@@ -210,7 +210,7 @@ function App() {
 							</li>
 						))}
 					</ul>
-					<section className="map" style={{ gridTemplateColumns: `repeat(${mapWidth}, 1rem)`, gridTemplateRows: `repeat(${mapHeight}, 1rem)` }}>
+					<section className="map" style={useMemo(() => ({ gridTemplateColumns: `repeat(${mapWidth}, ${mapSpacing}rem)`, gridTemplateRows: `repeat(${mapHeight}, ${mapSpacing}rem)` }), [])}>
 						{state.constellations.map((i, idx) => (
 							<Constellation key={idx} starmap={starmap} constellation={i} constellationIdx={idx} getEdgeLabel={getEdgeLabel} />
 						))}
