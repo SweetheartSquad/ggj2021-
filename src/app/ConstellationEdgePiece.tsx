@@ -10,5 +10,5 @@ export function ConstellationEdgePiece({
 	x: number;
 	y: number;
 }) {
-	return (<label {...props} style={useGridPosStyle(x, y)} />);
+	return <label {...props} style={useGridPosStyle(x, y)} />;
 }
