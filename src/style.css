@@ -26,14 +26,12 @@ pre {
 	justify-content: center;
 	align-content: center;
 	text-align: center;
-	pointer-events: none;
 	user-select: none;
 	min-height: 100vh;
 	background: #000;
 }
 
 .map label {
-	pointer-events: initial;
 	transition: color 0.2s ease-out;
 }
 
@@ -47,14 +45,19 @@ pre {
 
 .subgrid {
 	display: grid;
+	background: none;
 }
 
 .subgrid>*,
 .map>* {
 	width: 100%;
 	height: 100%;
-	background: inherit;
+	background: 000;
 	flex: none;
+}
+
+.fill {
+	background: #000;
 }
 
 /* visually hidden */
