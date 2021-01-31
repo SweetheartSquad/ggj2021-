@@ -127,7 +127,7 @@ function App() {
 			names.add(grammar.flatten('#constellation#'));
 		}
 		return {
-			starmap: new Array(rndInt(mapMinStars, mapMaxStars)).fill(0).map(() => [rndInt(1, mapWidth-1), rndInt(3 + numConstellations, mapHeight-1)]) as [number, number][],
+			starmap: new Array(rndInt(mapMinStars, mapMaxStars)).fill(0).map(() => [rndInt(1, mapWidth - 1), rndInt(3 + numConstellations, mapHeight - 1)]) as [number, number][],
 			names: [...names],
 			fakeOrder: new Array(names.size)
 				.fill(0)
@@ -209,42 +209,38 @@ function App() {
 					min-width: ${mapWidth + 2}rem;
 				}
 				[data-constellation="${state.currentConstellation}"] {
-					color: red;
+					color: rgba(255,255,255,1.0)
 				}
 				[data-star="${state.currentStar}"] {
-					color: green;
+					color: rgba(255,0,0,1.0)
 				}`}
 			</style>
-			<main>
-				<section>
-					<section className="map" style={useGridStyle(mapWidth, mapHeight)}>
-						{state.constellations.map((i, idx) => (
-							<Constellation key={idx} starmap={starmap} constellation={i} constellationIdx={idx} getEdgeLabel={getEdgeLabel} />
-						))}
-						{starmap.map((i, idx) => (
-							<Star key={idx} star={i} starIdx={idx} constellationIdx={starToConstellation[idx]} getStarLabel={getStarLabel} />
-						))}
-						{fakeOrder.map(({ fake, original }) => (
-							<Text data-constellation={original} key={names[original]} htmlFor={getLabel('select-constellation', original, 0)} x={1} y={fake+3}>
-								{`${state.currentConstellation === original ? '[' : ''}${names[original]}${state.currentConstellation === original ? ']' : ''}`}
-							</Text>
-						))}
-						<Border x={0} y={0} w={mapWidth} h={mapHeight} />
-						{state.mode === 'creating' && (
-							<>
-								<BorderedText x={mapWidth - 8} y={mapHeight - 3} htmlFor="reroll">
-									reroll
-								</BorderedText>
-								<BorderedText x={mapWidth - 9} y={mapHeight - 5} htmlFor="copy">
-									{state.copied ? 'copied!' : 'copy   '}
-								</BorderedText>
-							</>
-						)}
-						<BorderedText x={0} y={0}>
-							TODO: title
+			<main className="map" style={useGridStyle(mapWidth, mapHeight)}>
+				{state.constellations.map((i, idx) => (
+					<Constellation key={idx} starmap={starmap} constellation={i} constellationIdx={idx} getEdgeLabel={getEdgeLabel} />
+				))}
+				{starmap.map((i, idx) => (
+					<Star key={idx} star={i} starIdx={idx} constellationIdx={starToConstellation[idx]} getStarLabel={getStarLabel} />
+				))}
+				{fakeOrder.map(({ fake, original }) => (
+					<Text data-constellation={original} key={names[original]} htmlFor={getLabel('select-constellation', original, 0)} x={1} y={fake + 3}>
+						{`${state.currentConstellation === original ? '[' : ''}${names[original]}${state.currentConstellation === original ? ']' : ''}`}
+					</Text>
+				))}
+				<Border x={0} y={0} w={mapWidth} h={mapHeight} />
+				{state.mode === 'creating' && (
+					<>
+						<BorderedText x={mapWidth - 8} y={mapHeight - 3} htmlFor="reroll">
+							reroll
 						</BorderedText>
-					</section>
-				</section>
+						<BorderedText x={mapWidth - 9} y={mapHeight - 5} htmlFor="copy">
+							{state.copied ? 'copied!' : 'copy   '}
+						</BorderedText>
+					</>
+				)}
+				<BorderedText x={0} y={0}>
+					TODO: title
+				</BorderedText>
 			</main>
 			<nav>
 				<ol>

@@ -2,6 +2,7 @@ html {
 	background: #fff;
 	color: #000;
 	font-family: 'Courier New', Courier, monospace;
+	min-height: 100vh;
 }
 
 * {
@@ -11,6 +12,7 @@ html {
 body {
 	display: flex;
 	flex-direction: column;
+	min-height: 100vh;
 }
 
 pre {
@@ -20,21 +22,24 @@ pre {
 .map {
 	display: grid;
 	justify-content: center;
+	align-content: center;
 	text-align: center;
 	background: #000;
-	color: #FFF;
+	color: rgba(255, 255, 255, 0.6);
 	padding: 1rem;
 	pointer-events: none;
 	user-select: none;
+	min-height: 100vh;
 }
 
 .map label {
 	pointer-events: initial;
 	cursor: pointer;
+	transition: color 0.2s ease-out;
 }
 
 .map label:hover {
-	color: green;
+	color: rgba(255, 255, 255, 0.9);
 }
 
 .subgrid {
