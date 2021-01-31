@@ -252,8 +252,8 @@ export function App() {
 	);
 	const reroll = useCallback(() => dispatch({ type: 'set-seed', payload: nanoid() }), [dispatch]);
 	const toggleHelp = useCallback(() => dispatch({ type: 'set-help', payload: !state.help }), [dispatch, state.help]);
-	const hrefTweet = useMemo(() => `https://twitter.com/intent/tweet?url=${encodeURIComponent(`${window.location.href}?${output}`)}&text=`, [output]);
-	const hrefOpen = useMemo(() => `${window.location.href}?${output}`, [output]);
+	const hrefTweet = useMemo(() => `https://twitter.com/intent/tweet?url=${encodeURIComponent(`${window.location.href.split('?')[0]}?${output}`)}&text=`, [output]);
+	const hrefOpen = useMemo(() => `${window.location.href.split('?')[0]}?${output}`, [output]);
 	const copy = useCallback(() => {
 		copyToClipboard(hrefOpen);
 		dispatch({ type: 'set-copied', payload: true });
