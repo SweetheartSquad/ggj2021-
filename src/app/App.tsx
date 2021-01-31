@@ -416,17 +416,17 @@ export function App() {
 				<BorderedText x={mapWidth} align="right" y={0} htmlFor="help" title="Open help menu" cornerTL="-" cornerBR="|">
 					?
 				</BorderedText>
-				<BorderedText x={0} y={mapHeight - 3}>
+				<BorderedText x={0} y={mapHeight - 3} cornerBR="-">
 					{`${bgmTracks[state.audioTrack].name} - ${bgmTracks[state.audioTrack].artist}`}
 				</BorderedText>
-				<BorderedText x={0} y={mapHeight - 5} htmlFor="previous-track" title="Play previous track">
+				<BorderedText x={0} y={mapHeight - 5} htmlFor="previous-track" title="Play previous track" cornerBL="|" cornerBR="-">
 					{'<'}
 				</BorderedText>
-				<BorderedText x={5} y={mapHeight - 5} htmlFor="next-track" title="Play next track">
+				<BorderedText x={5} y={mapHeight - 5} htmlFor="next-track" title="Play next track" cornerBL="-" cornerBR="-">
 					{'>'}
 				</BorderedText>
-				<BorderedText x={2} y={mapHeight - 5} htmlFor="toggle-audio" title={state.audioPlaying ? 'Pause audio' : 'Play audio'}>
-					{state.audioPlaying ? '||' : '|>'}
+				<BorderedText x={2} y={mapHeight - 5} htmlFor="toggle-audio" title={state.audioPlaying ? 'Pause audio' : 'Play audio'} cornerBL="-" cornerBR="-">
+					{state.audioPlaying ? '||' : '[>'}
 				</BorderedText>
 				{state.help && (
 					<>
