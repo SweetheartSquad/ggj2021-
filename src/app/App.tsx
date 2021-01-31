@@ -238,13 +238,17 @@ export function App() {
 	);
 	const reroll = useCallback(() => dispatch({ type: 'set-seed', payload: nanoid() }), []);
 	const toggleHelp = useCallback(() => dispatch({ type: 'set-help', payload: !state.help }), [state.help]);
+	const hrefTweet = useMemo(() => `https://twitter.com/intent/tweet?url=${encodeURIComponent(`${window.location.href}?${output}`)}&text=`, [output]);
+	const hrefOpen = useMemo(() => `${window.location.href}?${output}`, [output]);
 	const copy = useCallback(() => {
-		copyToClipboard(`${window.location.href}?${output}`);
+		copyToClipboard(hrefOpen);
 		dispatch({ type: 'set-copied', payload: true });
 		setTimeout(() => {
 			dispatch({ type: 'set-copied', payload: false });
 		}, 500);
-	}, [output, dispatch]);
+	}, [hrefOpen, dispatch]);
+	const open = useCallback(() => window.open(hrefOpen, '_blank'), [hrefOpen]);
+	const tweet = useCallback(() => window.open(hrefTweet, '_blank'), [hrefTweet]);
 	const toggleAudio = useCallback(() => dispatch({ type: 'set-playing', payload: !state.audioPlaying }), [dispatch, state.audioPlaying]);
 	const nextTrack = useCallback(() => dispatch({ type: 'next-track', payload: undefined }), [dispatch]);
 	const previousTrack = useCallback(() => dispatch({ type: 'previous-track', payload: undefined }), [dispatch]);
@@ -353,16 +357,35 @@ export function App() {
 					);
 				})}
 				<Border x={0} y={0} w={mapWidth} h={mapHeight} />
+				{state.mode === 'creating' &&
+					(canCopy ? (
+						<>
+							<Text x={1} y={4 + numConstellations}>
+								share
+							</Text>
+							<BorderedText x={7} y={3 + numConstellations} htmlFor="open" title="open">
+								open
+							</BorderedText>
+							<BorderedText x={12} y={3 + numConstellations} htmlFor="tweet" title="tweet">
+								tweet
+							</BorderedText>
+							<BorderedText x={18} y={3 + numConstellations} htmlFor="copy" title="copy">
+								{state.copied ? 'copied!' : 'copy'}
+							</BorderedText>
+						</>
+					) : (
+						<>
+							<Text x={1} y={4 + numConstellations}>
+								draw all constellations
+							</Text>
+						</>
+					))}
 				{state.mode === 'creating' && (
-					<>
-						<BorderedText x={1} y={3 + numConstellations} htmlFor={canCopy ? 'copy' : ''}>
-							{canCopy ? (state.copied ? 'copied!' : 'copy') : 'draw all constellations'}
-						</BorderedText>
-						<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll" title="reroll">
-							reroll
-						</BorderedText>
-					</>
+					<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll" title="reroll">
+						reroll
+					</BorderedText>
 				)}
+
 				{state.mode === 'guessing' && !state.guessed && state.guesses.every(i => i >= 0) && (
 					<BorderedText title="submit" x={1} y={3 + numConstellations} htmlFor="submit-guesses">
 						submit
@@ -442,6 +465,12 @@ export function App() {
 						</button>
 						<button id="copy" onClick={copy}>
 							copy
+						</button>
+						<button id="tweet" onClick={tweet}>
+							tweet
+						</button>
+						<button id="open" onClick={open}>
+							open
 						</button>
 					</>
 				)}
