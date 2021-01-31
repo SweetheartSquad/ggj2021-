@@ -1,3 +1,10 @@
+## [1.14.1](https://github.com/SweetheartSquad/ggj2021/compare/v1.14.0...v1.14.1) (2021-01-31)
+
+
+### Bug Fixes
+
+* star symbols inconsistent between modes ([18f3bf5](https://github.com/SweetheartSquad/ggj2021/commit/18f3bf517256298baa3475fc5fd5322271763fe4))
+
 # [1.14.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.13.2...v1.14.0) (2021-01-31)
 
 
