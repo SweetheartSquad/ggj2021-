@@ -248,33 +248,31 @@ function App() {
 					))}
 				</ol>
 				{state.mode === 'creating' && (
-					<ol>
-						{state.constellations.map((edges, constellationIdx) =>
-							edges.map((_, edgeIdx) => (
-								<li key={`${constellationIdx}-${edgeIdx}`}>
-									<button id={`remove-edge-${constellationIdx}-${edgeIdx}`} onClick={() => removeEdge(constellationIdx, edgeIdx)}>
-										remove {names[constellationIdx]} edge {edgeIdx}
+					<>
+						<ol>
+							{state.constellations.map((edges, constellationIdx) =>
+								edges.map((_, edgeIdx) => (
+									<li key={`${constellationIdx}-${edgeIdx}`}>
+										<button id={`remove-edge-${constellationIdx}-${edgeIdx}`} onClick={() => removeEdge(constellationIdx, edgeIdx)}>
+											remove {names[constellationIdx]} edge {edgeIdx}
+										</button>
+									</li>
+								))
+							)}
+						</ol>
+						<ol>
+							{starmap.map((_, starIdx) => (
+								<li key={starIdx}>
+									<button id={`select-star-${starIdx}`} value={starIdx} onClick={selectStar}>
+										select star {starIdx}
 									</button>
 								</li>
-							))
-						)}
-					</ol>
-				)}
-				{state.mode === 'creating' && (
-					<ol>
-						{starmap.map((_, starIdx) => (
-							<li key={starIdx}>
-								<button id={`select-star-${starIdx}`} value={starIdx} onClick={selectStar}>
-									select star {starIdx}
-								</button>
-							</li>
-						))}
-					</ol>
-				)}
-				{state.mode === 'creating' && (
-					<button id="reroll" onClick={reroll}>
-						re-roll
-					</button>
+							))}
+						</ol>
+						<button id="reroll" onClick={reroll}>
+							re-roll
+						</button>
+					</>
 				)}
 			</nav>
 		</>
