@@ -1,3 +1,17 @@
+# [1.5.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.4.0...v1.5.0) (2021-01-31)
+
+
+### Bug Fixes
+
+* deslect constellation on submit ([3e70fb5](https://github.com/SweetheartSquad/ggj2021/commit/3e70fb5a46f24e7a7eb1b8589136ab042975157f))
+* only show hover style on interactive elements ([f6c0445](https://github.com/SweetheartSquad/ggj2021/commit/f6c0445d54e4d0f6d2dc1e1fff44f8a8fd4ce48f))
+
+
+### Features
+
+* show correct/incorrect guesses ([fff6e7d](https://github.com/SweetheartSquad/ggj2021/commit/fff6e7d83ed04c02589695498583e76b1fca1483))
+* show guess + actual for incorrect guesses ([bc2c3aa](https://github.com/SweetheartSquad/ggj2021/commit/bc2c3aaea8cd9881cad1c5ea659f936a5e46f597))
+
 # [1.4.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.3.0...v1.4.0) (2021-01-31)
 
 
