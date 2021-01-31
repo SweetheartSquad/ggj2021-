@@ -1,5 +1,7 @@
 # Finder's Keplers
 
+![recording: constellation drawing](cover.gif)
+
 This is an asynchronous multiplayer game for 2 or more players. Draw constellations using the generated prompts/starmap, and then send them to your friends and see if they can guess them all!
 
 ## Instructions for DRAWER
