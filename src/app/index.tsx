@@ -210,7 +210,6 @@ function App() {
 							</li>
 						))}
 					</ul>
-					<button onClick={() => dispatch({ type: 'add-edge', payload: [rndInt(0, starmap.length), rndInt(0, starmap.length)] })}>add edge</button>
 					<section className="map" style={{ gridTemplateColumns: `repeat(${mapWidth}, 1rem)`, gridTemplateRows: `repeat(${mapHeight}, 1rem)` }}>
 						{state.constellations.map((i, idx) => (
 							<Constellation key={idx} starmap={starmap} constellation={i} constellationIdx={idx} getEdgeLabel={getEdgeLabel} />
