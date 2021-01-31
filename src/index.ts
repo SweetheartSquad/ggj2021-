@@ -12,6 +12,7 @@ requestAnimationFrame(async () => {
 		loading.remove();
 	} catch (err) {
 		document.body.innerHTML = '<p>Something went wrong. Sorry :(</p>';
+		// eslint-disable-next-line no-console
 		console.error(err);
 	}
 });

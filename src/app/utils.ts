@@ -59,7 +59,8 @@ export function useTextDimensions(text: string) {
 	return [w, h] as const;
 }
 
-export function findIndexOrUndefined<T>(array: T[], predicate: (i: T) => boolean) {
+// eslint-disable-next-line no-unused-vars
+export function findIndexOrUndefined<T>(array: T[], predicate: (_: T) => boolean) {
 	const result = array.findIndex(predicate);
 	return result === -1 ? undefined : result;
 }

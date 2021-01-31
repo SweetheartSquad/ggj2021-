@@ -3,17 +3,23 @@ import produce, { Draft } from 'immer';
 import { checkIntersection } from 'line-intersect';
 import { nanoid } from 'nanoid';
 import 'preact';
-import { useCallback, useEffect, useMemo, useReducer, useRef } from 'preact/hooks';
+import {
+	useCallback, useEffect, useMemo, useReducer, useRef,
+} from 'preact/hooks';
 import { JSXInternal } from 'preact/src/jsx';
 import seedrandom from 'seedrandom';
 import tracery from 'tracery-grammar';
 import { Border } from './Border';
 import { BorderedText } from './BorderedText';
-import { bgmTracks, mapHeight, mapMaxStars, mapMinStars, mapSpacing, mapWidth, numConstellations, traceryConstellations } from './config';
+import {
+	bgmTracks, mapHeight, mapMaxStars, mapMinStars, mapSpacing, mapWidth, numConstellations, traceryConstellations,
+} from './config';
 import { Constellation } from './Constellation';
 import { Star } from './Star';
 import { Text } from './Text';
-import { findIndexOrUndefined, generateOutput, parseInput, rndInt, useGridStyle } from './utils';
+import {
+	findIndexOrUndefined, generateOutput, parseInput, rndInt, useGridStyle,
+} from './utils';
 
 type Reducer<S = any, A = any> = (draftState: Draft<S>, action: A) => void | S;
 export function useImmerReducer<S, A>(reducer: Reducer<S, A>, initialState: S, initialAction?: (initial: any) => S): [S, (action: A) => void] {
@@ -55,75 +61,82 @@ type Action =
 
 function getLabel(action: 'remove-edge' | 'select-constellation' | 'select-star' | 'guess', constellation: number, edgeOrStar: number) {
 	switch (action) {
-		case 'remove-edge':
-			return `${action}-${constellation}-${edgeOrStar}`;
-		case 'select-constellation':
-			return `${action}-${constellation}`;
-		case 'select-star':
-			return `${action}-${edgeOrStar}`;
-		case 'guess':
-			return `${action}-${constellation}`;
+	case 'remove-edge':
+		return `${action}-${constellation}-${edgeOrStar}`;
+	case 'select-constellation':
+		return `${action}-${constellation}`;
+	case 'select-star':
+		return `${action}-${edgeOrStar}`;
+	case 'guess':
+		return `${action}-${constellation}`;
+	default:
+		return '';
 	}
 }
 
+// using immer here
+/* eslint-disable no-param-reassign */
 const reducer: Reducer<State, Action> = (state, action) => {
 	switch (action.type) {
-		case 'add-edge':
-			if (state.currentConstellation === undefined) return;
-			state.constellations[state.currentConstellation].push(action.payload);
-			break;
-		case 'remove-edge':
-			state.currentConstellation = action.payload.constellation;
-			state.currentStar = undefined;
-			state.constellations[action.payload.constellation].splice(action.payload.edge, 1);
-			break;
-		case 'guess':
-			if (state.currentConstellation === undefined) return;
-			state.guesses = state.guesses.map(i => (i === action.payload ? -1 : i));
-			state.guesses[state.currentConstellation] = action.payload;
-			break;
-		case 'set-current-constellation':
-			state.currentConstellation = action.payload;
-			state.currentStar = undefined;
-			break;
-		case 'set-current-star':
-			state.currentStar = action.payload;
-			break;
-		case 'set-copied':
-			state.copied = action.payload;
-			break;
-		case 'set-help':
-			state.help = action.payload;
-			break;
-		case 'set-seed':
-			state.mode = 'creating';
-			state.seed = action.payload;
-			state.constellations = new Array(numConstellations).fill(0).map(() => []);
-			state.guesses = [];
-			state.currentConstellation = undefined;
-			state.currentStar = undefined;
-			state.guessed = false;
-			break;
-		case 'set-playing':
-			state.audioPlaying = action.payload;
-			break;
-		case 'next-track':
-			state.audioTrack = (state.audioTrack + 1) % bgmTracks.length;
-			state.audioPlaying = true;
-			break;
-		case 'previous-track':
-			state.audioTrack = state.audioTrack - 1;
-			if (state.audioTrack < 0) {
-				state.audioTrack = bgmTracks.length - 1;
-			}
-			state.audioPlaying = true;
-			break;
-		case 'submit-guesses':
-			state.guessed = true;
-			state.currentConstellation = undefined;
-			break;
+	case 'add-edge':
+		if (state.currentConstellation === undefined) return;
+		state.constellations[state.currentConstellation].push(action.payload);
+		break;
+	case 'remove-edge':
+		state.currentConstellation = action.payload.constellation;
+		state.currentStar = undefined;
+		state.constellations[action.payload.constellation].splice(action.payload.edge, 1);
+		break;
+	case 'guess':
+		if (state.currentConstellation === undefined) return;
+		state.guesses = state.guesses.map((i) => (i === action.payload ? -1 : i));
+		state.guesses[state.currentConstellation] = action.payload;
+		break;
+	case 'set-current-constellation':
+		state.currentConstellation = action.payload;
+		state.currentStar = undefined;
+		break;
+	case 'set-current-star':
+		state.currentStar = action.payload;
+		break;
+	case 'set-copied':
+		state.copied = action.payload;
+		break;
+	case 'set-help':
+		state.help = action.payload;
+		break;
+	case 'set-seed':
+		state.mode = 'creating';
+		state.seed = action.payload;
+		state.constellations = new Array(numConstellations).fill(0).map(() => []);
+		state.guesses = [];
+		state.currentConstellation = undefined;
+		state.currentStar = undefined;
+		state.guessed = false;
+		break;
+	case 'set-playing':
+		state.audioPlaying = action.payload;
+		break;
+	case 'next-track':
+		state.audioTrack = (state.audioTrack + 1) % bgmTracks.length;
+		state.audioPlaying = true;
+		break;
+	case 'previous-track':
+		state.audioTrack -= 1;
+		if (state.audioTrack < 0) {
+			state.audioTrack = bgmTracks.length - 1;
+		}
+		state.audioPlaying = true;
+		break;
+	case 'submit-guesses':
+		state.guessed = true;
+		state.currentConstellation = undefined;
+		break;
+	default:
+		throw new Error('unsupported action');
 	}
 };
+/* eslint-enable no-param-reassign */
 
 export function App() {
 	const initialState = useMemo(() => {
@@ -163,7 +176,6 @@ export function App() {
 	}, [initialState.mode]);
 	const [state, dispatch] = useImmerReducer(reducer, initialState);
 	const { starmap, names, fakeOrder } = useMemo(() => {
-		4;
 		seedrandom(state.seed, { global: true });
 		const names = new Set<string>();
 		while (names.size < numConstellations) {
@@ -180,12 +192,12 @@ export function App() {
 				.sort(({ fake: a }, { fake: b }) => a - b),
 		};
 	}, [state.seed]);
-	const starToConstellation = useMemo(() => starmap.map((_, idx) => findIndexOrUndefined(state.constellations, constellation => constellation.some(edge => edge.includes(idx)))), [
+	const starToConstellation = useMemo(() => starmap.map((_, idx) => findIndexOrUndefined(state.constellations, (constellation) => constellation.some((edge) => edge.includes(idx)))), [
 		starmap,
 		state.constellations,
 	]);
 	const output = useMemo(() => {
-		if (state.mode !== 'creating') return;
+		if (state.mode !== 'creating') return undefined;
 		const toTransfer: TransferredState = {
 			seed: state.seed,
 			constellations: state.constellations,
@@ -193,16 +205,17 @@ export function App() {
 		};
 		return generateOutput(toTransfer);
 	}, [state]);
-	const canCopy = useMemo(() => state.constellations.every(i => i.length > 0), [state.constellations]);
+	const canCopy = useMemo(() => state.constellations.every((i) => i.length > 0), [state.constellations]);
 
-	const removeEdge = useCallback((constellation: number, edge: number) => dispatch({ type: 'remove-edge', payload: { constellation, edge } }), []);
+	const removeEdge = useCallback((constellation: number, edge: number) => dispatch({ type: 'remove-edge', payload: { constellation, edge } }), [dispatch]);
 	const selectConstellation = useCallback(
 		(event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => dispatch({ type: 'set-current-constellation', payload: parseInt(event.currentTarget.value, 10) }),
-		[]
+		[dispatch],
 	);
 	const selectStar = useCallback(
 		(event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => {
 			if (state.currentConstellation === undefined) return;
+			// eslint-disable-next-line prefer-destructuring
 			const currentStar = state.currentStar;
 			const star = parseInt(event.currentTarget.value, 10);
 			// deselect start point
@@ -212,7 +225,7 @@ export function App() {
 			}
 			const otherConstellations = state.constellations.filter((_, idx) => idx !== state.currentConstellation);
 			// ignore end point part of another constellation
-			if (otherConstellations.some(constellation => constellation.some(i => i.includes(star)))) {
+			if (otherConstellations.some((constellation) => constellation.some((i) => i.includes(star)))) {
 				return;
 			}
 			// select start point
@@ -222,14 +235,12 @@ export function App() {
 			}
 			// ignore end point resulting in edge intersecting another constellation's edge
 			if (
-				otherConstellations.some(constellation =>
-					constellation.some(([start, end]) => checkIntersection(...([start, end, currentStar, star].flatMap(i => starmap[i]) as Parameters<typeof checkIntersection>)).type === 'intersecting')
-				)
+				otherConstellations.some((constellation) => constellation.some(([start, end]) => checkIntersection(...([start, end, currentStar, star].flatMap((i) => starmap[i]) as Parameters<typeof checkIntersection>)).type === 'intersecting'))
 			) {
 				return;
 			}
 			// avoid duplicate edge, and instead select new start point
-			if (state.constellations[state.currentConstellation].some(i => i.join(',') === [currentStar, star].sort().join(','))) {
+			if (state.constellations[state.currentConstellation].some((i) => i.join(',') === [currentStar, star].sort().join(','))) {
 				dispatch({ type: 'set-current-star', payload: star });
 				return;
 			}
@@ -237,10 +248,10 @@ export function App() {
 			dispatch({ type: 'add-edge', payload: [currentStar, star].sort() as [number, number] });
 			dispatch({ type: 'set-current-star', payload: star });
 		},
-		[state.currentStar, state.constellations, state.currentConstellation]
+		[dispatch, starmap, state.currentStar, state.constellations, state.currentConstellation],
 	);
-	const reroll = useCallback(() => dispatch({ type: 'set-seed', payload: nanoid() }), []);
-	const toggleHelp = useCallback(() => dispatch({ type: 'set-help', payload: !state.help }), [state.help]);
+	const reroll = useCallback(() => dispatch({ type: 'set-seed', payload: nanoid() }), [dispatch]);
+	const toggleHelp = useCallback(() => dispatch({ type: 'set-help', payload: !state.help }), [dispatch, state.help]);
 	const hrefTweet = useMemo(() => `https://twitter.com/intent/tweet?url=${encodeURIComponent(`${window.location.href}?${output}`)}&text=`, [output]);
 	const hrefOpen = useMemo(() => `${window.location.href}?${output}`, [output]);
 	const copy = useCallback(() => {
@@ -263,7 +274,8 @@ export function App() {
 		if (!elAudio) return;
 		if (elAudio.paused !== !state.audioPlaying) {
 			if (state.audioPlaying) {
-				elAudio.play().catch(err => {
+				elAudio.play().catch((err) => {
+					// eslint-disable-next-line no-console
 					console.warn("couldn't play audio", err);
 					dispatch({ type: 'set-playing', payload: false });
 				});
@@ -272,7 +284,7 @@ export function App() {
 			}
 		}
 	}, [state.audioPlaying, state.audioTrack, refAudio, dispatch]);
-	const guess = useCallback((event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => dispatch({ type: 'guess', payload: parseInt(event.currentTarget.value, 10) }), []);
+	const guess = useCallback((event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => dispatch({ type: 'guess', payload: parseInt(event.currentTarget.value, 10) }), [dispatch]);
 	const submitGuesses = useCallback(() => dispatch({ type: 'submit-guesses', payload: undefined }), [dispatch]);
 	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => (state.guessed ? '' : getLabel(state.mode === 'creating' ? 'remove-edge' : 'guess', constellation, edge)), [
 		state.mode,
@@ -308,7 +320,7 @@ export function App() {
 						<Constellation
 							key={idx}
 							data-correct={state.currentConstellation === idx ? correct.toString() : correct}
-							data-constellation={state.mode === 'creating' ? idx : findIndexOrUndefined(state.guesses, i => i === idx)}
+							data-constellation={state.mode === 'creating' ? idx : findIndexOrUndefined(state.guesses, (i) => i === idx)}
 							starmap={starmap}
 							constellation={i}
 							constellationIdx={idx}
@@ -323,7 +335,7 @@ export function App() {
 						<Star
 							key={idx}
 							data-correct={state.currentConstellation !== undefined && state.currentConstellation === constellationIdx ? correct.toString() : correct}
-							data-constellation={state.mode === 'creating' ? constellationIdx : findIndexOrUndefined(state.guesses, i => i === constellationIdx)}
+							data-constellation={state.mode === 'creating' ? constellationIdx : findIndexOrUndefined(state.guesses, (i) => i === constellationIdx)}
 							star={i}
 							starIdx={idx}
 							constellationIdx={constellationIdx || -1}
@@ -364,8 +376,8 @@ export function App() {
 					);
 				})}
 				<Border x={0} y={0} w={mapWidth} h={mapHeight} />
-				{state.mode === 'creating' &&
-					(canCopy ? (
+				{state.mode === 'creating'
+					&& (canCopy ? (
 						<>
 							<Text x={2} y={4 + numConstellations}>
 								Share
@@ -393,9 +405,9 @@ export function App() {
 					</BorderedText>
 				)}
 
-				{state.mode === 'guessing' &&
-					!state.guessed &&
-					(state.guesses.every(i => i >= 0) ? (
+				{state.mode === 'guessing'
+					&& !state.guessed
+					&& (state.guesses.every((i) => i >= 0) ? (
 						<BorderedText title="Confirm matches against solution" x={1} y={3 + numConstellations} htmlFor="submit-guesses">
 							Confirm matches
 						</BorderedText>
@@ -432,7 +444,8 @@ export function App() {
 				{state.help && (
 					<>
 						<BorderedText fill x={3} y={3} minW={mapWidth - 8} minH={mapHeight - 8}>
-							{state.mode === 'guessing' ? `
+							{state.mode === 'guessing'
+								? `
  Welcome to Finder's Keplers!
  ____________________________
 
@@ -453,7 +466,8 @@ export function App() {
  You'll see your score out of ${numConstellations}.
  Try to get all ${numConstellations} correct!
 
- Good luck!` : `
+ Good luck!`
+								: `
  Welcome to Finder's Keplers!
  ____________________________
 
@@ -519,15 +533,13 @@ export function App() {
 				{state.mode === 'creating' && (
 					<>
 						<ol>
-							{state.constellations.map((edges, constellationIdx) =>
-								edges.map((_, edgeIdx) => (
-									<li key={`${constellationIdx}-${edgeIdx}`}>
-										<button id={`remove-edge-${constellationIdx}-${edgeIdx}`} onClick={() => removeEdge(constellationIdx, edgeIdx)}>
+							{state.constellations.map((edges, constellationIdx) => edges.map((_, edgeIdx) => (
+								<li key={`${constellationIdx}-${edgeIdx}`}>
+									<button id={`remove-edge-${constellationIdx}-${edgeIdx}`} onClick={() => removeEdge(constellationIdx, edgeIdx)}>
 											remove {names[constellationIdx]} edge {edgeIdx}
-										</button>
-									</li>
-								))
-							)}
+									</button>
+								</li>
+							)))}
 						</ol>
 						<ol>
 							{starmap.map((_, starIdx) => (
