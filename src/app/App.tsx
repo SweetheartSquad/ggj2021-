@@ -62,7 +62,6 @@ function getLabel(action: 'remove-edge' | 'select-constellation' | 'select-star'
 }
 
 const reducer: Reducer<State, Action> = (state, action) => {
-	console.log(action);
 	switch (action.type) {
 		case 'add-edge':
 			if (state.currentConstellation === undefined) return;
