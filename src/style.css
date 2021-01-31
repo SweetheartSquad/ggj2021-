@@ -1,6 +1,6 @@
 html {
-	background: #fff;
-	color: #000;
+	background: #000;
+	color: rgba(255, 255, 255, 0.6);
 	font-family: 'Courier New', Courier, monospace;
 	min-height: 100vh;
 }
@@ -11,6 +11,8 @@ html {
 
 body {
 	display: flex;
+	justify-content: center;
+	align-items: center;
 	flex-direction: column;
 	min-height: 100vh;
 }
@@ -24,12 +26,11 @@ pre {
 	justify-content: center;
 	align-content: center;
 	text-align: center;
-	background: #000;
-	color: rgba(255, 255, 255, 0.6);
 	padding: 1rem;
 	pointer-events: none;
 	user-select: none;
 	min-height: 100vh;
+	background: #000;
 }
 
 .map label {
