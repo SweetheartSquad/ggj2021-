@@ -1,3 +1,17 @@
+# [1.11.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.10.0...v1.11.0) (2021-01-31)
+
+
+### Bug Fixes
+
+* clarify guessing ([4de905f](https://github.com/SweetheartSquad/ggj2021/commit/4de905f71bc83a14214567940362658edc056363))
+* improve text labels ([a5d53a7](https://github.com/SweetheartSquad/ggj2021/commit/a5d53a77393a30878fd3328ed2e3a89248092eb3))
+* play audio when changing tracks ([b978ee2](https://github.com/SweetheartSquad/ggj2021/commit/b978ee25c9c84509d370cb704dcb0cec5f5621be))
+
+
+### Features
+
+* add "play again" to results ([05d0b31](https://github.com/SweetheartSquad/ggj2021/commit/05d0b315c1e2f6f25574dc7be8239c048dcab056))
+
 # [1.10.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.9.0...v1.10.0) (2021-01-31)
 
 
