@@ -46,7 +46,7 @@ export function angleBetween(sx: number, sy: number, ex: number, ey: number) {
 }
 
 export function useGridPosStyle(x: number, y: number, w?: number, h?: number) {
-	return useMemo(() => ({ gridArea: `${y + 1} / ${x + 1} / ${h ? `span ${h}` : 'auto'} / ${w ? `span ${w}` : 'auto'}` }), [x, y]);
+	return useMemo(() => ({ gridArea: `${y + 1} / ${x + 1} / ${h ? `span ${h}` : 'auto'} / ${w ? `span ${w}` : 'auto'}` }), [x, y, w, h]);
 }
 
 export function useGridStyle(w: number, h: number, base?: JSXInternal.CSSProperties) {
