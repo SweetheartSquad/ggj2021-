@@ -232,34 +232,38 @@ function App() {
 			</main>
 			<nav>
 				<ol>
-					{state.constellations.map((edges, constellationIdx) =>
-						edges.map((_, edgeIdx) => (
-							<li key={`${constellationIdx}-${edgeIdx}`}>
-								<button id={`remove-edge-${constellationIdx}-${edgeIdx}`} onClick={() => removeEdge(constellationIdx, edgeIdx)}>
-									remove {names[constellationIdx]} edge {edgeIdx}
+					{fakeOrder.map(({ fake, original }) => (
+						<li key={original}>
+							<button id={`select-constellation-${original}`} value={original} onClick={selectConstellation}>
+								select constellation {state.mode === 'creating' ? names[original] : fake}
+							</button>
+						</li>
+					))}
+				</ol>
+				{state.mode === 'creating' && (
+					<ol>
+						{state.constellations.map((edges, constellationIdx) =>
+							edges.map((_, edgeIdx) => (
+								<li key={`${constellationIdx}-${edgeIdx}`}>
+									<button id={`remove-edge-${constellationIdx}-${edgeIdx}`} onClick={() => removeEdge(constellationIdx, edgeIdx)}>
+										remove {names[constellationIdx]} edge {edgeIdx}
+									</button>
+								</li>
+							))
+						)}
+					</ol>
+				)}
+				{state.mode === 'creating' && (
+					<ol>
+						{starmap.map((_, starIdx) => (
+							<li key={starIdx}>
+								<button id={`select-star-${starIdx}`} value={starIdx} onClick={selectStar}>
+									select star {starIdx}
 								</button>
 							</li>
-						))
-					)}
-				</ol>
-				<ol>
-					{state.constellations.map((_, constellationIdx) => (
-						<li key={constellationIdx}>
-							<button id={`select-constellation-${constellationIdx}`} value={constellationIdx} onClick={selectConstellation}>
-								select {names[constellationIdx]}
-							</button>
-						</li>
-					))}
-				</ol>
-				<ol>
-					{starmap.map((_, starIdx) => (
-						<li key={starIdx}>
-							<button id={`select-star-${starIdx}`} value={starIdx} onClick={selectStar}>
-								select star {starIdx}
-							</button>
-						</li>
-					))}
-				</ol>
+						))}
+					</ol>
+				)}
 			</nav>
 		</>
 	);
