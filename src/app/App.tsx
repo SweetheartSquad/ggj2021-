@@ -284,6 +284,9 @@ export function App() {
 		<>
 			<style>
 				{`
+				html {
+					font-size: max(10px, min(${100 / ((mapHeight + 1) * mapSpacing)}vh, ${100 / ((mapWidth + 1) * mapSpacing)}vw));
+				}
 				body {
 					min-width: ${mapWidth * mapSpacing}rem;
 				}
