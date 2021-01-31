@@ -204,7 +204,7 @@ export function App() {
 			<style>
 				{`
 				body {
-					min-width: ${mapWidth * mapSpacing + 2}rem;
+					min-width: ${mapWidth * mapSpacing}rem;
 				}
 				[data-constellation="${state.currentConstellation}"] {
 					color: rgba(255,255,255,1.0)
