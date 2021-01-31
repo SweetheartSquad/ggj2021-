@@ -60,7 +60,7 @@ function getLabel(action: 'remove-edge' | 'select-constellation' | 'select-star'
 const reducer: Reducer<State, Action> = (state, action) => {
 	switch (action.type) {
 		case 'add-edge':
-			if (!state.currentConstellation) return;
+			if (state.currentConstellation === undefined) return;
 			state.constellations[state.currentConstellation].push(action.payload);
 			break;
 		case 'remove-edge':
@@ -69,7 +69,7 @@ const reducer: Reducer<State, Action> = (state, action) => {
 			state.constellations[action.payload.constellation].splice(action.payload.edge, 1);
 			break;
 		case 'guess':
-			if (!state.currentConstellation) return;
+			if (state.currentConstellation === undefined) return;
 			state.guesses[state.currentConstellation] = action.payload;
 			break;
 		case 'set-current-constellation':
@@ -154,7 +154,7 @@ function App() {
 	);
 	const selectStar = useCallback(
 		(event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => {
-			if (!state.currentConstellation) return;
+			if (state.currentConstellation === undefined) return;
 			const currentStar = state.currentStar;
 			const star = parseInt(event.currentTarget.value, 10);
 			// select start point
