@@ -55,6 +55,8 @@ const reducer: Reducer<State, Action> = (state, action) => {
 			state.constellations[state.currentConstellation].push(action.payload);
 			break;
 		case 'remove-edge':
+			state.currentConstellation = action.payload.constellation;
+			state.currentStar = undefined;
 			state.constellations[action.payload.constellation].splice(action.payload.edge, 1);
 			break;
 		case 'guess':
