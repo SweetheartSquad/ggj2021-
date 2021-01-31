@@ -200,7 +200,6 @@ function App() {
 				}`}
 			</style>
 			<main>
-				<h1>TODO: title</h1>
 				<section>
 					<section className="map" style={useGridStyle(mapWidth, mapHeight)}>
 						{state.constellations.map((i, idx) => (
@@ -216,6 +215,7 @@ function App() {
 						))}
 						<Border x={0} y={0} w={mapWidth} h={mapHeight} />
 						<BorderedText x={mapWidth-8} y={mapHeight-3} htmlFor="reroll">reroll</BorderedText>
+						<BorderedText x={0} y={0}>TODO: title</BorderedText>
 					</section>
 					<br />
 					state:
