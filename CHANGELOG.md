@@ -1,3 +1,13 @@
+# [1.9.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.8.0...v1.9.0) (2021-01-31)
+
+
+### Features
+
+* add title text to most buttons ([53f1c20](https://github.com/SweetheartSquad/ggj2021/commit/53f1c20540b551e14dc6de143f6dc5b94cbc4652))
+* place contextual text below constellations ([5e8e82e](https://github.com/SweetheartSquad/ggj2021/commit/5e8e82e61317532c88275786a868d473f6a2d666))
+* twitter card preview ([507a6af](https://github.com/SweetheartSquad/ggj2021/commit/507a6af82f09f096c1c079cf0491666dd3a33beb))
+* updated favicon ([1748db8](https://github.com/SweetheartSquad/ggj2021/commit/1748db8708a800205c361fc4a8315356b9e67425))
+
 # [1.8.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.7.0...v1.8.0) (2021-01-31)
 
 
