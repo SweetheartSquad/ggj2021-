@@ -13,7 +13,7 @@ import { mapHeight, mapMaxStars, mapMinStars, mapSpacing, mapWidth, numConstella
 import { Constellation } from './Constellation';
 import { Star } from './Star';
 import { Text } from './Text';
-import { generateOutput, parseInput, rndInt, useGridStyle } from './utils';
+import { findIndexOrUndefined, generateOutput, parseInput, rndInt, useGridStyle } from './utils';
 
 type Reducer<S = any, A = any> = (draftState: Draft<S>, action: A) => void | S;
 export function useImmerReducer<S, A>(reducer: Reducer<S, A>, initialState: S, initialAction?: (initial: any) => S): [S, (action: A) => void] {
@@ -32,9 +32,10 @@ interface State {
 	currentConstellation?: number;
 	currentStar?: number;
 	copied: boolean;
+	guessed: boolean;
 }
 type TransferredState = Pick<State, 'constellations' | 'seed'>;
-type A<Type extends string, Payload> = { type: Type; payload: Payload };
+type A<Type extends string, Payload = undefined> = { type: Type; payload: Payload };
 type Action =
 	| A<'add-edge', [number, number]>
 	| A<'remove-edge', { constellation: number; edge: number }>
@@ -42,9 +43,10 @@ type Action =
 	| A<'set-current-constellation', number>
 	| A<'set-current-star', number | undefined>
 	| A<'set-seed', string>
-	| A<'set-copied', boolean>;
+	| A<'set-copied', boolean>
+	| A<'submit-guesses'>;
 
-function getLabel(action: 'remove-edge' | 'select-constellation' | 'select-star', constellation: number, edgeOrStar: number) {
+function getLabel(action: 'remove-edge' | 'select-constellation' | 'select-star' | 'guess', constellation: number, edgeOrStar: number) {
 	switch (action) {
 		case 'remove-edge':
 			return `${action}-${constellation}-${edgeOrStar}`;
@@ -52,10 +54,13 @@ function getLabel(action: 'remove-edge' | 'select-constellation' | 'select-star'
 			return `${action}-${constellation}`;
 		case 'select-star':
 			return `${action}-${edgeOrStar}`;
+		case 'guess':
+			return `${action}-${constellation}`;
 	}
 }
 
 const reducer: Reducer<State, Action> = (state, action) => {
+	console.log(action);
 	switch (action.type) {
 		case 'add-edge':
 			if (state.currentConstellation === undefined) return;
@@ -68,6 +73,7 @@ const reducer: Reducer<State, Action> = (state, action) => {
 			break;
 		case 'guess':
 			if (state.currentConstellation === undefined) return;
+			state.guesses = state.guesses.map(i => (i === action.payload ? -1 : i));
 			state.guesses[state.currentConstellation] = action.payload;
 			break;
 		case 'set-current-constellation':
@@ -88,6 +94,9 @@ const reducer: Reducer<State, Action> = (state, action) => {
 			state.currentConstellation = undefined;
 			state.currentStar = undefined;
 			break;
+		case 'submit-guesses':
+			state.guessed = true;
+			break;
 	}
 };
 
@@ -104,16 +113,18 @@ export function App() {
 				currentConstellation: undefined,
 				currentStar: undefined,
 				copied: false,
+				guessed: false,
 			} as State;
 		}
 		return {
 			mode: 'guessing',
 			seed: inputObj.seed,
 			constellations: inputObj.constellations,
-			guesses: new Array(inputObj.constellations.length),
+			guesses: new Array(inputObj.constellations.length).fill(-1),
 			currentConstellation: undefined,
 			currentStar: undefined,
 			copied: false,
+			guessed: false,
 		} as State;
 	}, []);
 	const [state, dispatch] = useImmerReducer(reducer, initialState);
@@ -135,7 +146,10 @@ export function App() {
 				.sort(({ fake: a }, { fake: b }) => a - b),
 		};
 	}, [state.seed]);
-	const starToConstellation = useMemo(() => starmap.map((_, idx) => state.constellations.findIndex(constellation => constellation.some(edge => edge.includes(idx)))), [starmap, state.constellations]);
+	const starToConstellation = useMemo(() => starmap.map((_, idx) => findIndexOrUndefined(state.constellations, constellation => constellation.some(edge => edge.includes(idx)))), [
+		starmap,
+		state.constellations,
+	]);
 	const output = useMemo(() => {
 		if (state.mode !== 'creating') return;
 		const toTransfer: TransferredState = {
@@ -197,8 +211,10 @@ export function App() {
 			dispatch({ type: 'set-copied', payload: false });
 		}, 500);
 	}, [output, dispatch]);
-	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => getLabel(state.mode === 'creating' ? 'remove-edge' : 'select-constellation', constellation, edge), [state.mode]);
-	const getStarLabel = useMemo(() => (constellation: number, star: number) => getLabel(state.mode === 'creating' ? 'select-star' : 'select-constellation', constellation, star), [state.mode]);
+	const guess = useCallback((event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => dispatch({ type: 'guess', payload: parseInt(event.currentTarget.value, 10) }), []);
+	const submitGuesses = useCallback(() => dispatch({ type: 'submit-guesses', payload: undefined }), [dispatch]);
+	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => getLabel(state.mode === 'creating' ? 'remove-edge' : 'guess', constellation, edge), [state.mode]);
+	const getStarLabel = useMemo(() => (constellation: number, star: number) => getLabel(state.mode === 'creating' ? 'select-star' : 'guess', constellation, star), [state.mode]);
 	return (
 		<>
 			<style>
@@ -215,14 +231,30 @@ export function App() {
 			</style>
 			<main className="map" style={useGridStyle(mapWidth, mapHeight)}>
 				{state.constellations.map((i, idx) => (
-					<Constellation key={idx} starmap={starmap} constellation={i} constellationIdx={idx} getEdgeLabel={getEdgeLabel} />
+					<Constellation
+						key={idx}
+						data-constellation={state.mode === 'creating' ? idx : findIndexOrUndefined(state.guesses, i => i === idx)}
+						starmap={starmap}
+						constellation={i}
+						constellationIdx={idx}
+						getEdgeLabel={getEdgeLabel}
+					/>
 				))}
 				{starmap.map((i, idx) => (
-					<Star key={idx} star={i} starIdx={idx} constellationIdx={starToConstellation[idx]} getStarLabel={getStarLabel} />
+					<Star
+						key={idx}
+						data-constellation={state.mode === 'creating' ? starToConstellation[idx] : findIndexOrUndefined(state.guesses, i => i === starToConstellation[idx])}
+						star={i}
+						starIdx={idx}
+						constellationIdx={starToConstellation[idx] || -1}
+						getStarLabel={getStarLabel}
+					/>
 				))}
 				{fakeOrder.map(({ fake, original }) => (
 					<Text data-constellation={original} key={names[original]} htmlFor={getLabel('select-constellation', original, 0)} x={1} y={fake + 3}>
-						{`${state.currentConstellation === original ? '[' : ''}${names[original]}${state.currentConstellation === original ? ']' : ''}`}
+						{`${state.mode === 'guessing' ? `[${state.guesses[original] >= 0 ? 'x' : ' '}] ` : ''}${state.currentConstellation === original ? '[' : ''}${names[original]}${
+							state.currentConstellation === original ? ']' : ''
+						}`}
 					</Text>
 				))}
 				<Border x={0} y={0} w={mapWidth} h={mapHeight} />
@@ -235,6 +267,16 @@ export function App() {
 							reroll
 						</BorderedText>
 					</>
+				)}
+				{state.mode === 'guessing' && !state.guessed && state.guesses.every(i => i >= 0) && (
+					<BorderedText x={mapWidth - 8} y={mapHeight - 3} htmlFor="submit-guesses">
+						submit
+					</BorderedText>
+				)}
+				{state.mode === 'guessing' && state.guessed && (
+					<BorderedText x={mapWidth - 5} y={mapHeight - 3}>
+						#/#
+					</BorderedText>
 				)}
 				<BorderedText x={0} y={0}>
 					TODO: title
@@ -277,6 +319,22 @@ export function App() {
 						</button>
 						<button id="copy" onClick={copy}>
 							copy
+						</button>
+					</>
+				)}
+				{state.mode === 'guessing' && !state.guessed && (
+					<>
+						<ol>
+							{state.constellations.map((edges, constellationIdx) => (
+								<li key={constellationIdx}>
+									<button value={constellationIdx} id={`guess-${constellationIdx}`} onClick={guess}>
+										guess {constellationIdx}
+									</button>
+								</li>
+							))}
+						</ol>
+						<button id="submit-guesses" onClick={submitGuesses}>
+							submit guesses
 						</button>
 					</>
 				)}

@@ -1,5 +1,6 @@
 import 'preact';
 import { useMemo } from 'preact/hooks';
+import { JSXInternal } from 'preact/src/jsx';
 import { mapStars } from './config';
 import { rndItm, useGridPosStyle } from './utils';
 
@@ -8,7 +9,8 @@ export function Star({
 	starIdx,
 	constellationIdx,
 	getStarLabel,
-}: {
+	...props
+}: JSXInternal.HTMLAttributes<HTMLLabelElement> & {
 	star: [number, number];
 	starIdx: number;
 	constellationIdx: number;
@@ -16,7 +18,7 @@ export function Star({
 }) {
 	const s = useMemo(() => rndItm(mapStars), []);
 	return (
-		<label data-star={starIdx} data-constellation={constellationIdx} htmlFor={getStarLabel(constellationIdx, starIdx)} style={useGridPosStyle(x, y)}>
+		<label {...props} data-star={starIdx} htmlFor={getStarLabel(constellationIdx, starIdx)} style={useGridPosStyle(x, y)}>
 			{s}
 		</label>
 	);

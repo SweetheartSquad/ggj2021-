@@ -1,6 +1,7 @@
 import bresenham from 'bresenham';
 import { nanoid } from 'nanoid';
 import 'preact';
+import { ComponentProps } from 'preact';
 import { useMemo } from 'preact/hooks';
 import { ConstellationEdgePiece } from './ConstellationEdgePiece';
 import { angleBetween } from './utils';
@@ -10,7 +11,8 @@ export function Constellation({
 	constellation,
 	constellationIdx,
 	getEdgeLabel,
-}: {
+	...props
+}: Omit<ComponentProps<typeof ConstellationEdgePiece>, 'htmlFor' | 'x' | 'y'> & {
 	starmap: [number, number][];
 	constellation: [number, number][];
 	constellationIdx: number;
@@ -67,7 +69,7 @@ export function Constellation({
 	return (
 		<>
 			{pieces.map(i => (
-				<ConstellationEdgePiece data-constellation={constellationIdx} key={i.id} htmlFor={getEdgeLabel(constellationIdx, i.edge)} x={i.x} y={i.y}>
+				<ConstellationEdgePiece key={i.id} {...props} htmlFor={getEdgeLabel(constellationIdx, i.edge)} x={i.x} y={i.y}>
 					{i.s}
 				</ConstellationEdgePiece>
 			))}

@@ -58,3 +58,8 @@ export function useTextDimensions(text: string) {
 	const h = useMemo(() => text.split('\n').length, [text]);
 	return [w, h] as const;
 }
+
+export function findIndexOrUndefined<T>(array: T[], predicate: (i: T) => boolean) {
+	const result = array.findIndex(predicate);
+	return result === -1 ? undefined : result;
+}
