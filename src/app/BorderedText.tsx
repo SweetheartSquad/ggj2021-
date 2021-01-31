@@ -10,10 +10,10 @@ export function BorderedText({ x, y, htmlFor, children, ...props }: Omit<Compone
 	const Tag = htmlFor ? 'label' : 'span';
 	return (
 		<Tag className="subgrid" htmlFor={htmlFor} style={subgridStyle}>
+			<Border x={0} y={0} w={w + 2} h={h + 2} {...props} />
 			<Text x={1} y={1}>
 				{children}
 			</Text>
-			<Border x={0} y={0} w={w + 2} h={h + 2} {...props} />
 		</Tag>
 	);
 }
