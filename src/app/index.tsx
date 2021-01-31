@@ -182,6 +182,7 @@ function App() {
 		},
 		[state.currentStar, state.constellations, state.currentConstellation]
 	);
+	const reroll = useCallback(() => dispatch({ type: 'set-seed', payload: nanoid() }), []);
 	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => getLabel(state.mode === 'creating' ? 'remove-edge' : 'select-constellation', constellation, edge), [state.mode]);
 	const getStarLabel = useMemo(() => (constellation: number, star: number) => getLabel(state.mode === 'creating' ? 'select-star' : 'select-constellation', constellation, star), [state.mode]);
 	return (
@@ -214,8 +215,8 @@ function App() {
 							</Text>
 						))}
 						<Border x={0} y={0} w={mapWidth} h={mapHeight} />
+						<BorderedText x={mapWidth-8} y={mapHeight-3} htmlFor="reroll">reroll</BorderedText>
 					</section>
-					<button onClick={() => dispatch({ type: 'set-seed', payload: nanoid() })}>re-roll</button>
 					<br />
 					state:
 					<pre>{JSON.stringify(state, undefined, '\t')}</pre>
@@ -264,6 +265,7 @@ function App() {
 						))}
 					</ol>
 				)}
+				{state.mode === 'creating' && (<button id="reroll" onClick={reroll}>re-roll</button>)}
 			</nav>
 		</>
 	);
