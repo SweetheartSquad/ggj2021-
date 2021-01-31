@@ -24,6 +24,13 @@ pre {
 	background: #000;
 	color: #FFF;
 	padding: 1rem;
+	pointer-events: none;
+	user-select: none;
+}
+
+.map label {
+	pointer-events: initial;
+	cursor: pointer;
 }
 
 .subgrid {
