@@ -228,11 +228,11 @@ export function App() {
 				<Border x={0} y={0} w={mapWidth} h={mapHeight} />
 				{state.mode === 'creating' && (
 					<>
-						<BorderedText x={mapWidth - 8} y={mapHeight - 3} htmlFor="reroll">
-							reroll
-						</BorderedText>
 						<BorderedText x={mapWidth - 9} y={mapHeight - 5} htmlFor="copy">
 							{state.copied ? 'copied!' : 'copy   '}
+						</BorderedText>
+						<BorderedText x={mapWidth - 8} y={mapHeight - 3} htmlFor="reroll">
+							reroll
 						</BorderedText>
 					</>
 				)}
