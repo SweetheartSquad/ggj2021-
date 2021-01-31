@@ -172,10 +172,10 @@ export function App() {
 			audioTrack: inputObj.audioTrack,
 		} as State;
 	}, []);
-	useEffect(() => {
-		localStorage.setItem(initialState.mode, '1');
-	}, [initialState.mode]);
 	const [state, dispatch] = useImmerReducer(reducer, initialState);
+	useEffect(() => {
+		localStorage.setItem(state.mode, '1');
+	}, [state.mode]);
 	const { starmap, names, fakeOrder } = useMemo(() => {
 		seedrandom(state.seed, { global: true });
 		const names = new Set<string>();
