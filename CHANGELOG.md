@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/SweetheartSquad/ggj2021/compare/v1.2.0...v1.2.1) (2021-01-31)
+
+
+### Bug Fixes
+
+* copy full url, not just origin ([1db4607](https://github.com/SweetheartSquad/ggj2021/commit/1db460733a0328453523a583cab82fcf3839a0de))
+
 # [1.2.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.1.0...v1.2.0) (2021-01-31)
 
 
