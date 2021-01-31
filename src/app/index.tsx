@@ -157,11 +157,6 @@ function App() {
 			if (state.currentConstellation === undefined) return;
 			const currentStar = state.currentStar;
 			const star = parseInt(event.currentTarget.value, 10);
-			// select start point
-			if (currentStar === undefined) {
-				dispatch({ type: 'set-current-star', payload: star });
-				return;
-			}
 			// deselect start point
 			if (currentStar === star) {
 				dispatch({ type: 'set-current-star', payload: undefined });
@@ -170,6 +165,11 @@ function App() {
 			const otherConstellations = state.constellations.filter((_, idx) => idx !== state.currentConstellation);
 			// ignore end point part of another constellation
 			if (otherConstellations.some(constellation => constellation.some(i => i.includes(star)))) {
+				return;
+			}
+			// select start point
+			if (currentStar === undefined) {
+				dispatch({ type: 'set-current-star', payload: star });
 				return;
 			}
 			// ignore end point resulting in edge intersecting another constellation's edge
