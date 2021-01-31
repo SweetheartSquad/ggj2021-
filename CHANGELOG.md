@@ -1,3 +1,19 @@
+# [1.8.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.7.0...v1.8.0) (2021-01-31)
+
+
+### Bug Fixes
+
+* missing bg colour ([4618d3d](https://github.com/SweetheartSquad/ggj2021/commit/4618d3d59fba2bed6ce5ddf39fe43341536f1366))
+* put play/pause on top of next/prev ([59b85c0](https://github.com/SweetheartSquad/ggj2021/commit/59b85c03ad60c5762c91727ab243f4350e629450))
+* remove debug log ([96e703b](https://github.com/SweetheartSquad/ggj2021/commit/96e703bb46356309e71915d3570a051b36325488))
+* width/height changes not respected ([58baeaf](https://github.com/SweetheartSquad/ggj2021/commit/58baeaf66e4bc87ebf489cea63d73d495d57c560))
+
+
+### Features
+
+* audio player ([f6e2657](https://github.com/SweetheartSquad/ggj2021/commit/f6e265716ea0ad3fe74d0a12e1828e040d0cb6f5))
+* transfer playing audio track to guesser ([7973bdf](https://github.com/SweetheartSquad/ggj2021/commit/7973bdf6b953cc625e953429d41d3bc6832e9566))
+
 # [1.7.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.6.0...v1.7.0) (2021-01-31)
 
 
