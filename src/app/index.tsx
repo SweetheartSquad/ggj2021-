@@ -27,7 +27,7 @@ interface State {
 	seed: string;
 	constellations: [number, number][][];
 	guesses: number[];
-	currentConstellation: number;
+	currentConstellation?: number;
 	currentStar?: number;
 }
 type TransferredState = Pick<State, 'constellations' | 'seed'>;
@@ -54,6 +54,7 @@ function getLabel(action: 'remove-edge' | 'select-constellation' | 'select-star'
 const reducer: Reducer<State, Action> = (state, action) => {
 	switch (action.type) {
 		case 'add-edge':
+			if (!state.currentConstellation) return;
 			state.constellations[state.currentConstellation].push(action.payload);
 			break;
 		case 'remove-edge':
@@ -62,6 +63,7 @@ const reducer: Reducer<State, Action> = (state, action) => {
 			state.constellations[action.payload.constellation].splice(action.payload.edge, 1);
 			break;
 		case 'guess':
+			if (!state.currentConstellation) return;
 			state.guesses[state.currentConstellation] = action.payload;
 			break;
 		case 'set-current-constellation':
@@ -76,7 +78,7 @@ const reducer: Reducer<State, Action> = (state, action) => {
 			state.seed = action.payload;
 			state.constellations = new Array(numConstellations).fill(0).map(() => []);
 			state.guesses = [];
-			state.currentConstellation = 0;
+			state.currentConstellation = undefined;
 			state.currentStar = undefined;
 			break;
 	}
@@ -92,7 +94,7 @@ function App() {
 				seed: nanoid(),
 				constellations: new Array(numConstellations).fill(0).map(() => []),
 				guesses: [],
-				currentConstellation: 0,
+				currentConstellation: undefined,
 				currentStar: undefined,
 			} as State;
 		}
@@ -101,7 +103,7 @@ function App() {
 			seed: inputObj.seed,
 			constellations: inputObj.constellations,
 			guesses: new Array(inputObj.constellations.length),
-			currentConstellation: 0,
+			currentConstellation: undefined,
 			currentStar: undefined,
 		} as State;
 	}, []);
@@ -134,6 +136,7 @@ function App() {
 	);
 	const selectStar = useCallback(
 		(event: JSXInternal.TargetedMouseEvent<HTMLButtonElement>) => {
+			if (!state.currentConstellation) return;
 			const currentStar = state.currentStar;
 			const star = parseInt(event.currentTarget.value, 10);
 			// select start point
