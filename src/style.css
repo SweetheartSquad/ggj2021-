@@ -37,11 +37,11 @@ pre {
 	transition: color 0.2s ease-out;
 }
 
-.map label[htmlFor] {
+.map label:not([for=""]) {
 	cursor: pointer;
 }
 
-.map label[htmlFor]:hover {
+.map label:not([for=""]):hover {
 	color: rgba(255, 255, 255, 0.9);
 }
 
