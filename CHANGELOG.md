@@ -1,3 +1,10 @@
+## [1.13.1](https://github.com/SweetheartSquad/ggj2021/compare/v1.13.0...v1.13.1) (2021-01-31)
+
+
+### Bug Fixes
+
+* cleanup help text ([2c38134](https://github.com/SweetheartSquad/ggj2021/commit/2c3813465aefd256d05323381b060dadc99349ac))
+
 # [1.13.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.12.2...v1.13.0) (2021-01-31)
 
 
