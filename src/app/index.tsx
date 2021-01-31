@@ -214,8 +214,14 @@ function App() {
 							</Text>
 						))}
 						<Border x={0} y={0} w={mapWidth} h={mapHeight} />
-						<BorderedText x={mapWidth-8} y={mapHeight-3} htmlFor="reroll">reroll</BorderedText>
-						<BorderedText x={0} y={0}>TODO: title</BorderedText>
+						{state.mode === 'creating' && (
+							<BorderedText x={mapWidth - 8} y={mapHeight - 3} htmlFor="reroll">
+								reroll
+							</BorderedText>
+						)}
+						<BorderedText x={0} y={0}>
+							TODO: title
+						</BorderedText>
 					</section>
 					<br />
 					state:
@@ -265,7 +271,11 @@ function App() {
 						))}
 					</ol>
 				)}
-				{state.mode === 'creating' && (<button id="reroll" onClick={reroll}>re-roll</button>)}
+				{state.mode === 'creating' && (
+					<button id="reroll" onClick={reroll}>
+						re-roll
+					</button>
+				)}
 			</nav>
 		</>
 	);
