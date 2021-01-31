@@ -32,6 +32,9 @@ pre {
 	pointer-events: initial;
 	cursor: pointer;
 }
+.map label:hover {
+	color: green;
+}
 
 .subgrid {
 	display: grid;
