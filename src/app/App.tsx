@@ -364,40 +364,40 @@ export function App() {
 					(canCopy ? (
 						<>
 							<Text x={1} y={4 + numConstellations}>
-								share
+								Share
 							</Text>
-							<BorderedText x={7} y={3 + numConstellations} htmlFor="open" title="open">
-								open
+							<BorderedText x={7} y={3 + numConstellations} htmlFor="open" title="Open URL in new tab">
+								Open
 							</BorderedText>
-							<BorderedText x={12} y={3 + numConstellations} htmlFor="tweet" title="tweet">
-								tweet
+							<BorderedText x={12} y={3 + numConstellations} htmlFor="tweet" title="Share URL to Twitter">
+								Tweet
 							</BorderedText>
-							<BorderedText x={18} y={3 + numConstellations} htmlFor="copy" title="copy">
-								{state.copied ? 'copied!' : 'copy'}
+							<BorderedText x={18} y={3 + numConstellations} htmlFor="copy" title="Copy URL to clipboard">
+								{state.copied ? 'Copied!' : 'Copy'}
 							</BorderedText>
 						</>
 					) : (
 						<>
 							<Text x={1} y={4 + numConstellations}>
-								draw all constellations
+								Draw all constellations
 							</Text>
 						</>
 					))}
 				{state.mode === 'creating' && (
-					<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll" title="reroll">
-						reroll
+					<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll" title="Start over with a new map">
+						Re-roll
 					</BorderedText>
 				)}
 
 				{state.mode === 'guessing' &&
 					!state.guessed &&
 					(state.guesses.every(i => i >= 0) ? (
-						<BorderedText title="confirm matches" x={1} y={3 + numConstellations} htmlFor="submit-guesses">
-							confirm matches
+						<BorderedText title="Confirm matches against solution" x={1} y={3 + numConstellations} htmlFor="submit-guesses">
+							Confirm matches
 						</BorderedText>
 					) : (
 						<Text x={2} y={4 + numConstellations}>
-							match all constellations
+							Match all constellations
 						</Text>
 					))}
 				{state.mode === 'guessing' && state.guessed && (
@@ -408,19 +408,19 @@ export function App() {
 				<BorderedText x={0} y={0}>
 					TODO: title
 				</BorderedText>
-				<BorderedText x={mapWidth} align="right" y={0} htmlFor="help" title="help" cornerTL="-" cornerBR="|">
+				<BorderedText x={mapWidth} align="right" y={0} htmlFor="help" title="Open help menu" cornerTL="-" cornerBR="|">
 					?
 				</BorderedText>
 				<BorderedText x={0} y={mapHeight - 3}>
 					{`${bgmTracks[state.audioTrack].name} - ${bgmTracks[state.audioTrack].artist}`}
 				</BorderedText>
-				<BorderedText x={0} y={mapHeight - 5} htmlFor="previous-track" title="previous track">
+				<BorderedText x={0} y={mapHeight - 5} htmlFor="previous-track" title="Play previous track">
 					{'<'}
 				</BorderedText>
-				<BorderedText x={5} y={mapHeight - 5} htmlFor="next-track" title="next track">
+				<BorderedText x={5} y={mapHeight - 5} htmlFor="next-track" title="Play next track">
 					{'>'}
 				</BorderedText>
-				<BorderedText x={2} y={mapHeight - 5} htmlFor="toggle-audio" title={state.audioPlaying ? 'pause' : 'play'}>
+				<BorderedText x={2} y={mapHeight - 5} htmlFor="toggle-audio" title={state.audioPlaying ? 'Pause audio' : 'Play audio'}>
 					{state.audioPlaying ? '||' : '|>'}
 				</BorderedText>
 				{state.help && (
@@ -428,7 +428,7 @@ export function App() {
 						<BorderedText fill x={3} y={3} minW={mapWidth - 8} minH={mapHeight - 8}>
 							{state.mode === 'guessing' ? 'help text for guessing!' : 'help text for drawing!'}
 						</BorderedText>
-						<BorderedText htmlFor="help" title="close" align="right" x={mapWidth - 3} y={3} cornerTL="-" cornerBR="|">
+						<BorderedText htmlFor="help" title="Close help menu" align="right" x={mapWidth - 3} y={3} cornerTL="-" cornerBR="|">
 							X
 						</BorderedText>
 					</>
