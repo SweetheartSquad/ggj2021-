@@ -3,7 +3,7 @@ import produce, { Draft } from 'immer';
 import { checkIntersection } from 'line-intersect';
 import { nanoid } from 'nanoid';
 import 'preact';
-import { useCallback, useMemo, useReducer } from 'preact/hooks';
+import { useCallback, useEffect, useMemo, useReducer } from 'preact/hooks';
 import { JSXInternal } from 'preact/src/jsx';
 import seedrandom from 'seedrandom';
 import tracery from 'tracery-grammar';
@@ -33,6 +33,7 @@ interface State {
 	currentStar?: number;
 	copied: boolean;
 	guessed: boolean;
+	help: boolean;
 }
 type TransferredState = Pick<State, 'constellations' | 'seed'>;
 type A<Type extends string, Payload = undefined> = { type: Type; payload: Payload };
@@ -44,6 +45,7 @@ type Action =
 	| A<'set-current-star', number | undefined>
 	| A<'set-seed', string>
 	| A<'set-copied', boolean>
+	| A<'set-help', boolean>
 	| A<'submit-guesses'>;
 
 function getLabel(action: 'remove-edge' | 'select-constellation' | 'select-star' | 'guess', constellation: number, edgeOrStar: number) {
@@ -86,6 +88,9 @@ const reducer: Reducer<State, Action> = (state, action) => {
 		case 'set-copied':
 			state.copied = action.payload;
 			break;
+		case 'set-help':
+			state.help = action.payload;
+			break;
 		case 'set-seed':
 			state.mode = 'creating';
 			state.seed = action.payload;
@@ -115,6 +120,7 @@ export function App() {
 				currentStar: undefined,
 				copied: false,
 				guessed: false,
+				help: !localStorage.getItem('visited'),
 			} as State;
 		}
 		return {
@@ -126,7 +132,11 @@ export function App() {
 			currentStar: undefined,
 			copied: false,
 			guessed: false,
+			help: !localStorage.getItem('visited'),
 		} as State;
+	}, []);
+	useEffect(() => {
+		localStorage.setItem('visited', '1');
 	}, []);
 	const [state, dispatch] = useImmerReducer(reducer, initialState);
 	const { starmap, names, fakeOrder } = useMemo(() => {
@@ -206,6 +216,7 @@ export function App() {
 		[state.currentStar, state.constellations, state.currentConstellation]
 	);
 	const reroll = useCallback(() => dispatch({ type: 'set-seed', payload: nanoid() }), []);
+	const toggleHelp = useCallback(() => dispatch({ type: 'set-help', payload: !state.help }), [state.help]);
 	const copy = useCallback(() => {
 		copyToClipboard(`${window.location.href}?${output}`);
 		dispatch({ type: 'set-copied', payload: true });
@@ -303,7 +314,7 @@ export function App() {
 				<Border x={0} y={0} w={mapWidth} h={mapHeight} />
 				{state.mode === 'creating' && (
 					<>
-						<BorderedText align="right" x={mapWidth} y={mapHeight - 5} htmlFor={canCopy ? "copy" : ''}>
+						<BorderedText align="right" x={mapWidth} y={mapHeight - 5} htmlFor={canCopy ? 'copy' : ''}>
 							{canCopy ? (state.copied ? 'copied!' : 'copy') : 'draw all constellations'}
 						</BorderedText>
 						<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll">
@@ -324,8 +335,22 @@ export function App() {
 				<BorderedText x={0} y={0}>
 					TODO: title
 				</BorderedText>
+				<BorderedText x={mapWidth} align="right" y={0} htmlFor="help" cornerTL="-" cornerBR="|">
+					?
+				</BorderedText>
+				{state.help && (<>
+					<BorderedText fill x={3} y={3} minW={mapWidth - 8} minH={mapHeight - 8}>
+						help text!
+					</BorderedText>
+					<BorderedText htmlFor="help" align="right" x={mapWidth - 3} y={3}>
+						X
+					</BorderedText></>
+				)}
 			</main>
 			<nav>
+				<button id="help" onClick={toggleHelp}>
+					toggle help
+				</button>
 				<ol>
 					{fakeOrder.map(({ fake, original }) => (
 						<li key={original}>
