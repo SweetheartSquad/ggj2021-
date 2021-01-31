@@ -9,7 +9,7 @@ import seedrandom from 'seedrandom';
 import tracery from 'tracery-grammar';
 import { Border } from './Border';
 import { BorderedText } from './BorderedText';
-import { mapHeight, mapMaxStars, mapMinStars, mapWidth, numConstellations, traceryConstellations } from './config';
+import { mapHeight, mapMaxStars, mapMinStars, mapSpacing, mapWidth, numConstellations, traceryConstellations } from './config';
 import { Constellation } from './Constellation';
 import { Star } from './Star';
 import { Text } from './Text';
@@ -204,7 +204,7 @@ export function App() {
 			<style>
 				{`
 				body {
-					min-width: ${mapWidth + 2}rem;
+					min-width: ${mapWidth * mapSpacing + 2}rem;
 				}
 				[data-constellation="${state.currentConstellation}"] {
 					color: rgba(255,255,255,1.0)
