@@ -413,9 +413,6 @@ export function App() {
 						</BorderedText>
 					</>
 				)}
-				<BorderedText x={0} y={0}>
-					Finders Keplers
-				</BorderedText>
 				<BorderedText x={mapWidth} align="right" y={0} htmlFor="help" title="Open help menu" cornerTL="-" cornerBR="|">
 					?
 				</BorderedText>
@@ -441,6 +438,9 @@ export function App() {
 						</BorderedText>
 					</>
 				)}
+				<BorderedText x={0} y={0} cornerTR="-" cornerBL="|">
+					Finders Keplers
+				</BorderedText>
 			</main>
 			<nav>
 				<button id="help" onClick={toggleHelp}>
