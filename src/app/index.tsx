@@ -108,7 +108,7 @@ function App() {
 		} as State;
 	}, []);
 	const [state, dispatch] = useImmerReducer(reducer, initialState);
-	const { starmap, names } = useMemo(() => {
+	const { starmap, names, fakeOrder } = useMemo(() => {
 		4;
 		seedrandom(state.seed, { global: true });
 		const names = new Set<string>();
@@ -118,6 +118,12 @@ function App() {
 		return {
 			starmap: new Array(rndInt(mapMinStars, mapMaxStars)).fill(0).map(() => [rndInt(0, mapWidth), rndInt(0, mapHeight)]) as [number, number][],
 			names: [...names],
+			fakeOrder: new Array(names.size)
+				.fill(0)
+				.map((_, idx) => idx)
+				.sort(() => Math.random() - 0.5)
+				.map((i, idx) => ({ fake: i, original: idx }))
+				.sort(({ fake: a }, { fake: b }) => a - b),
 		};
 	}, [state.seed]);
 	const starToConstellation = useMemo(() => starmap.map((_, idx) => state.constellations.findIndex(constellation => constellation.some(edge => edge.includes(idx)))), [starmap, state.constellations]);
@@ -192,10 +198,10 @@ function App() {
 					<br />
 					names:
 					<ul>
-						{names.map((i, idx) => (
-							<li key={i}>
-								<label data-constellation={idx} htmlFor={getLabel('select-constellation', idx, 0)}>
-									{i}
+						{fakeOrder.map(({ fake, original }) => (
+							<li key={fake}>
+								<label data-constellation={original} htmlFor={getLabel('select-constellation', original, 0)}>
+									{names[original]}
 								</label>
 							</li>
 						))}
