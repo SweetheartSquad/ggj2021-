@@ -216,6 +216,7 @@ export function App() {
 	const submitGuesses = useCallback(() => dispatch({ type: 'submit-guesses', payload: undefined }), [dispatch]);
 	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => getLabel(state.mode === 'creating' ? 'remove-edge' : 'guess', constellation, edge), [state.mode]);
 	const getStarLabel = useMemo(() => (constellation: number, star: number) => getLabel(state.mode === 'creating' ? 'select-star' : 'guess', constellation, star), [state.mode]);
+	const isGuessCorrect = useCallback((guess: number, guessIdx: number) => state.mode === 'guessing' && state.guessed && guess === fakeOrder[guessIdx].fake, [state.mode, state.guessed, fakeOrder]);
 	return (
 		<>
 			<style>
@@ -230,6 +231,16 @@ export function App() {
 					color: rgba(255,0,0,1.0)
 				}`}
 			</style>
+			{state.mode === 'guessing' && state.guessed && <style>
+				{`
+				[data-correct="true"] {
+					color: rgba(0,255,0,1);
+				}
+				[data-correct="false"] {
+					color: rgba(255,0,0,1);
+				}
+				`}
+			</style>}
 			<main className="map" style={useGridStyle(mapWidth, mapHeight)}>
 				{state.constellations.map((i, idx) => (
 					<Constellation
@@ -252,8 +263,8 @@ export function App() {
 					/>
 				))}
 				{fakeOrder.map(({ fake, original }) => (
-					<Text data-constellation={original} key={names[original]} htmlFor={getLabel('select-constellation', original, 0)} x={1} y={fake + 3}>
-						{`${state.mode === 'guessing' ? `[${state.guesses[original] >= 0 ? 'x' : ' '}] ` : ''}${state.currentConstellation === original ? '[' : ''}${names[original]}${
+					<Text data-correct={isGuessCorrect(state.guesses[original], original).toString()} data-constellation={original} key={names[original]} htmlFor={getLabel('select-constellation', original, 0)} x={1} y={fake + 3}>
+						{`${state.mode === 'guessing' ? `[${state.guesses[original] >= 0 ? (state.guessed && isGuessCorrect(state.guesses[original], original) ? 'O' : 'X') : ' '}] ` : ''}${state.currentConstellation === original ? '[' : ''}${names[original]}${
 							state.currentConstellation === original ? ']' : ''
 						}`}
 					</Text>
@@ -276,7 +287,7 @@ export function App() {
 				)}
 				{state.mode === 'guessing' && state.guessed && (
 					<BorderedText align="right" x={mapWidth} y={mapHeight - 3}>
-						{`${state.guesses.filter((i, idx) => i === fakeOrder[idx].fake).length}/${numConstellations}`}
+						{`${state.guesses.filter(isGuessCorrect).length}/${numConstellations}`}
 					</BorderedText>
 				)}
 				<BorderedText x={0} y={0}>
