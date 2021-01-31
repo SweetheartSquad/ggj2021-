@@ -1,9 +1,9 @@
 export const numConstellations = 5;
-export const mapWidth = 48;
-export const mapHeight = 32;
-export const mapMinStars = 10;
-export const mapMaxStars = 30;
-export const mapSpacing = 1;
+export const mapWidth = 64;
+export const mapHeight = 48;
+export const mapMinStars = 30;
+export const mapMaxStars = 50;
+export const mapSpacing = 0.9;
 export const mapStars = ['*', '*', 'o', 'O', '.', '+'];
 export const traceryConstellations = {
 	group: ['belt', 'arm', 'leg', 'heart', 'collection', 'prince', 'princess', 'bastard', 'ensorcellment', 'enchantment', 'convalescence'],
