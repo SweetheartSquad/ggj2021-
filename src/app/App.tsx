@@ -295,6 +295,7 @@ export function App() {
 				}
 				[data-constellation="${state.currentConstellation}"] {
 					color: rgba(255,255,255,1.0);
+					text-shadow: 0 0 4px rgba(255,255,255,1.0);
 				}
 				[data-star="${state.currentStar}"] {
 					color: rgba(0,255,0,1.0);
@@ -366,16 +367,16 @@ export function App() {
 				{state.mode === 'creating' &&
 					(canCopy ? (
 						<>
-							<Text x={1} y={4 + numConstellations}>
+							<Text x={2} y={4 + numConstellations}>
 								Share
 							</Text>
-							<BorderedText x={7} y={3 + numConstellations} htmlFor="open" title="Open URL in new tab">
+							<BorderedText x={8} y={3 + numConstellations} htmlFor="open" title="Open URL in new tab">
 								Open
 							</BorderedText>
-							<BorderedText x={12} y={3 + numConstellations} htmlFor="tweet" title="Share URL to Twitter">
+							<BorderedText x={13} y={3 + numConstellations} htmlFor="tweet" title="Share URL to Twitter">
 								Tweet
 							</BorderedText>
-							<BorderedText x={18} y={3 + numConstellations} htmlFor="copy" title="Copy URL to clipboard">
+							<BorderedText x={19} y={3 + numConstellations} htmlFor="copy" title="Copy URL to clipboard">
 								{state.copied ? 'Copied!' : 'Copy'}
 							</BorderedText>
 						</>
@@ -387,7 +388,7 @@ export function App() {
 						</>
 					))}
 				{state.mode === 'creating' && (
-					<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll" title="Start over with a new map">
+					<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll" title="Start over with a new map" cornerBL="-" cornerTR="|">
 						Re-roll
 					</BorderedText>
 				)}
@@ -413,23 +414,20 @@ export function App() {
 						</BorderedText>
 					</>
 				)}
-				<BorderedText x={0} y={0}>
-					Finders Keplers
-				</BorderedText>
 				<BorderedText x={mapWidth} align="right" y={0} htmlFor="help" title="Open help menu" cornerTL="-" cornerBR="|">
 					?
 				</BorderedText>
-				<BorderedText x={0} y={mapHeight - 3}>
+				<BorderedText x={0} y={mapHeight - 3} cornerBR="-">
 					{`${bgmTracks[state.audioTrack].name} - ${bgmTracks[state.audioTrack].artist}`}
 				</BorderedText>
-				<BorderedText x={0} y={mapHeight - 5} htmlFor="previous-track" title="Play previous track">
+				<BorderedText x={0} y={mapHeight - 5} htmlFor="previous-track" title="Play previous track" cornerBL="|" cornerBR="-">
 					{'<'}
 				</BorderedText>
-				<BorderedText x={5} y={mapHeight - 5} htmlFor="next-track" title="Play next track">
+				<BorderedText x={5} y={mapHeight - 5} htmlFor="next-track" title="Play next track" cornerBL="-" cornerBR="-">
 					{'>'}
 				</BorderedText>
-				<BorderedText x={2} y={mapHeight - 5} htmlFor="toggle-audio" title={state.audioPlaying ? 'Pause audio' : 'Play audio'}>
-					{state.audioPlaying ? '||' : '|>'}
+				<BorderedText x={2} y={mapHeight - 5} htmlFor="toggle-audio" title={state.audioPlaying ? 'Pause audio' : 'Play audio'} cornerBL="-" cornerBR="-">
+					{state.audioPlaying ? '||' : '[>'}
 				</BorderedText>
 				{state.help && (
 					<>
@@ -473,6 +471,9 @@ The more constellations your GUESSER(s) gets right, the better you've both done!
 						</BorderedText>
 					</>
 				)}
+				<BorderedText x={0} y={0} cornerTR="-" cornerBL="|">
+					Finders Keplers
+				</BorderedText>
 			</main>
 			<nav>
 				<button id="help" onClick={toggleHelp}>

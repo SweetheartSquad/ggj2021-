@@ -33,7 +33,7 @@ pre {
 }
 
 .map label {
-	transition: color 0.2s ease-out;
+	transition: color 0.2s ease-out, text-shadow 0.2s ease-out;
 }
 
 .map label:not([for=""]) {
@@ -42,6 +42,7 @@ pre {
 
 .map label:not([for=""]):hover {
 	color: rgba(255, 255, 255, 0.9);
+	text-shadow: 0 0 4px rgba(255,255,255,0.5);
 }
 
 .subgrid {

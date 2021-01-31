@@ -8,7 +8,7 @@ export const mapStars = ['*', '*', '*', 'o', 'O', '.', '.', '.', '+', '+'];
 export const bgmTracks = ['The_Belt_of_Death', 'The_Heart_of_Ambition', 'The_Princess_of_Leadership'].map(i => ({
 	name: i.replaceAll('_', ' '),
 	src: `./audio/${i}.mp3`,
-	artist: 'Andrew Yolland',
+	artist: 'AYolland',
 }));
 export const traceryConstellations = {
 	group: ['belt', 'arm', 'leg', 'heart', 'collection', 'prince', 'princess', 'bastard', 'ensorcellment', 'enchantment', 'convalescence', 'beast', 'box', 'bow', 'vortex', 'tooth'],

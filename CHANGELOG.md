@@ -1,3 +1,23 @@
+## [1.12.2](https://github.com/SweetheartSquad/ggj2021/compare/v1.12.1...v1.12.2) (2021-01-31)
+
+
+### Bug Fixes
+
+* add glow to hover ([72fbb66](https://github.com/SweetheartSquad/ggj2021/commit/72fbb6621eb54e42dc47c7e932afafc855155f5e))
+* audio player borders ([9e07ad4](https://github.com/SweetheartSquad/ggj2021/commit/9e07ad49a37b180f1ccd73fed600ccc719f2e5b3))
+* glow on selection ([5218042](https://github.com/SweetheartSquad/ggj2021/commit/52180428dd36fac02f428bc2e8db7c68df6d9d5e))
+* re-roll borders ([a1016c0](https://github.com/SweetheartSquad/ggj2021/commit/a1016c0d26feb27687073f1a7cb3ff5122693891))
+* shift "share" over by one ([9e0faf8](https://github.com/SweetheartSquad/ggj2021/commit/9e0faf85cac566e89ccafe4e7f244c92202192f1))
+* title text display ([2a955f9](https://github.com/SweetheartSquad/ggj2021/commit/2a955f96b98b62d135a6fc172c3d95046d0f55a9))
+* transition glow ([2d2fa67](https://github.com/SweetheartSquad/ggj2021/commit/2d2fa67f290f26dfd65585b5998a545841ee376f))
+
+## [1.12.1](https://github.com/SweetheartSquad/ggj2021/compare/v1.12.0...v1.12.1) (2021-01-31)
+
+
+### Bug Fixes
+
+* ayo's credit ([536dc82](https://github.com/SweetheartSquad/ggj2021/commit/536dc82d6ff8ec5764706184cd605e605318bde9))
+
 # [1.12.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.11.0...v1.12.0) (2021-01-31)
 
 
