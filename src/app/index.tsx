@@ -12,6 +12,7 @@ import { Border } from './Border';
 import { mapHeight, mapMaxStars, mapMinStars, mapSpacing, mapWidth, numConstellations, traceryConstellations } from './config';
 import { Constellation } from './Constellation';
 import { Star } from './Star';
+import { Text } from './Text';
 import { generateOutput, parseInput, rndInt } from './utils';
 
 type Reducer<S = any, A = any> = (draftState: Draft<S>, action: A) => void | S;
@@ -199,18 +200,6 @@ function App() {
 			<main>
 				<h1>TODO: title</h1>
 				<section>
-					TODO: the whole game
-					<br />
-					names:
-					<ul>
-						{fakeOrder.map(({ fake, original }) => (
-							<li key={fake}>
-								<label data-constellation={original} htmlFor={getLabel('select-constellation', original, 0)}>
-									{names[original]}
-								</label>
-							</li>
-						))}
-					</ul>
 					<section className="map" style={useMemo(() => ({ gridTemplateColumns: `repeat(${mapWidth}, ${mapSpacing}rem)`, gridTemplateRows: `repeat(${mapHeight}, ${mapSpacing}rem)` }), [])}>
 						{state.constellations.map((i, idx) => (
 							<Constellation key={idx} starmap={starmap} constellation={i} constellationIdx={idx} getEdgeLabel={getEdgeLabel} />
@@ -218,8 +207,9 @@ function App() {
 						{starmap.map((i, idx) => (
 							<Star key={idx} star={i} starIdx={idx} constellationIdx={starToConstellation[idx]} getStarLabel={getStarLabel} />
 						))}
-							<Text key={fake} htmlFor={getLabel('select-constellation', original, 0)} x={0} y={fake * 2}>
-								{`[${names[original]}]`}
+						{fakeOrder.map(({ fake, original }) => (
+							<Text data-constellation={original} key={names[original]} htmlFor={getLabel('select-constellation', original, 0)} x={1} y={fake}>
+								{`${state.currentConstellation === original ? '[' : ''}${names[original]}${state.currentConstellation === original ? ']' : ''}`}
 							</Text>
 						))}
 						<Border x={0} y={0} w={mapWidth} h={mapHeight} />
