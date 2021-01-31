@@ -1,4 +1,3 @@
-import 'canvas-toBlob';
 import 'preact';
 import { JSXInternal } from 'preact/src/jsx';
 import { useGridPosStyle } from './utils';

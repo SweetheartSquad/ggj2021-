@@ -1,5 +1,4 @@
 import bresenham from 'bresenham';
-import 'canvas-toBlob';
 import { nanoid } from 'nanoid';
 import 'preact';
 import { useMemo } from 'preact/hooks';

@@ -1,4 +1,3 @@
-import 'canvas-toBlob';
 import 'preact';
 import { useMemo } from 'preact/hooks';
 import { mapStars } from './config';
