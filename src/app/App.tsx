@@ -389,15 +389,21 @@ export function App() {
 					</BorderedText>
 				)}
 
-				{state.mode === 'guessing' && !state.guessed && state.guesses.every(i => i >= 0) && (
-					<BorderedText title="submit" x={1} y={3 + numConstellations} htmlFor="submit-guesses">
-						submit
-					</BorderedText>
-				)}
+				{state.mode === 'guessing' &&
+					!state.guessed &&
+					(state.guesses.every(i => i >= 0) ? (
+						<BorderedText title="confirm matches" x={1} y={3 + numConstellations} htmlFor="submit-guesses">
+							confirm matches
+						</BorderedText>
+					) : (
+						<Text x={2} y={4 + numConstellations}>
+							match all constellations
+						</Text>
+					))}
 				{state.mode === 'guessing' && state.guessed && (
-					<BorderedText x={1} y={3 + numConstellations}>
-						{`${state.guesses.filter(isGuessCorrect).length}/${numConstellations}`}
-					</BorderedText>
+					<Text x={2} y={4 + numConstellations}>
+						{`${state.guesses.filter(isGuessCorrect).length}/${numConstellations} correct`}
+					</Text>
 				)}
 				<BorderedText x={0} y={0}>
 					TODO: title
