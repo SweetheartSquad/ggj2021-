@@ -40,12 +40,14 @@ type Action =
 	| A<'set-current-star', number | undefined>
 	| A<'set-seed', string>;
 
-function getLabel(action: 'remove-edge' | 'select-constellation', constellation: number, edge: number) {
+function getLabel(action: 'remove-edge' | 'select-constellation' | 'select-star', constellation: number, edgeOrStar: number) {
 	switch (action) {
 		case 'remove-edge':
-			return `${action}-${constellation}-${edge}`;
+			return `${action}-${constellation}-${edgeOrStar}`;
 		case 'select-constellation':
 			return `${action}-${constellation}`;
+		case 'select-star':
+			return `${action}-${constellation}-${edgeOrStar}`;
 	}
 }
 
@@ -152,9 +154,7 @@ function App() {
 			// ignore end point resulting in edge intersecting another constellation's edge
 			if (
 				otherConstellations.some(constellation =>
-					constellation.some(
-						([start, end]) => checkIntersection(...([start, end, currentStar, star].flatMap(i => starmap[i]) as Parameters<typeof checkIntersection>)).type === 'intersecting'
-					)
+					constellation.some(([start, end]) => checkIntersection(...([start, end, currentStar, star].flatMap(i => starmap[i]) as Parameters<typeof checkIntersection>)).type === 'intersecting')
 				)
 			) {
 				return;
@@ -171,6 +171,7 @@ function App() {
 		[state.currentStar, state.constellations, state.currentConstellation]
 	);
 	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => getLabel(state.mode === 'creating' ? 'remove-edge' : 'select-constellation', constellation, edge), [state.mode]);
+	const getStarLabel = useMemo(() => (constellation: number, star: number) => getLabel(state.mode === 'creating' ? 'select-star' : 'select-constellation', constellation, star), [state.mode]);
 	return (
 		<>
 			<style>
@@ -202,7 +203,7 @@ function App() {
 							<Constellation key={idx} starmap={starmap} constellation={i} constellationIdx={idx} getEdgeLabel={getEdgeLabel} />
 						))}
 						{starmap.map((i, idx) => (
-							<Star key={idx} star={i} starIdx={idx} constellationIdx={starToConstellation[idx]}/>
+							<Star key={idx} star={i} starIdx={idx} constellationIdx={starToConstellation[idx]} getStarLabel={getStarLabel} />
 						))}
 					</section>
 					<button onClick={() => dispatch({ type: 'set-seed', payload: nanoid() })}>re-roll</button>
