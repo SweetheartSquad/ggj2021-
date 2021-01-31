@@ -275,7 +275,7 @@ export function App() {
 				)}
 				{state.mode === 'guessing' && state.guessed && (
 					<BorderedText x={mapWidth - 5} y={mapHeight - 3}>
-						#/#
+						{`${state.guesses.filter((i, idx) => i === fakeOrder[idx].fake).length}/${numConstellations}`}
 					</BorderedText>
 				)}
 				<BorderedText x={0} y={0}>
