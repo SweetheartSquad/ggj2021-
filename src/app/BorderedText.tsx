@@ -3,9 +3,9 @@ import { Border } from './Border';
 import { Text } from './Text';
 import { useGridPosStyle, useGridStyle, useTextDimensions } from './utils';
 
-export function BorderedText({ x, y, htmlFor, children, ...props }: Omit<ComponentProps<typeof Border>, 'w' | 'h'> & Pick<ComponentProps<typeof Text>, 'children' | 'htmlFor'>) {
+export function BorderedText({ x, y, htmlFor, align = 'left', children, ...props }: Omit<ComponentProps<typeof Border>, 'w' | 'h'> & Pick<ComponentProps<typeof Text>, 'children' | 'htmlFor'>) {
 	const [w, h] = useTextDimensions(children);
-	const gridStyle = useGridPosStyle(x, y);
+	const gridStyle = useGridPosStyle(align === 'left' ? x : x - (w + 2), y);
 	const subgridStyle = useGridStyle(w + 2, h + 2, gridStyle);
 	const Tag = htmlFor ? 'label' : 'span';
 	return (
