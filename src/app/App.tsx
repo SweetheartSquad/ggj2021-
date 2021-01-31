@@ -167,7 +167,7 @@ export function App() {
 			names.add(grammar.flatten('#constellation#'));
 		}
 		return {
-			starmap: new Array(rndInt(mapMinStars, mapMaxStars)).fill(0).map(() => [rndInt(1, mapWidth - 1), rndInt(3 + numConstellations, mapHeight - 1)]) as [number, number][],
+			starmap: new Array(rndInt(mapMinStars, mapMaxStars)).fill(0).map(() => [rndInt(1, mapWidth - 1), rndInt(6 + numConstellations, mapHeight - 6)]) as [number, number][],
 			names: [...names],
 			fakeOrder: new Array(names.size)
 				.fill(0)
