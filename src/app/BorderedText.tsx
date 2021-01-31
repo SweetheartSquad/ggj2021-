@@ -1,17 +1,18 @@
 import { ComponentProps } from 'preact';
-import { useMemo } from 'preact/hooks';
 import { Border } from './Border';
 import { Text } from './Text';
+import { useGridPosStyle, useGridStyle, useTextDimensions } from './utils';
 
 export function BorderedText({ x, y, htmlFor, children, ...props }: Omit<ComponentProps<typeof Border>, 'w' | 'h'> & Pick<ComponentProps<typeof Text>, 'children' | 'htmlFor'>) {
-	const w = useMemo(() => children.split('\n').reduce((max, i) => Math.max(max, i.length), 0), [children]);
-	const h = useMemo(() => children.split('\n').length, [children]);
+	const [w, h] = useTextDimensions(children);
+	const gridStyle = useGridPosStyle(x, y);
+	const subgridStyle = useGridStyle(w + 2, h + 2, gridStyle);
 	return (
-		<>
-			<Text x={x + 1} y={y + 1} htmlFor={htmlFor}>
+		<label className="subgrid" htmlFor={htmlFor} style={subgridStyle}>
+			<Text x={1} y={1}>
 				{children}
 			</Text>
-			<Border x={x} y={y} w={w + 2} h={h + 2} htmlFor={htmlFor} {...props} />
-		</>
+			<Border x={0} y={0} w={w + 2} h={h + 2} {...props} />
+		</label>
 	);
 }

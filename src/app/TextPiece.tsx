@@ -1,7 +1,7 @@
 import 'canvas-toBlob';
 import 'preact';
 import { JSXInternal } from 'preact/src/jsx';
-import { useGridStyle } from './utils';
+import { useGridPosStyle } from './utils';
 
 export function TextPiece({
 	x,
@@ -11,5 +11,5 @@ export function TextPiece({
 	x: number;
 	y: number;
 }) {
-	return (<span {...props} style={useGridStyle(x, y)} />);
+	return (<span {...props} style={useGridPosStyle(x, y)} />);
 }

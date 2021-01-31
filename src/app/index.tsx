@@ -9,11 +9,12 @@ import { JSXInternal } from 'preact/src/jsx';
 import seedrandom from 'seedrandom';
 import tracery from 'tracery-grammar';
 import { Border } from './Border';
-import { mapHeight, mapMaxStars, mapMinStars, mapSpacing, mapWidth, numConstellations, traceryConstellations } from './config';
+import { BorderedText } from './BorderedText';
+import { mapHeight, mapMaxStars, mapMinStars, mapWidth, numConstellations, traceryConstellations } from './config';
 import { Constellation } from './Constellation';
 import { Star } from './Star';
 import { Text } from './Text';
-import { generateOutput, parseInput, rndInt } from './utils';
+import { generateOutput, parseInput, rndInt, useGridStyle } from './utils';
 
 type Reducer<S = any, A = any> = (draftState: Draft<S>, action: A) => void | S;
 export function useImmerReducer<S, A>(reducer: Reducer<S, A>, initialState: S, initialAction?: (initial: any) => S): [S, (action: A) => void] {
@@ -200,7 +201,7 @@ function App() {
 			<main>
 				<h1>TODO: title</h1>
 				<section>
-					<section className="map" style={useMemo(() => ({ gridTemplateColumns: `repeat(${mapWidth}, ${mapSpacing}rem)`, gridTemplateRows: `repeat(${mapHeight}, ${mapSpacing}rem)` }), [])}>
+					<section className="map" style={useGridStyle(mapWidth, mapHeight)}>
 						{state.constellations.map((i, idx) => (
 							<Constellation key={idx} starmap={starmap} constellation={i} constellationIdx={idx} getEdgeLabel={getEdgeLabel} />
 						))}

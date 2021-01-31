@@ -2,7 +2,7 @@ import 'canvas-toBlob';
 import 'preact';
 import { useMemo } from 'preact/hooks';
 import { mapStars } from './config';
-import { rndItm, useGridStyle } from './utils';
+import { rndItm, useGridPosStyle } from './utils';
 
 export function Star({
 	star: [x, y],
@@ -17,7 +17,7 @@ export function Star({
 }) {
 	const s = useMemo(() => rndItm(mapStars), []);
 	return (
-		<label data-star={starIdx} data-constellation={constellationIdx} htmlFor={getStarLabel(constellationIdx, starIdx)} style={useGridStyle(x, y)}>
+		<label data-star={starIdx} data-constellation={constellationIdx} htmlFor={getStarLabel(constellationIdx, starIdx)} style={useGridPosStyle(x, y)}>
 			{s}
 		</label>
 	);

@@ -1,7 +1,7 @@
 import 'canvas-toBlob';
 import 'preact';
 import { JSXInternal } from 'preact/src/jsx';
-import { useGridStyle } from './utils';
+import { useGridPosStyle } from './utils';
 
 export function ConstellationEdgePiece({
 	x,
@@ -11,5 +11,5 @@ export function ConstellationEdgePiece({
 	x: number;
 	y: number;
 }) {
-	return (<label {...props} style={useGridStyle(x, y)} />);
+	return (<label {...props} style={useGridPosStyle(x, y)} />);
 }

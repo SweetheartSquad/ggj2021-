@@ -1,5 +1,7 @@
 import LZString from 'lz-string';
 import { useMemo } from 'preact/hooks';
+import { JSXInternal } from 'preact/src/jsx';
+import { mapSpacing } from './config';
 
 /**
  * @param input base64 encoded json
@@ -43,6 +45,16 @@ export function angleBetween(sx: number, sy: number, ex: number, ey: number) {
 	return calcAngleDegrees(sx - ex, sy - ey);
 }
 
-export function useGridStyle(x: number, y: number) {
-	return useMemo(() => ({ gridArea: `${y + 1} / ${x + 1} / auto / auto` }), [x,y]);
+export function useGridPosStyle(x: number, y: number) {
+	return useMemo(() => ({ gridArea: `${y + 1} / ${x + 1} / auto / auto` }), [x, y]);
+}
+
+export function useGridStyle(w: number, h: number, base?: JSXInternal.CSSProperties) {
+	return useMemo(() => ({ ...base, gridTemplateColumns: `repeat(${w}, ${mapSpacing}rem)`, gridTemplateRows: `repeat(${h}, ${mapSpacing}rem)` }), [w, h, base]);
+}
+
+export function useTextDimensions(text: string) {
+	const w = useMemo(() => text.split('\n').reduce((max, i) => Math.max(max, i.length), 0), [text]);
+	const h = useMemo(() => text.split('\n').length, [text]);
+	return [w, h] as const;
 }
