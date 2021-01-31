@@ -8,6 +8,7 @@ import { useCallback, useMemo, useReducer } from 'preact/hooks';
 import { JSXInternal } from 'preact/src/jsx';
 import seedrandom from 'seedrandom';
 import tracery from 'tracery-grammar';
+import { Border } from './Border';
 import { mapHeight, mapMaxStars, mapMinStars, mapSpacing, mapWidth, numConstellations, traceryConstellations } from './config';
 import { Constellation } from './Constellation';
 import { Star } from './Star';
@@ -217,6 +218,11 @@ function App() {
 						{starmap.map((i, idx) => (
 							<Star key={idx} star={i} starIdx={idx} constellationIdx={starToConstellation[idx]} getStarLabel={getStarLabel} />
 						))}
+							<Text key={fake} htmlFor={getLabel('select-constellation', original, 0)} x={0} y={fake * 2}>
+								{`[${names[original]}]`}
+							</Text>
+						))}
+						<Border x={0} y={0} w={mapWidth} h={mapHeight} />
 					</section>
 					<button onClick={() => dispatch({ type: 'set-seed', payload: nanoid() })}>re-roll</button>
 					<br />
