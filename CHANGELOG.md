@@ -1,3 +1,16 @@
+# [1.6.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.5.0...v1.6.0) (2021-01-31)
+
+
+### Bug Fixes
+
+* remove unnecessary space in copy ([27f414c](https://github.com/SweetheartSquad/ggj2021/commit/27f414c47d65b4df978b903ce7f917a5344df8dc))
+
+
+### Features
+
+* prevent copying until all constellations are drawn ([e244bd7](https://github.com/SweetheartSquad/ggj2021/commit/e244bd770e7676cc94d94f5fb0e7783bbb821cec))
+* show whether constellation has points when creating ([677ce03](https://github.com/SweetheartSquad/ggj2021/commit/677ce03ec4e9c4e27bf54d3167fceaef7e9b3c6a))
+
 # [1.5.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.4.0...v1.5.0) (2021-01-31)
 
 
