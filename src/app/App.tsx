@@ -37,7 +37,7 @@ interface State {
 	audioPlaying: boolean;
 	audioTrack: number;
 }
-type TransferredState = Pick<State, 'constellations' | 'seed'>;
+type TransferredState = Pick<State, 'constellations' | 'seed' | 'audioTrack'>;
 type A<Type extends string, Payload = undefined> = { type: Type; payload: Payload };
 type Action =
 	| A<'add-edge', [number, number]>
@@ -152,7 +152,7 @@ export function App() {
 			guessed: false,
 			help: !localStorage.getItem('guessing'),
 			audioPlaying: true,
-			audioTrack: rndInt(0, bgmTracks.length),
+			audioTrack: inputObj.audioTrack,
 		} as State;
 	}, []);
 	useEffect(() => {
@@ -186,6 +186,7 @@ export function App() {
 		const toTransfer: TransferredState = {
 			seed: state.seed,
 			constellations: state.constellations,
+			audioTrack: state.audioTrack,
 		};
 		return generateOutput(toTransfer);
 	}, [state]);
