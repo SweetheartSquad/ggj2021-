@@ -1,3 +1,10 @@
+## [1.14.4](https://github.com/SweetheartSquad/ggj2021/compare/v1.14.3...v1.14.4) (2021-01-31)
+
+
+### Bug Fixes
+
+* help text showing repeatedly on reroll ([974154a](https://github.com/SweetheartSquad/ggj2021/commit/974154a9661243030d5f15ab69fbae9e9124919c))
+
 ## [1.14.3](https://github.com/SweetheartSquad/ggj2021/compare/v1.14.2...v1.14.3) (2021-01-31)
 
 
