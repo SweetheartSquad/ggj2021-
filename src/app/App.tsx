@@ -295,6 +295,7 @@ export function App() {
 				}
 				[data-constellation="${state.currentConstellation}"] {
 					color: rgba(255,255,255,1.0);
+					text-shadow: 0 0 4px rgba(255,255,255,1.0);
 				}
 				[data-star="${state.currentStar}"] {
 					color: rgba(0,255,0,1.0);
