@@ -1,3 +1,18 @@
+# [1.10.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.9.0...v1.10.0) (2021-01-31)
+
+
+### Bug Fixes
+
+* bottom borders covered ([1441a6c](https://github.com/SweetheartSquad/ggj2021/commit/1441a6c21bf0f5607453a2295db142a305e9ab6a))
+* green star highlight ([9aae50a](https://github.com/SweetheartSquad/ggj2021/commit/9aae50ac48b2dfeabb6791fbd00ced0a0b3e28e1))
+* prevent stars from overlapping ui ([fd75ae8](https://github.com/SweetheartSquad/ggj2021/commit/fd75ae81143d43fe0fc7429077d56763bee7687a))
+
+
+### Features
+
+* more share options ([0c36377](https://github.com/SweetheartSquad/ggj2021/commit/0c363777f069b76edf4c5d8b3e3393f8b01f5f13))
+* responsive sizing ([a8a47ec](https://github.com/SweetheartSquad/ggj2021/commit/a8a47ec24dfe208a9e472262cc58021b35a857d6))
+
 # [1.9.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.8.0...v1.9.0) (2021-01-31)
 
 
