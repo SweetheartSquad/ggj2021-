@@ -291,7 +291,7 @@ export function App() {
 					color: rgba(255,255,255,1.0)
 				}
 				[data-star="${state.currentStar}"] {
-					color: rgba(255,0,0,1.0)
+					color: rgba(0,255,0,1.0)
 				}`}
 			</style>
 			<main data-guessed={state.guessed} className="map" style={useGridStyle(mapWidth, mapHeight)}>
