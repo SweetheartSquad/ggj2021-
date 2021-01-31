@@ -1,3 +1,4 @@
+import { ComponentProps } from 'preact';
 import { Text } from './Text';
 
 export function Border({
@@ -13,9 +14,8 @@ export function Border({
 	cornerTR = '\\',
 	cornerBL = '\\',
 	cornerBR = '/',
-}: {
-	x: number;
-	y: number;
+	...props
+}: Omit<ComponentProps<typeof Text>, 'children'> & {
 	w: number;
 	h: number;
 	sideL?: string;
@@ -29,16 +29,16 @@ export function Border({
 }) {
 	return (
 		<>
-			<Text x={x} y={y}>
+			<Text x={x} y={y} {...props}>
 				{`${cornerTL}${sideT.repeat(w - 2)}${cornerTR}`}
 			</Text>
-			<Text x={x} y={y + h - 1}>
+			<Text x={x} y={y + h - 1} {...props}>
 				{`${cornerBL}${sideB.repeat(w - 2)}${cornerBR}`}
 			</Text>
-			<Text x={x} y={y + 1}>
+			<Text x={x} y={y + 1} {...props}>
 				{`${sideL}\n`.repeat(h - 2)}
 			</Text>
-			<Text x={x + w - 1} y={y + 1}>
+			<Text x={x + w - 1} y={y + 1} {...props}>
 				{`${sideR}\n`.repeat(h - 2)}
 			</Text>
 		</>
