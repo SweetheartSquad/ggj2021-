@@ -388,7 +388,7 @@ export function App() {
 						</>
 					))}
 				{state.mode === 'creating' && (
-					<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll" title="Start over with a new map">
+					<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll" title="Start over with a new map" cornerBL="-" cornerTR="|">
 						Re-roll
 					</BorderedText>
 				)}
