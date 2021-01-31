@@ -472,7 +472,7 @@ The more constellations your GUESSER(s) gets right, the better you've both done!
 					</>
 				)}
 				<BorderedText x={0} y={0} cornerTR="-" cornerBL="|">
-					Finders Keplers
+					Finder's Keplers
 				</BorderedText>
 			</main>
 			<nav>
