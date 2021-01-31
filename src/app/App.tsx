@@ -96,6 +96,7 @@ const reducer: Reducer<State, Action> = (state, action) => {
 			break;
 		case 'submit-guesses':
 			state.guessed = true;
+			state.currentConstellation = undefined;
 			break;
 	}
 };
