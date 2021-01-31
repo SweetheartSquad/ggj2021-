@@ -5,6 +5,11 @@ export const mapMinStars = 30;
 export const mapMaxStars = 50;
 export const mapSpacing = 0.9;
 export const mapStars = ['*', '*', '*', 'o', 'O', '.', '.', '.', '+', '+'];
+export const bgmTracks = ['The_Belt_of_Death', 'The_Heart_of_Ambition', 'The_Princess_of_Leadership'].map(i => ({
+	name: i.replaceAll('_', ' '),
+	src: `./audio/${i}.mp3`,
+	artist: 'Andrew Yolland',
+}));
 export const traceryConstellations = {
 	group: ['belt', 'arm', 'leg', 'heart', 'collection', 'prince', 'princess', 'bastard', 'ensorcellment', 'enchantment', 'convalescence'],
 	grouping: ['stars', 'patience', 'death', 'possession', 'temperament', 'perspective', 'ambition', 'leadership'],
