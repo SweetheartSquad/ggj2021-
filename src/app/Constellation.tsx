@@ -51,6 +51,8 @@ export function Constellation({
 					py = -1;
 				const line: typeof result = [];
 				bresenham(sx, sy, ex, ey, (x, y) => {
+					// remove start/end since they overlap stars
+					if ((x === sx && y === sy) || (x === ex && y === ey)) return;
 					// prevent patterns like //, ||
 					if (py === y && (a === 45 || a === -45 || a === 90 || a === -90)) return;
 					if (px === x && (a === 45 || a === -45 || a === 0)) return;
@@ -58,9 +60,6 @@ export function Constellation({
 					px = x;
 					py = y;
 				});
-				// remove start/end since they overlap stars
-				line.pop();
-				line.shift();
 				return result.concat(line);
 			}, [] as { x: number; y: number; s: string; id: string; edge: number }[]),
 		[constellation]
