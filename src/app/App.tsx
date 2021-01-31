@@ -232,26 +232,35 @@ export function App() {
 				}`}
 			</style>
 			<main data-guessed={state.guessed} className="map" style={useGridStyle(mapWidth, mapHeight)}>
-				{state.constellations.map((i, idx) => (
-					<Constellation
-						key={idx}
-						data-constellation={state.mode === 'creating' ? idx : findIndexOrUndefined(state.guesses, i => i === idx)}
-						starmap={starmap}
-						constellation={i}
-						constellationIdx={idx}
-						getEdgeLabel={getEdgeLabel}
-					/>
-				))}
-				{starmap.map((i, idx) => (
-					<Star
-						key={idx}
-						data-constellation={state.mode === 'creating' ? starToConstellation[idx] : findIndexOrUndefined(state.guesses, i => i === starToConstellation[idx])}
-						star={i}
-						starIdx={idx}
-						constellationIdx={starToConstellation[idx] || -1}
-						getStarLabel={getStarLabel}
-					/>
-				))}
+				{state.constellations.map((i, idx) => {
+					const correct = isGuessCorrect(state.guesses[idx], idx)
+					return (
+						<Constellation
+							key={idx}
+							data-correct={state.currentConstellation === idx ? correct.toString() : correct}
+							data-constellation={state.mode === 'creating' ? idx : findIndexOrUndefined(state.guesses, i => i === idx)}
+							starmap={starmap}
+							constellation={i}
+							constellationIdx={idx}
+							getEdgeLabel={getEdgeLabel}
+						/>
+					);
+				})}
+				{starmap.map((i, idx) => {
+					const constellationIdx = starToConstellation[idx];
+					const correct = constellationIdx !== undefined && isGuessCorrect(state.guesses[constellationIdx], constellationIdx);
+					return (
+						<Star
+							key={idx}
+							data-correct={state.currentConstellation !== undefined && state.currentConstellation === constellationIdx ? correct.toString() : correct}
+							data-constellation={state.mode === 'creating' ? constellationIdx : findIndexOrUndefined(state.guesses, i => i === constellationIdx)}
+							star={i}
+							starIdx={idx}
+							constellationIdx={constellationIdx || -1}
+							getStarLabel={getStarLabel}
+						/>
+					);
+				})}
 				{fakeOrder.map(({ fake, original }) => (
 					<Text
 						data-correct={isGuessCorrect(state.guesses[original], original).toString()}
