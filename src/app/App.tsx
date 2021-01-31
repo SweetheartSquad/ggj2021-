@@ -355,7 +355,7 @@ export function App() {
 				<Border x={0} y={0} w={mapWidth} h={mapHeight} />
 				{state.mode === 'creating' && (
 					<>
-						<BorderedText align="right" x={mapWidth} y={mapHeight - 5} htmlFor={canCopy ? 'copy' : ''}>
+						<BorderedText x={1} y={3 + numConstellations} htmlFor={canCopy ? 'copy' : ''}>
 							{canCopy ? (state.copied ? 'copied!' : 'copy') : 'draw all constellations'}
 						</BorderedText>
 						<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll" title="reroll">
@@ -364,12 +364,12 @@ export function App() {
 					</>
 				)}
 				{state.mode === 'guessing' && !state.guessed && state.guesses.every(i => i >= 0) && (
-					<BorderedText title="submit" align="right" x={mapWidth} y={mapHeight - 3} htmlFor="submit-guesses">
+					<BorderedText title="submit" x={1} y={3 + numConstellations} htmlFor="submit-guesses">
 						submit
 					</BorderedText>
 				)}
 				{state.mode === 'guessing' && state.guessed && (
-					<BorderedText align="right" x={mapWidth} y={mapHeight - 3}>
+					<BorderedText x={1} y={3 + numConstellations}>
 						{`${state.guesses.filter(isGuessCorrect).length}/${numConstellations}`}
 					</BorderedText>
 				)}
