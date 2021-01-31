@@ -432,57 +432,66 @@ export function App() {
 				{state.help && (
 					<>
 						<BorderedText fill x={3} y={3} minW={mapWidth - 8} minH={mapHeight - 8}>
-							{state.mode === 'guessing' ? `Welcome to Finder's Keplers!
+							{state.mode === 'guessing' ? `
+ Welcome to Finder's Keplers!
+ ____________________________
 
-You are the GUESSER.
+ You are the GUESSER.
 
-The DRAWER drew five constellations based on five names,
-and then sent you this link. Now you have to guess which
-name goes with which constellation.
+ The DRAWER drew ${numConstellations} constellations based on ${numConstellations} names,
+ and then sent you this link.
 
-1. Click one of the names in the list.
-2. Click on the constellation that you think matches
-   the name.
-3. Repeat steps 1 and 2 for all 5 names.
-4. Click "Confirm matches".
+ Now you have to guess which
+ name goes with which constellation.
 
-You'll see your score out of 5. Try to get all 5 correct!
+  1. Click one of the names in the list.
+  2. Click on the constellation that you think
+     matches the name.
+  3. Repeat steps 1 and 2 for all ${numConstellations} names.
+  4. Click "Confirm matches".
 
-Good luck!` : `Welcome to Finder's Keplers!
+ You'll see your score out of ${numConstellations}.
+ Try to get all ${numConstellations} correct!
 
-You are the DRAWER.
+ Good luck!` : `
+ Welcome to Finder's Keplers!
+ ____________________________
 
-You get five random names, and you need to draw five
-constellations based on those names. If you don't like the
-names you got, then click "Re-roll" in the bottom right
-of the screen to get five new names.
+ You are the DRAWER.
 
-To draw the constellations:
+ You get ${numConstellations} random names, and you need to draw ${numConstellations}
+ constellations based on those names.
+ If you don't like the names you got,
+ then click "Re-roll" in the bottom right
+ of the screen to get ${numConstellations} new names.
 
-1. Click one of the names in the list.
-2. Click a star on the map to start your constellation.
-3. Click another star to draw a line between that star
-   and the previous star.
-4. Repeat steps 2 and 3 until you're done with the
-   constellation.
-5. When you're done adding stars to the constellation,
-   click another name in the list.
-6. Repeat steps 1 to 5 until you've drawn one
-   constellation for each name.
+ To draw the constellations:
 
-When you've drawn all of the constellations, you can send
-a link to your constellations to one or more GUESSERS.
-They'll try to match your constellations to the names.
+  1. Click one of the names in the list.
+  2. Click a star on the map to start a constellation.
+  3. Click another star to draw a line between
+     that star and the previous star.
+  4. Repeat steps 2 and 3 until you're done with the
+     constellation.
+  5. When you're done adding stars to the constellation,
+     click another name in the list.
+  6. Repeat steps 1 to 5 until you've drawn one
+     constellation for each name.
 
-To share a link to your GUESSER(s), click one of the
-"Share" buttons below the list of names. You can open
-the link to your constellations, tweet the link, or copy
-the link to your clipboard. Send this link to one or
-more people and ask them to match the names to the
-constellation.
+ When you've drawn all of the constellations,
+ you can send a link to your constellations to
+ one or more GUESSERS.
+ They'll try to match your constellations to the names.
 
-The more constellations your GUESSER(s) gets right,
-the better you all did!`}
+ To share a link to your GUESSER(s), click one of the
+ "Share" buttons below the list of names. You can open
+ the link to your constellations, tweet the link, or
+ copy the link to your clipboard. Send this link to
+ one or more people and ask them to match the names
+ to the constellations.
+
+ The more constellations your GUESSER(s) gets right,
+ the better you all did!`}
 						</BorderedText>
 						<BorderedText htmlFor="help" title="Close help menu" align="right" x={mapWidth - 3} y={3} cornerTL="-" cornerBR="|">
 							X
