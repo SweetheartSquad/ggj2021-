@@ -244,9 +244,6 @@ function App() {
 							TODO: title
 						</BorderedText>
 					</section>
-					<br />
-					state:
-					<pre>{JSON.stringify(state, undefined, '\t')}</pre>
 				</section>
 			</main>
 			<nav>
