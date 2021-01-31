@@ -13,5 +13,11 @@ export const bgmTracks = ['The_Belt_of_Death', 'The_Heart_of_Ambition', 'The_Pri
 export const traceryConstellations = {
 	group: ['belt', 'arm', 'leg', 'heart', 'collection', 'prince', 'princess', 'bastard', 'ensorcellment', 'enchantment', 'convalescence', 'beast', 'box', 'bow', 'vortex', 'tooth'],
 	grouping: ['stars', 'patience', 'death', 'possession', 'temperament', 'perspective', 'ambition', 'leadership', 'chaos', 'balance', 'faith'],
-	constellation: ['The #group.capitalize# of #grouping.capitalize#', '#group.capitalize# of #grouping.capitalize#'],
+	syllable: ['foo', 'bar'],
+	subname: ['#syllable.capitalize#', '#syllable.capitalize##syllable#', '#syllable.capitalize##syllable##syllable#', '#syllable##syllable.capitalize##syllable#'],
+	name: [
+		'#subname#',
+		'#subname# #subname#',
+	],
+	constellation: ['The #group.capitalize# of #grouping.capitalize#', '#group.capitalize# of #grouping.capitalize#', '#name#', "#name#'s #grouping.capitalize#", '#grouping.capitalize# of #name#'],
 };
