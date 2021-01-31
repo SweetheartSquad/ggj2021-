@@ -120,7 +120,7 @@ export function App() {
 				currentStar: undefined,
 				copied: false,
 				guessed: false,
-				help: !localStorage.getItem('visited'),
+				help: !localStorage.getItem('creating'),
 			} as State;
 		}
 		return {
@@ -132,12 +132,12 @@ export function App() {
 			currentStar: undefined,
 			copied: false,
 			guessed: false,
-			help: !localStorage.getItem('visited'),
+			help: !localStorage.getItem('guessing'),
 		} as State;
 	}, []);
 	useEffect(() => {
-		localStorage.setItem('visited', '1');
-	}, []);
+		localStorage.setItem(initialState.mode, '1');
+	}, [initialState.mode]);
 	const [state, dispatch] = useImmerReducer(reducer, initialState);
 	const { starmap, names, fakeOrder } = useMemo(() => {
 		4;
@@ -340,7 +340,7 @@ export function App() {
 				</BorderedText>
 				{state.help && (<>
 					<BorderedText fill x={3} y={3} minW={mapWidth - 8} minH={mapHeight - 8}>
-						help text!
+						{state.mode === 'guessing' ? 'help text for guessing!' : 'help text for drawing!'}
 					</BorderedText>
 					<BorderedText htmlFor="help" align="right" x={mapWidth - 3} y={3}>
 						X
