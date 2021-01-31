@@ -1,3 +1,10 @@
+## [1.14.3](https://github.com/SweetheartSquad/ggj2021/compare/v1.14.2...v1.14.3) (2021-01-31)
+
+
+### Bug Fixes
+
+* show help on first create even if coming from guess ([5f79b6b](https://github.com/SweetheartSquad/ggj2021/commit/5f79b6bf3ad8ed36421ce5c1d3aa8ed0645f4869))
+
 ## [1.14.2](https://github.com/SweetheartSquad/ggj2021/compare/v1.14.1...v1.14.2) (2021-01-31)
 
 
