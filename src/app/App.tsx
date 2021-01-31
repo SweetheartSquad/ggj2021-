@@ -303,7 +303,7 @@ export function App() {
 				{state.mode === 'creating' && (
 					<>
 						<BorderedText align="right" x={mapWidth} y={mapHeight - 5} htmlFor="copy">
-							{state.copied ? 'copied!' : 'copy   '}
+							{state.copied ? 'copied!' : 'copy'}
 						</BorderedText>
 						<BorderedText align="right" x={mapWidth} y={mapHeight - 3} htmlFor="reroll">
 							reroll
