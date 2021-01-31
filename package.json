@@ -21,6 +21,7 @@
     "babel-polyfill": "^6.26.0",
     "bresenham": "0.0.4",
     "canvas-toBlob": "^1.0.0",
+    "copy-to-clipboard": "^3.3.1",
     "immer": "^8.0.1",
     "line-intersect": "^2.2.4",
     "lz-string": "^1.4.4",

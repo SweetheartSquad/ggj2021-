@@ -1,4 +1,5 @@
 import 'canvas-toBlob';
+import copyToClipboard from 'copy-to-clipboard';
 import produce, { Draft } from 'immer';
 import { checkIntersection } from 'line-intersect';
 import { nanoid } from 'nanoid';
@@ -32,6 +33,7 @@ interface State {
 	guesses: number[];
 	currentConstellation?: number;
 	currentStar?: number;
+	copied: boolean;
 }
 type TransferredState = Pick<State, 'constellations' | 'seed'>;
 type A<Type extends string, Payload> = { type: Type; payload: Payload };
@@ -41,7 +43,8 @@ type Action =
 	| A<'guess', number>
 	| A<'set-current-constellation', number>
 	| A<'set-current-star', number | undefined>
-	| A<'set-seed', string>;
+	| A<'set-seed', string>
+	| A<'set-copied', boolean>;
 
 function getLabel(action: 'remove-edge' | 'select-constellation' | 'select-star', constellation: number, edgeOrStar: number) {
 	switch (action) {
@@ -76,6 +79,9 @@ const reducer: Reducer<State, Action> = (state, action) => {
 		case 'set-current-star':
 			state.currentStar = action.payload;
 			break;
+		case 'set-copied':
+			state.copied = action.payload;
+			break;
 		case 'set-seed':
 			state.mode = 'creating';
 			state.seed = action.payload;
@@ -99,6 +105,7 @@ function App() {
 				guesses: [],
 				currentConstellation: undefined,
 				currentStar: undefined,
+				copied: false,
 			} as State;
 		}
 		return {
@@ -108,6 +115,7 @@ function App() {
 			guesses: new Array(inputObj.constellations.length),
 			currentConstellation: undefined,
 			currentStar: undefined,
+			copied: false,
 		} as State;
 	}, []);
 	const [state, dispatch] = useImmerReducer(reducer, initialState);
@@ -131,6 +139,7 @@ function App() {
 	}, [state.seed]);
 	const starToConstellation = useMemo(() => starmap.map((_, idx) => state.constellations.findIndex(constellation => constellation.some(edge => edge.includes(idx)))), [starmap, state.constellations]);
 	const output = useMemo(() => {
+		if (state.mode !== 'creating') return;
 		const toTransfer: TransferredState = {
 			seed: state.seed,
 			constellations: state.constellations,
@@ -183,6 +192,13 @@ function App() {
 		[state.currentStar, state.constellations, state.currentConstellation]
 	);
 	const reroll = useCallback(() => dispatch({ type: 'set-seed', payload: nanoid() }), []);
+	const copy = useCallback(() => {
+		copyToClipboard(`${window.origin}?${output}`);
+		dispatch({ type: 'set-copied', payload: true });
+		setTimeout(() => {
+			dispatch({ type: 'set-copied', payload: false });
+		}, 500);
+	}, [output, dispatch]);
 	const getEdgeLabel = useMemo(() => (constellation: number, edge: number) => getLabel(state.mode === 'creating' ? 'remove-edge' : 'select-constellation', constellation, edge), [state.mode]);
 	const getStarLabel = useMemo(() => (constellation: number, star: number) => getLabel(state.mode === 'creating' ? 'select-star' : 'select-constellation', constellation, star), [state.mode]);
 	return (
@@ -215,9 +231,14 @@ function App() {
 						))}
 						<Border x={0} y={0} w={mapWidth} h={mapHeight} />
 						{state.mode === 'creating' && (
-							<BorderedText x={mapWidth - 8} y={mapHeight - 3} htmlFor="reroll">
-								reroll
-							</BorderedText>
+							<>
+								<BorderedText x={mapWidth - 8} y={mapHeight - 3} htmlFor="reroll">
+									reroll
+								</BorderedText>
+								<BorderedText x={mapWidth - 9} y={mapHeight - 5} htmlFor="copy">
+									{state.copied ? 'copied!' : 'copy   '}
+								</BorderedText>
+							</>
 						)}
 						<BorderedText x={0} y={0}>
 							TODO: title
@@ -226,15 +247,6 @@ function App() {
 					<br />
 					state:
 					<pre>{JSON.stringify(state, undefined, '\t')}</pre>
-					<br />
-					output:
-					<pre
-						style={{
-							wordBreak: 'break-all',
-						}}
-					>
-						<a href={`${window.origin}?${output}`}>{output}</a>
-					</pre>
 				</section>
 			</main>
 			<nav>
@@ -270,7 +282,10 @@ function App() {
 							))}
 						</ol>
 						<button id="reroll" onClick={reroll}>
-							re-roll
+							reroll
+						</button>
+						<button id="copy" onClick={copy}>
+							copy
 						</button>
 					</>
 				)}
