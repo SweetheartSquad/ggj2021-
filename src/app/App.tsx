@@ -367,16 +367,16 @@ export function App() {
 				{state.mode === 'creating' &&
 					(canCopy ? (
 						<>
-							<Text x={1} y={4 + numConstellations}>
+							<Text x={2} y={4 + numConstellations}>
 								Share
 							</Text>
-							<BorderedText x={7} y={3 + numConstellations} htmlFor="open" title="Open URL in new tab">
+							<BorderedText x={8} y={3 + numConstellations} htmlFor="open" title="Open URL in new tab">
 								Open
 							</BorderedText>
-							<BorderedText x={12} y={3 + numConstellations} htmlFor="tweet" title="Share URL to Twitter">
+							<BorderedText x={13} y={3 + numConstellations} htmlFor="tweet" title="Share URL to Twitter">
 								Tweet
 							</BorderedText>
-							<BorderedText x={18} y={3 + numConstellations} htmlFor="copy" title="Copy URL to clipboard">
+							<BorderedText x={19} y={3 + numConstellations} htmlFor="copy" title="Copy URL to clipboard">
 								{state.copied ? 'Copied!' : 'Copy'}
 							</BorderedText>
 						</>
