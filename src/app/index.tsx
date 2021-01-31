@@ -47,7 +47,7 @@ function getLabel(action: 'remove-edge' | 'select-constellation' | 'select-star'
 		case 'select-constellation':
 			return `${action}-${constellation}`;
 		case 'select-star':
-			return `${action}-${constellation}-${edgeOrStar}`;
+			return `${action}-${edgeOrStar}`;
 	}
 }
 
