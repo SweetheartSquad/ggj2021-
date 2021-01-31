@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.1.0...v1.2.0) (2021-01-31)
+
+
+### Features
+
+* improved ui ([45b90ce](https://github.com/SweetheartSquad/ggj2021/commit/45b90ce0843292d088d6229724ce0f0592a8d265))
+
 # [1.1.0](https://github.com/SweetheartSquad/ggj2021/compare/v1.0.0...v1.1.0) (2021-01-31)
 
 
