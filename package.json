@@ -30,7 +30,7 @@
     "bresenham": "0.0.4",
     "copy-to-clipboard": "^3.3.1",
     "immer": "^8.0.1",
-    "line-intersect": "^2.2.4",
+    "line-intersect": "^3.0.0",
     "lz-string": "^1.4.4",
     "nanoid": "^3.1.20",
     "preact": "^10.5.12",
